@@ -23,7 +23,7 @@ after the prototype is built.
 | 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (display defaults open) | [06](06-location.md) |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided | [08](08-age-check.md) |
-| 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | recommended | |
+| 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | being worked out in a separate thread (pros and cons) | |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided (numbers open) | [profile-discovery.md](../design/profile-discovery.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | recommended | |
 | 12 | Stage 2: network of vetted servers | Low now, as long as 1, 2 and 5 are built federation-ready | planned | |
