@@ -95,7 +95,8 @@ const RENDER = {
         el('div', {className: 'card stat'}, el('b', {textContent: v}), el('span', {textContent: k})))));
     s.append(el('h2', {textContent: 'Major features'}));
     s.append(el('div', {className: 'grid'}, DATA.features.map(f =>
-      el('div', {className: 'card'}, badge(f.status), el('h3', {textContent: f.title}), el('p', {textContent: f.summary})))));
+      el('div', {className: 'card'}, badge(f.status), el('h3', {textContent: f.title}), el('p', {textContent: f.summary}),
+        ...(f.doc ? [el('p', {style: 'font-size:12px;color:var(--mute);margin-top:6px', textContent: '📄 ' + f.doc})] : [])))));
     s.append(el('h2', {textContent: 'Recent commits'}));
     s.append(el('div', {className: 'card scroll'}, el('table', {}, r.recent_commits.map(c =>
       el('tr', {}, el('td', {textContent: c.hash}), el('td', {textContent: c.subject}),
@@ -207,14 +208,17 @@ function diagram() {
 const frame = inner => `<svg viewBox="0 0 200 400"><rect width="200" height="400" fill="#fff"/>
   <rect x="70" y="8" width="60" height="8" rx="4" fill="#222"/>${inner}</svg>`;
 const bar = (tab) => `<rect y="352" width="200" height="48" fill="#f6f1f4"/>` +
-  ['Discover','Matches','Chat','Me'].map((t,i)=>`<text x="${25+i*50}" y="381" text-anchor="middle" font-size="9" fill="${i===tab?'#d6336c':'#999'}" font-weight="${i===tab?700:400}">${t}</text>`).join('');
+  ['Search','Matches','Chat','Me'].map((t,i)=>`<text x="${25+i*50}" y="381" text-anchor="middle" font-size="9" fill="${i===tab?'#d6336c':'#999'}" font-weight="${i===tab?700:400}">${t}</text>`).join('');
 const SCREENS = {
-  discover: () => frame(`<rect x="14" y="30" width="172" height="250" rx="16" fill="#e9d5e0"/>
-    <circle cx="100" cy="120" r="44" fill="#d6a9c0"/><rect x="60" y="170" width="80" height="60" rx="30" fill="#d6a9c0"/>
-    <text x="24" y="262" font-size="15" font-weight="700" fill="#2a1a24">Sam, 29</text>
-    <text x="24" y="276" font-size="9" fill="#5b4b55">2 km away · hiking, board games</text>
-    <circle cx="62" cy="318" r="22" fill="#fff" stroke="#bbb"/><text x="62" y="324" text-anchor="middle" font-size="18">✕</text>
-    <circle cx="138" cy="318" r="22" fill="#d6336c"/><text x="138" y="325" text-anchor="middle" font-size="18" fill="#fff">♥</text>${bar(0)}`),
+  search: () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
+    <text x="20" y="43" font-size="9" fill="#555">🔍  ≤40 min · 25–35 · Dating</text>
+    ${[0, 1, 2].map(i => { const y = 64 + i * 86; return `
+    <rect x="10" y="${y}" width="180" height="78" rx="12" fill="#f6f1f4"/>
+    <circle cx="42" cy="${y + 39}" r="24" fill="#d6a9c0"/>
+    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="76" y="${y + 44}" font-size="9" fill="#5b4b55">≤ 20 min · hiking, board games</text>
+    <text x="76" y="${y + 58}" font-size="8" fill="#888">Active this week</text>`; }).join('')}
+    ${bar(0)}`),
   match: () => frame(`<rect width="200" height="352" y="0" fill="#fbe3ee"/>
     <text x="100" y="110" text-anchor="middle" font-size="22" font-weight="700" fill="#d6336c">It's a match!</text>
     <circle cx="70" cy="180" r="34" fill="#d6a9c0"/><circle cx="130" cy="180" r="34" fill="#b8a9d6"/>

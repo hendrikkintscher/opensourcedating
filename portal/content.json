@@ -10,12 +10,14 @@
      "summary": "Your profile is a keypair on your device. No email or phone needed to sign up."},
     {"id": "profile", "title": "Profiles", "status": "assumed",
      "summary": "Photos, short bio, prompts and intent (dating, friends, long-term). Stored locally, shared only with peers you choose."},
-    {"id": "discovery", "title": "Discovery", "status": "assumed",
-     "summary": "Browse nearby or interest-based profiles found through the peer network, filtered on your device."},
-    {"id": "match", "title": "Mutual matching", "status": "assumed",
-     "summary": "A like is a signed message. A match exists only when both sides have liked each other."},
+    {"id": "discovery", "title": "Discovery", "status": "decided",
+     "summary": "Search with filters and browse the results, OkCupid-style. No swiping, no card stack, no one-at-a-time decisions.",
+     "doc": "docs/design/profile-discovery.md"},
+    {"id": "match", "title": "Mutual matching", "status": "decided",
+     "summary": "A like is private. A match exists only when both sides have liked each other, and that's when chat opens.",
+     "doc": "docs/design/profile-discovery.md"},
     {"id": "chat", "title": "Encrypted chat", "status": "assumed",
-     "summary": "End-to-end encrypted direct messages between matched peers, with store-and-forward when one is offline."},
+     "summary": "End-to-end encrypted direct messages between matched peers, with store-and-forward when one is offline. For the pilot, chat opens only after a mutual like."},
     {"id": "safety", "title": "Safety and verification", "status": "assumed",
      "summary": "Block and report that work without a central moderator, plus optional vouching and photo verification."},
     {"id": "oss", "title": "Open source and portable", "status": "assumed",
@@ -46,11 +48,12 @@
     "open_questions": [
       "How does a user recover their identity after losing their phone?",
       "How do we keep the DHT from leaking who is near whom?",
-      "Who runs relay nodes at launch?"
+      "Who runs relay nodes at launch?",
+      "The decided search/discovery design (docs/design/profile-discovery.md) describes server-side two-way gender/orientation filtering, keyword search and server-enforced block/report -- how much of a trusted matching-service component does that need, and how does it square with the no-central-directory P2P design above?"
     ]
   },
   "mockups": [
-    {"id": "discover", "title": "Discover", "status": "assumed"},
+    {"id": "search", "title": "Search", "status": "decided"},
     {"id": "match", "title": "It's a match", "status": "assumed"},
     {"id": "chat", "title": "Chat", "status": "assumed"},
     {"id": "profile", "title": "My profile", "status": "assumed"}
