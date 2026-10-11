@@ -152,7 +152,7 @@
         "id": "stage2",
         "title": "Stage 2: a network of vetted servers (later)",
         "status": "planned",
-        "summary": "Other cities or communities run their own server. Servers join through an allow-list and agree to a shared safety policy and a joint-controller agreement. Each server keeps its own users' profiles and search; servers pass encrypted chat to each other and share a blocklist, so a banned person can't just move to a laxer server."
+        "summary": "Other cities or communities run their own server. Servers join through an allow-list and agree to a shared safety policy and a joint-controller agreement. No single server holds a full profile: profiles are split into encrypted pieces stored redundantly across servers, so some servers can fail without losing anything. Servers mainly broker contact between people; they pass encrypted chat to each other and share a blocklist, so a banned person can't just move to a laxer server."
       }
     ],
     "decisions": [
@@ -235,10 +235,19 @@
         "status": "planned",
         "why": "Open federation lets bad actors pick the laxest server; an allow-list keeps a common safety floor.",
         "alternatives": "Open federation, staying on one server"
+      },
+      {
+        "topic": "Profile storage",
+        "stage": "2",
+        "choice": "Encrypted profile pieces spread redundantly across servers; no server holds a full profile; servers mainly broker contact",
+        "status": "decided",
+        "why": "A breach or a rogue operator of one server can't read whole profiles, and profiles survive servers going offline.",
+        "alternatives": "Each server keeps its own users' full profiles"
       }
     ],
     "open_questions": [
       "Stage 2: how do people on different servers find each other without copying every profile to every server?",
+      "Stage 2: which data does search need, and where can it be read, if no server holds a full profile?",
       "Stage 2: which protocol between servers (ActivityPub, Matrix-style, or our own API)?",
       "Stage 2: how does deleting an account reach other servers reliably (GDPR Art. 17(2)), and what must the joint-controller agreement contain?",
       "Who runs the server and pays for it before the e.V. exists?"
