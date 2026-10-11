@@ -22,7 +22,7 @@ after the prototype is built.
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (details open) | [05](05-safety.md) |
 | 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (display defaults open) | [06](06-location.md) |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
-| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | recommended | |
+| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided | [08](08-age-check.md) |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | recommended | |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided (numbers open) | [profile-discovery.md](../design/profile-discovery.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | recommended | |
@@ -105,7 +105,8 @@ after the prototype is built.
 ### 8. Age check
 - Recommended: date of birth plus on-device selfie age estimation, stronger check near the line,
   EU age-verification app once Germany offers it; store only the result, never images or IDs.
-- For the fake-data test phase a self-declared date of birth is enough.
+- **Decided:** self-declared date of birth for the fake-data test; the stronger check before real
+  users join; only the result is stored. See [08](08-age-check.md).
 
 ### 9. Deletion and retention
 - Recommended: in-app deletion, immediate from live systems, backups expire after 30 days; ban
