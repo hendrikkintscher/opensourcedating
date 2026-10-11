@@ -21,7 +21,7 @@ after the prototype is built.
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (details open) | [05](05-safety.md) |
 | 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (display defaults open) | [06](06-location.md) |
-| 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | recommended | |
+| 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | recommended | |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | recommended | |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided (numbers open) | [profile-discovery.md](../design/profile-discovery.md) |
