@@ -2,12 +2,12 @@
 
 ## Colleague portal
 
-A read-only dashboard (features, P2P architecture, design mockups), file browser and
+A read-only dashboard (features, two-stage architecture, suggestions, design mockups), file browser and
 live chat feed. Stdlib-only Python, nothing to install.
 
 ### Public copy (no login, always current)
 
-**https://hendrikkintscher.github.io/opensourcedating/** shows the Overview, Peer-to-peer,
+**https://hendrikkintscher.github.io/opensourcedating/** shows the Overview, Architecture, Suggestions,
 Mockups and Files tabs to anyone. GitHub Actions (`.github/workflows/portal-pages.yml`)
 rebuilds it with `portal/build_static.py` on every push to `main`, so any merged commit,
 from a laptop or a cloud session, updates it within a minute or two. It is built only from
