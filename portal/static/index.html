@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenSourceDating Portal</title>
+<style>
+:root{--bg:#faf8f6;--card:#fff;--ink:#1d1a1f;--mute:#6c6670;--line:#e8e3e6;--accent:#d6336c;--accent2:#5b4bdb;
+--guess-bg:#fff4d6;--guess-ink:#7a5600;--ok-bg:#dff5e6;--ok-ink:#17653a;--code:#f3eff1}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#151317;--card:#1e1b21;--ink:#f1edf2;--mute:#a49dab;--line:#2f2a33;
+--accent:#f06595;--accent2:#8e84ff;--guess-bg:#3b3010;--guess-ink:#ffd873;--ok-bg:#12351f;--ok-ink:#7fdca1;--code:#26222a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:20px 16px 0;max-width:1100px;margin:0 auto}
+h1{margin:0;font-size:22px} .tag{color:var(--mute);margin:4px 0 14px}
+nav{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);max-width:1100px;margin:0 auto;padding:0 16px}
+nav button{background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);padding:10px 12px;font:inherit;cursor:pointer;white-space:nowrap}
+nav button[aria-selected=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+section{display:none} section.on{display:block}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h3{margin:0 0 6px;font-size:15px} .card p{margin:0;color:var(--mute)}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-bottom:8px}
+.assumed{background:var(--guess-bg);color:var(--guess-ink)} .decided{background:var(--ok-bg);color:var(--ok-ink)}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-bottom:20px}
+.stat b{display:block;font-size:26px} .stat span{color:var(--mute);font-size:13px}
+.banner{background:var(--guess-bg);color:var(--guess-ink);padding:10px 14px;border-radius:10px;margin-bottom:18px;font-size:14px}
+h2{font-size:17px;margin:26px 0 10px}
+table{width:100%;border-collapse:collapse;font-size:14px} td,th{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600}
+.scroll{overflow-x:auto}
+.phones{display:flex;gap:18px;flex-wrap:wrap}
+.phone{width:200px} .phone svg{width:100%;height:auto;display:block;border-radius:26px;box-shadow:0 4px 18px rgba(0,0,0,.15)}
+.phone figcaption{text-align:center;margin-top:8px;font-weight:600}
+.diagram{width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.diagram text{fill:var(--ink);font:12px system-ui,sans-serif} .diagram .m{fill:var(--mute)}
+.files{display:grid;gap:12px;grid-template-columns:260px 1fr}
+@media(max-width:700px){.files{grid-template-columns:1fr}}
+.tree{max-height:70vh;overflow:auto} .tree div{padding:4px 6px;cursor:pointer;border-radius:6px;word-break:break-all}
+.tree div:hover{background:var(--code)} .crumbs{color:var(--mute);margin-bottom:6px;font-size:13px}
+pre{margin:0;background:var(--code);padding:12px;border-radius:8px;overflow:auto;max-height:70vh;font:13px/1.45 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
+.feed{display:flex;flex-direction:column;gap:10px;max-height:72vh;overflow:auto}
+.msg{padding:10px 12px;border-radius:12px;max-width:85%;white-space:pre-wrap;word-break:break-word}
+.msg.user{background:var(--code);align-self:flex-end} .msg.assistant{background:var(--card);border:1px solid var(--line)}
+.msg small{display:block;color:var(--mute);margin-bottom:2px}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#bbb;margin-right:6px}.live.on{background:#2fb344}
+ul.q{margin:0;padding-left:20px;color:var(--mute)}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="name">OpenSourceDating</h1>
+  <div class="tag" id="tagline"></div>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<main>
+  <section id="t-overview"></section>
+  <section id="t-p2p"></section>
+  <section id="t-mockups"></section>
+  <section id="t-files"></section>
+  <section id="t-feed"></section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const el = (tag, props = {}, ...kids) => {
+  const e = Object.assign(document.createElement(tag), props);
+  kids.flat().forEach(k => e.append(k));
+  return e;
+};
+const api = async p => { const r = await fetch(p); if (!r.ok) throw new Error(r.status); return r.json(); };
+const badge = s => el('span', {className: 'badge ' + s, textContent: s === 'decided' ? 'Decided' : 'Guess'});
+
+const TABS = [['overview','Overview'],['p2p','Peer-to-peer'],['mockups','Mockups'],['files','Files'],['feed','Live chat']];
+const loaded = {};
+function show(id) {
+  TABS.forEach(([t]) => {
+    $('#t-' + t).classList.toggle('on', t === id);
+    document.querySelector(`[data-tab=${t}]`).setAttribute('aria-selected', t === id);
+  });
+  history.replaceState(null, '', '#' + id);
+  if (!loaded[id]) { loaded[id] = true; RENDER[id](); }
+}
+TABS.forEach(([id, label]) => $('#tabs').append(el('button', {textContent: label, role: 'tab', onclick: () => show(id)}, )));
+[...$('#tabs').children].forEach((b, i) => b.dataset.tab = TABS[i][0]);
+
+let DATA;
+const RENDER = {
+  async overview() {
+    const s = $('#t-overview'), r = DATA.repo;
+    s.append(el('div', {className: 'banner', textContent: DATA.project.note}));
+    s.append(el('div', {className: 'stats'},
+      [['Stage', DATA.project.stage], ['Features', DATA.features.length], ['Commits', r.commits_total],
+       ['Files', r.files], ['Branch', r.branch]].map(([k, v]) =>
+        el('div', {className: 'card stat'}, el('b', {textContent: v}), el('span', {textContent: k})))));
+    s.append(el('h2', {textContent: 'Major features'}));
+    s.append(el('div', {className: 'grid'}, DATA.features.map(f =>
+      el('div', {className: 'card'}, badge(f.status), el('h3', {textContent: f.title}), el('p', {textContent: f.summary})))));
+    s.append(el('h2', {textContent: 'Recent commits'}));
+    s.append(el('div', {className: 'card scroll'}, el('table', {}, r.recent_commits.map(c =>
+      el('tr', {}, el('td', {textContent: c.hash}), el('td', {textContent: c.subject}),
+        el('td', {textContent: c.author}), el('td', {textContent: c.when}))))));
+  },
+
+  async p2p() {
+    const s = $('#t-p2p'), p = DATA.p2p;
+    s.append(el('div', {className: 'banner', textContent: 'Illustrative guess. The diagram follows the decisions table below and changes when they do.'}));
+    s.append(el('p', {textContent: p.summary}));
+    s.append(diagram());
+    s.append(el('h2', {textContent: 'Technology decisions'}));
+    s.append(el('div', {className: 'card scroll'}, el('table', {},
+      el('tr', {}, ['Topic','Choice','Status','Why','Alternatives'].map(h => el('th', {textContent: h}))),
+      p.decisions.map(d => el('tr', {}, el('td', {textContent: d.topic}), el('td', {textContent: d.choice}),
+        el('td', {}, badge(d.status)), el('td', {textContent: d.why}), el('td', {textContent: d.alternatives}))))));
+    s.append(el('h2', {textContent: 'Open questions'}));
+    s.append(el('ul', {className: 'q'}, p.open_questions.map(q => el('li', {textContent: q}))));
+  },
+
+  async mockups() {
+    const s = $('#t-mockups');
+    s.append(el('div', {className: 'banner', textContent: 'Design mockups are placeholders to discuss flow, not final visuals.'}));
+    const wrap = el('div', {className: 'phones'});
+    DATA.mockups.forEach(m => {
+      const f = el('figure', {className: 'phone'}); f.style.margin = 0;
+      f.innerHTML = SCREENS[m.id]();           // static markup defined in this file only
+      f.append(el('figcaption', {textContent: m.title}), badge(m.status));
+      wrap.append(f);
+    });
+    s.append(wrap);
+  },
+
+  async files() {
+    const s = $('#t-files'), tree = el('div', {className: 'card tree'}), view = el('div', {className: 'card'});
+    s.append(el('div', {className: 'files'}, tree, view));
+    async function open(path) {
+      const items = await api('/api/tree?path=' + encodeURIComponent(path));
+      tree.replaceChildren(el('div', {className: 'crumbs', textContent: '/' + path}));
+      if (path) tree.append(el('div', {textContent: '↰ ..', onclick: () => open(path.split('/').slice(0, -1).join('/'))}));
+      items.forEach(i => tree.append(el('div', {
+        textContent: (i.dir ? '📁 ' : '📄 ') + i.name,
+        onclick: () => i.dir ? open(path ? path + '/' + i.name : i.name) : read(path ? path + '/' + i.name : i.name)})));
+    }
+    async function read(path) {
+      const f = await api('/api/file?path=' + encodeURIComponent(path));
+      view.replaceChildren(el('div', {className: 'crumbs', textContent: path}),
+        el('pre', {textContent: f.binary ? '(binary file)' : f.text + (f.truncated ? '\n\n… truncated' : '')}));
+    }
+    view.textContent = 'Select a file.';
+    open('');
+  },
+
+  async feed() {
+    const s = $('#t-feed'), box = el('div', {className: 'feed'}),
+          status = el('div', {className: 'crumbs'}, el('span', {className: 'live'}), el('span', {textContent: 'connecting…'}));
+    s.append(el('div', {className: 'banner', textContent: 'Chats are shown read-only with emails, phone numbers and keys masked. Only test data should be entered.'}), status, box);
+    const add = m => {
+      const stick = box.scrollTop + box.clientHeight >= box.scrollHeight - 40;
+      box.append(el('div', {className: 'msg ' + m.role}, el('small', {textContent: (m.role === 'user' ? 'Henni' : 'Claude') + (m.ts ? ' · ' + new Date(m.ts).toLocaleTimeString() : '')}), m.text));
+      if (stick) box.scrollTop = box.scrollHeight;
+    };
+    (await api('/api/feed')).forEach(add); box.scrollTop = box.scrollHeight;
+    const es = new EventSource('/api/stream');
+    es.onopen = () => { status.firstChild.className = 'live on'; status.lastChild.textContent = 'live'; };
+    es.onerror = () => { status.firstChild.className = 'live'; status.lastChild.textContent = 'reconnecting…'; };
+    es.onmessage = e => add(JSON.parse(e.data));
+  }
+};
+
+/* ---- P2P diagram: peers, DHT discovery, direct encrypted link, relay fallback ---- */
+function diagram() {
+  const svg = `<svg class="diagram" viewBox="0 0 760 360" role="img" aria-label="Peer-to-peer architecture">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d6336c"/></marker></defs>
+  <rect x="270" y="20" width="220" height="90" rx="14" fill="none" stroke="#5b4bdb" stroke-dasharray="5 4"/>
+  <text x="380" y="42" text-anchor="middle" font-weight="600">DHT (peer discovery)</text>
+  <text x="380" y="60" text-anchor="middle" class="m">geohash topics, no profiles stored</text>
+  ${[310,350,390,430,455].map((x,i)=>`<circle cx="${x}" cy="${86+(i%2)*8}" r="7" fill="#5b4bdb" opacity=".6"/>`).join('')}
+
+  <rect x="40" y="200" width="150" height="100" rx="14" fill="#d6336c" opacity=".12" stroke="#d6336c"/>
+  <text x="115" y="235" text-anchor="middle" font-weight="600">Alice's phone</text>
+  <text x="115" y="255" text-anchor="middle" class="m">keypair · profile</text>
+  <text x="115" y="272" text-anchor="middle" class="m">local matching</text>
+  <rect x="570" y="200" width="150" height="100" rx="14" fill="#d6336c" opacity=".12" stroke="#d6336c"/>
+  <text x="645" y="235" text-anchor="middle" font-weight="600">Bob's phone</text>
+  <text x="645" y="255" text-anchor="middle" class="m">keypair · profile</text>
+  <text x="645" y="272" text-anchor="middle" class="m">local matching</text>
+
+  <rect x="305" y="290" width="150" height="50" rx="12" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
+  <text x="380" y="311" text-anchor="middle" font-weight="600">Community relay</text>
+  <text x="380" y="328" text-anchor="middle" class="m">encrypted blobs only</text>
+
+  <path id="d1" d="M130 198 Q200 120 300 100" fill="none" stroke="#5b4bdb" stroke-dasharray="4 4" marker-end="url(#ar)"/>
+  <path d="M630 198 Q560 120 460 100" fill="none" stroke="#5b4bdb" stroke-dasharray="4 4"/>
+  <text x="40" y="150" class="m">① announce + look up</text>
+  <path id="direct" d="M192 250 L568 250" stroke="#d6336c" stroke-width="3" fill="none"/>
+  <text x="380" y="240" text-anchor="middle">② direct encrypted channel (Noise)</text>
+  <path d="M170 302 Q230 322 305 316" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+  <path d="M590 302 Q530 322 455 316" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+  <text x="380" y="180" text-anchor="middle" class="m">③ if direct fails (offline / NAT): drop at relay, deliver later</text>
+  <circle r="6" fill="#d6336c"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#direct"/></animateMotion></circle>
+  <path id="directRev" d="M568 250 L192 250" fill="none"/>
+  <circle r="6" fill="#5b4bdb" opacity="0"><set attributeName="opacity" to="1" begin="1.3s"/><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#directRev"/></animateMotion></circle>
+  </svg>`;
+  const d = el('div'); d.innerHTML = svg; return d.firstChild;
+}
+
+/* ---- phone mockups (static markup, no user data) ---- */
+const frame = inner => `<svg viewBox="0 0 200 400"><rect width="200" height="400" fill="#fff"/>
+  <rect x="70" y="8" width="60" height="8" rx="4" fill="#222"/>${inner}</svg>`;
+const bar = (tab) => `<rect y="352" width="200" height="48" fill="#f6f1f4"/>` +
+  ['Discover','Matches','Chat','Me'].map((t,i)=>`<text x="${25+i*50}" y="381" text-anchor="middle" font-size="9" fill="${i===tab?'#d6336c':'#999'}" font-weight="${i===tab?700:400}">${t}</text>`).join('');
+const SCREENS = {
+  discover: () => frame(`<rect x="14" y="30" width="172" height="250" rx="16" fill="#e9d5e0"/>
+    <circle cx="100" cy="120" r="44" fill="#d6a9c0"/><rect x="60" y="170" width="80" height="60" rx="30" fill="#d6a9c0"/>
+    <text x="24" y="262" font-size="15" font-weight="700" fill="#2a1a24">Sam, 29</text>
+    <text x="24" y="276" font-size="9" fill="#5b4b55">2 km away · hiking, board games</text>
+    <circle cx="62" cy="318" r="22" fill="#fff" stroke="#bbb"/><text x="62" y="324" text-anchor="middle" font-size="18">✕</text>
+    <circle cx="138" cy="318" r="22" fill="#d6336c"/><text x="138" y="325" text-anchor="middle" font-size="18" fill="#fff">♥</text>${bar(0)}`),
+  match: () => frame(`<rect width="200" height="352" y="0" fill="#fbe3ee"/>
+    <text x="100" y="110" text-anchor="middle" font-size="22" font-weight="700" fill="#d6336c">It's a match!</text>
+    <circle cx="70" cy="180" r="34" fill="#d6a9c0"/><circle cx="130" cy="180" r="34" fill="#b8a9d6"/>
+    <text x="100" y="250" text-anchor="middle" font-size="10" fill="#5b4b55">You and Sam liked each other</text>
+    <rect x="35" y="275" width="130" height="34" rx="17" fill="#d6336c"/>
+    <text x="100" y="297" text-anchor="middle" font-size="12" fill="#fff" font-weight="600">Say hello</text>${bar(1)}`),
+  chat: () => frame(`<rect y="22" width="200" height="30" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam  🔒</text>
+    <rect x="14" y="70" width="120" height="30" rx="12" fill="#eee"/><text x="22" y="89" font-size="10">Hi! Love your hike pics</text>
+    <rect x="66" y="112" width="120" height="30" rx="12" fill="#d6336c"/><text x="74" y="131" font-size="10" fill="#fff">Thanks! Coffee Sat?</text>
+    <rect x="14" y="154" width="90" height="30" rx="12" fill="#eee"/><text x="22" y="173" font-size="10">Sounds great</text>
+    <text x="100" y="330" text-anchor="middle" font-size="8" fill="#888">End-to-end encrypted · direct connection</text>
+    <rect x="14" y="300" width="172" height="26" rx="13" fill="#f6f1f4"/>${bar(2)}`),
+  profile: () => frame(`<circle cx="100" cy="80" r="40" fill="#d6a9c0"/>
+    <text x="100" y="146" text-anchor="middle" font-size="15" font-weight="700">Alex, 31</text>
+    <rect x="20" y="164" width="160" height="50" rx="10" fill="#f6f1f4"/><text x="30" y="184" font-size="9" fill="#555">Bio: climber, bad at cooking,</text><text x="30" y="198" font-size="9" fill="#555">great at pasta anyway.</text>
+    <rect x="20" y="228" width="160" height="36" rx="10" fill="#eef0ff"/><text x="30" y="250" font-size="9" fill="#5b4bdb">🔑 ID: a3f9…c21e (this device)</text>
+    <rect x="20" y="274" width="160" height="30" rx="10" fill="#f6f1f4"/><text x="30" y="293" font-size="9" fill="#555">Export my data</text>${bar(3)}`)
+};
+
+(async () => {
+  try { DATA = await api('/api/overview'); }
+  catch { document.body.textContent = 'Not signed in. Open the shared link.'; return; }
+  $('#name').textContent = DATA.project.name; $('#tagline').textContent = DATA.project.tagline;
+  const h = location.hash.slice(1); show(TABS.some(t => t[0] === h) ? h : 'overview');
+})();
+</script>
+</body>
+</html>

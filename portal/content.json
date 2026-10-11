@@ -1,0 +1,58 @@
+{
+  "project": {
+    "name": "opensourcedating",
+    "tagline": "An open-source, peer-to-peer dating app. No central server holds your profile or your chats.",
+    "stage": "Concept",
+    "note": "Everything below is a working guess until its status is changed to \"decided\" in portal/content.json."
+  },
+  "features": [
+    {"id": "identity", "title": "Self-owned identity", "status": "assumed",
+     "summary": "Your profile is a keypair on your device. No email or phone needed to sign up."},
+    {"id": "profile", "title": "Profiles", "status": "assumed",
+     "summary": "Photos, short bio, prompts and intent (dating, friends, long-term). Stored locally, shared only with peers you choose."},
+    {"id": "discovery", "title": "Discovery", "status": "assumed",
+     "summary": "Browse nearby or interest-based profiles found through the peer network, filtered on your device."},
+    {"id": "match", "title": "Mutual matching", "status": "assumed",
+     "summary": "A like is a signed message. A match exists only when both sides have liked each other."},
+    {"id": "chat", "title": "Encrypted chat", "status": "assumed",
+     "summary": "End-to-end encrypted direct messages between matched peers, with store-and-forward when one is offline."},
+    {"id": "safety", "title": "Safety and verification", "status": "assumed",
+     "summary": "Block and report that work without a central moderator, plus optional vouching and photo verification."},
+    {"id": "oss", "title": "Open source and portable", "status": "assumed",
+     "summary": "Open protocol and open clients. Export your data and move to any compatible app."}
+  ],
+  "p2p": {
+    "summary": "Peers find each other through a DHT, connect directly over encrypted channels, and fall back to community relays when a direct connection is impossible.",
+    "decisions": [
+      {"topic": "Transport", "choice": "libp2p (WebRTC + QUIC)", "status": "assumed",
+       "alternatives": "Hyper/Holepunch, Matrix, Nostr relays",
+       "why": "Mature NAT traversal and browser/mobile support."},
+      {"topic": "Discovery", "choice": "Kademlia DHT + geohash topics", "status": "assumed",
+       "alternatives": "Bootstrap servers, gossip only",
+       "why": "No central directory; coarse geohash keeps location vague."},
+      {"topic": "Encryption", "choice": "Noise handshake + double ratchet for chats", "status": "assumed",
+       "alternatives": "MLS, plain TLS",
+       "why": "Forward secrecy and offline-friendly sessions."},
+      {"topic": "Offline delivery", "choice": "Community relay nodes (encrypted blobs)", "status": "assumed",
+       "alternatives": "Peers store for each other",
+       "why": "Phones are often offline; relays see only ciphertext."},
+      {"topic": "Identity", "choice": "ed25519 keypair, device-held", "status": "assumed",
+       "alternatives": "DID, account server",
+       "why": "Simplest self-owned identity; recovery is an open question."},
+      {"topic": "Spam and fake profiles", "choice": "Proof-of-work + web-of-trust vouching", "status": "assumed",
+       "alternatives": "Phone verification, payment",
+       "why": "Raises cost of abuse without a central authority."}
+    ],
+    "open_questions": [
+      "How does a user recover their identity after losing their phone?",
+      "How do we keep the DHT from leaking who is near whom?",
+      "Who runs relay nodes at launch?"
+    ]
+  },
+  "mockups": [
+    {"id": "discover", "title": "Discover", "status": "assumed"},
+    {"id": "match", "title": "It's a match", "status": "assumed"},
+    {"id": "chat", "title": "Chat", "status": "assumed"},
+    {"id": "profile", "title": "My profile", "status": "assumed"}
+  ]
+}
