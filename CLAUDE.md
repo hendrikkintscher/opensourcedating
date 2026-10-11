@@ -61,6 +61,22 @@ restriction anymore. Treat the link as a password, more strictly than before.
   (function `diagram()`) so the picture matches the table. Mockups are the `SCREENS` object there.
 - Mockups and diagrams are guesses until marked decided; keep that honest.
 
+### Staying in sync with the cloud session
+Design decisions for this project also get made in a separate Claude cloud chat, which commits
+and opens PRs against this same GitHub repo on its own branches. The portal only reflects
+whatever this machine's local git checkout currently has -- it does not fetch from GitHub itself.
+- Before trusting the dashboard as current, `git fetch` and merge/pull `origin/main` into the
+  local branch the portal is running from. No restart needed for file/content changes once
+  merged locally; the portal picks them up live.
+- After making portal or design-doc changes locally, push them to GitHub so the cloud session
+  (which only sees GitHub, not this machine) can see them too. Once, on 2026-10-11, the portal's
+  own commits sat unpushed for a while and the cloud session reported "no dashboard here" --
+  because from its side, there genuinely wasn't one yet.
+- If a design doc changed upstream (check `git log` on it) in a way that contradicts what
+  `portal/content.json` or the mockups currently claim, treat the doc as current and fix the
+  dashboard to match, even if that means retiring mockups/features wholesale (as happened when
+  mutual-liking was replaced by opening messages).
+
 ### Tests to run after changing `portal/server.py`
 Start with `PORTAL_PORT=8799 PORTAL_FEED_DIR=<tmp dir> python3 portal/server.py`, then check:
 no cookie gives 401; `/?k=wrong` gives 403; `/?k=<token>` gives 302 plus cookie; `/api/file?path=../x`,

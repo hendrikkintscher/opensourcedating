@@ -13,13 +13,13 @@
     {"id": "discovery", "title": "Discovery", "status": "decided",
      "summary": "Search with filters and browse the results, OkCupid-style. No swiping, no card stack, no one-at-a-time decisions.",
      "doc": "docs/design/profile-discovery.md"},
-    {"id": "match", "title": "Mutual matching", "status": "decided",
-     "summary": "A like is private. A match exists only when both sides have liked each other, and that's when chat opens.",
+    {"id": "messaging", "title": "Opening messages", "status": "decided",
+     "summary": "Anyone can write one opening message per profile; the recipient's reply starts the conversation. A weekly allowance (starts at 5) limits mass messaging. No swipe-matching, and the app never uses the word \"match\".",
      "doc": "docs/design/profile-discovery.md"},
     {"id": "chat", "title": "Encrypted chat", "status": "assumed",
-     "summary": "End-to-end encrypted direct messages between matched peers, with store-and-forward when one is offline. For the pilot, chat opens only after a mutual like."},
+     "summary": "End-to-end encrypted direct messages, with store-and-forward when one is offline. For the pilot, a conversation starts once the recipient replies to an opening message."},
     {"id": "safety", "title": "Safety and verification", "status": "assumed",
-     "summary": "Block and report that work without a central moderator, plus optional vouching and photo verification."},
+     "summary": "Hide, block (silent, both ways) and report (which always also blocks) work without a central moderator, plus optional vouching and photo verification."},
     {"id": "oss", "title": "Open source and portable", "status": "assumed",
      "summary": "Open protocol and open clients. Export your data and move to any compatible app."}
   ],
@@ -49,7 +49,7 @@
       "How does a user recover their identity after losing their phone?",
       "How do we keep the DHT from leaking who is near whom?",
       "Who runs relay nodes at launch?",
-      "The decided search/discovery design (docs/design/profile-discovery.md) describes server-side two-way gender/orientation filtering, keyword search and server-enforced block/report -- how much of a trusted matching-service component does that need, and how does it square with the no-central-directory P2P design above?"
+      "The decided search/discovery design (docs/design/profile-discovery.md) describes server-side two-way gender/orientation filtering, keyword search and server-enforced block/report -- how much of a trusted filter-service component does that need, and how does it square with the no-central-directory P2P design above?"
     ]
   },
   "mockups": [
@@ -60,22 +60,22 @@
        {"id": "search-grid", "title": "Grid view"},
        {"id": "search-empty", "title": "Few results (pilot)"}
      ]},
-    {"id": "match", "title": "Matches", "status": "decided",
-     "note": "A full-screen celebration risks the gamified feel the design doc explicitly avoids -- shown next to quieter alternatives.",
+    {"id": "messaging", "title": "Write & save", "status": "decided",
+     "note": "Updated 11 Oct 2026: the design doc replaced mutual-liking with one opening message per profile, a reply starts the conversation, and a private Save/bookmark list. The app never uses the word \"match\" -- these mockups replace the earlier match-based ones.",
      "variants": [
-       {"id": "match-celebrate", "title": "Full-screen celebration"},
-       {"id": "match-list", "title": "Matches list"},
-       {"id": "match-minimal", "title": "Quiet notice"}
+       {"id": "msg-write", "title": "Write (opening message)"},
+       {"id": "msg-inbox", "title": "Inbox"},
+       {"id": "msg-saved", "title": "Saved"}
      ]},
     {"id": "chat", "title": "Chat", "status": "assumed",
-     "note": "Chat only opens after a mutual like for the pilot; the locked state and visible safety controls aren't designed yet.",
+     "note": "A conversation opens once the recipient replies to an opening message (not a mutual like, which is no longer the model); the safety-controls layout isn't designed yet.",
      "variants": [
        {"id": "chat-open", "title": "Open chat"},
-       {"id": "chat-locked", "title": "Awaiting mutual like"},
+       {"id": "chat-locked", "title": "Awaiting a reply"},
        {"id": "chat-safety", "title": "Safety controls visible"}
      ]},
     {"id": "profile", "title": "Profile", "status": "assumed",
-     "note": "The design doc describes three distinct profile views (yours, theirs, and the preview card in results) -- none of these are final.",
+     "note": "The design doc describes three distinct profile views (yours, theirs, and the preview card in results) -- none of these are final. The other-person view's actions are Write, Save, Hide, Block and Report, not Like.",
      "variants": [
        {"id": "profile-me", "title": "My profile"},
        {"id": "profile-full", "title": "Full profile (someone else)"},
