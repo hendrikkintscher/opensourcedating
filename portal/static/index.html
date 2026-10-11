@@ -119,15 +119,19 @@ const RENDER = {
 
   async mockups() {
     const s = $('#t-mockups');
-    s.append(el('div', {className: 'banner', textContent: 'Design mockups are placeholders to discuss flow, not final visuals.'}));
-    const wrap = el('div', {className: 'phones'});
-    DATA.mockups.forEach(m => {
-      const f = el('figure', {className: 'phone'}); f.style.margin = 0;
-      f.innerHTML = SCREENS[m.id]();           // static markup defined in this file only
-      f.append(el('figcaption', {textContent: m.title}), badge(m.status));
-      wrap.append(f);
+    s.append(el('div', {className: 'banner', textContent: 'Design mockups are placeholders to discuss flow, not final visuals. Each screen below has three options to compare, not a final pick.'}));
+    DATA.mockups.forEach(cat => {
+      s.append(el('h2', {}, cat.title + ' ', badge(cat.status)));
+      if (cat.note) s.append(el('p', {className: 'card', style: 'color:var(--mute);margin:0 0 12px', textContent: cat.note}));
+      const wrap = el('div', {className: 'phones'});
+      cat.variants.forEach(v => {
+        const f = el('figure', {className: 'phone'}); f.style.margin = 0;
+        f.innerHTML = SCREENS[v.id]();          // static markup defined in this file only
+        f.append(el('figcaption', {textContent: v.title}));
+        wrap.append(f);
+      });
+      s.append(wrap);
     });
-    s.append(wrap);
   },
 
   async files() {
@@ -210,7 +214,9 @@ const frame = inner => `<svg viewBox="0 0 200 400"><rect width="200" height="400
 const bar = (tab) => `<rect y="352" width="200" height="48" fill="#f6f1f4"/>` +
   ['Search','Matches','Chat','Me'].map((t,i)=>`<text x="${25+i*50}" y="381" text-anchor="middle" font-size="9" fill="${i===tab?'#d6336c':'#999'}" font-weight="${i===tab?700:400}">${t}</text>`).join('');
 const SCREENS = {
-  search: () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
+  // -- Search: the design doc leaves list-vs-grid open, and specifies a
+  // non-empty state for the small early pilot -- shown as three options.
+  'search-list': () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
     <text x="20" y="43" font-size="9" fill="#555">🔍  ≤40 min · 25–35 · Dating</text>
     ${[0, 1, 2].map(i => { const y = 64 + i * 86; return `
     <rect x="10" y="${y}" width="180" height="78" rx="12" fill="#f6f1f4"/>
@@ -219,23 +225,96 @@ const SCREENS = {
     <text x="76" y="${y + 44}" font-size="9" fill="#5b4b55">≤ 20 min · hiking, board games</text>
     <text x="76" y="${y + 58}" font-size="8" fill="#888">Active this week</text>`; }).join('')}
     ${bar(0)}`),
-  match: () => frame(`<rect width="200" height="352" y="0" fill="#fbe3ee"/>
+  'search-grid': () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
+    <text x="20" y="43" font-size="9" fill="#555">🔍  ≤40 min · 25–35 · Dating</text>
+    ${[0, 1, 2, 3].map(i => { const col = i % 2, row = (i / 2) | 0, x = 10 + col * 93, y = 64 + row * 118; return `
+    <rect x="${x}" y="${y}" width="85" height="110" rx="12" fill="#f6f1f4"/>
+    <circle cx="${x + 42}" cy="${y + 42}" r="30" fill="#d6a9c0"/>
+    <text x="${x + 42}" y="${y + 86}" text-anchor="middle" font-size="10" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="${x + 42}" y="${y + 98}" text-anchor="middle" font-size="7" fill="#888">≤ 20 min</text>`; }).join('')}
+    ${bar(0)}`),
+  'search-empty': () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
+    <text x="20" y="43" font-size="9" fill="#555">🔍  ≤20 min · 25–35 · Dating</text>
+    <text x="100" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#2a1a24">No one matches yet</text>
+    <text x="100" y="128" text-anchor="middle" font-size="9" fill="#888">Try widening your filters, or:</text>
+    <rect x="20" y="150" width="160" height="50" rx="10" fill="#eef0ff"/>
+    <text x="30" y="172" font-size="9" fill="#5b4bdb" font-weight="700">14 people nearby</text>
+    <text x="30" y="186" font-size="8" fill="#5b4bdb">on the waitlist for your filters</text>
+    <rect x="20" y="210" width="160" height="50" rx="10" fill="#fbe3ee"/>
+    <text x="30" y="232" font-size="9" fill="#d6336c" font-weight="700">2 upcoming events</text>
+    <text x="30" y="246" font-size="8" fill="#d6336c">meetups in your area</text>${bar(0)}`),
+
+  // -- Matches: a full-screen celebration risks the "gamified" feel the
+  // design doc explicitly avoids -- shown next to quieter alternatives.
+  'match-celebrate': () => frame(`<rect width="200" height="352" y="0" fill="#fbe3ee"/>
     <text x="100" y="110" text-anchor="middle" font-size="22" font-weight="700" fill="#d6336c">It's a match!</text>
     <circle cx="70" cy="180" r="34" fill="#d6a9c0"/><circle cx="130" cy="180" r="34" fill="#b8a9d6"/>
     <text x="100" y="250" text-anchor="middle" font-size="10" fill="#5b4b55">You and Sam liked each other</text>
     <rect x="35" y="275" width="130" height="34" rx="17" fill="#d6336c"/>
     <text x="100" y="297" text-anchor="middle" font-size="12" fill="#fff" font-weight="600">Say hello</text>${bar(1)}`),
-  chat: () => frame(`<rect y="22" width="200" height="30" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam  🔒</text>
+  'match-list': () => frame(`<text x="14" y="42" font-size="13" font-weight="700">Your matches</text>
+    ${[0, 1, 2].map(i => { const y = 58 + i * 60; return `
+    <rect x="10" y="${y}" width="180" height="52" rx="12" fill="#f6f1f4"/>
+    <circle cx="40" cy="${y + 26}" r="20" fill="${i % 2 ? '#b8a9d6' : '#d6a9c0'}"/>
+    <text x="70" y="${y + 22}" font-size="11" font-weight="700" fill="#2a1a24">${['Sam', 'Jo', 'Ren'][i]}</text>
+    <text x="70" y="${y + 37}" font-size="8" fill="#888">${['Matched today', 'Matched 2d ago', 'Matched 5d ago'][i]}</text>`; }).join('')}
+    ${bar(1)}`),
+  'match-minimal': () => frame(`<text x="14" y="42" font-size="13" font-weight="700">Your matches</text>
+    <rect x="10" y="58" width="180" height="52" rx="12" fill="#fbe3ee" stroke="#d6336c"/>
+    <circle cx="40" cy="84" r="20" fill="#d6a9c0"/>
+    <text x="70" y="80" font-size="11" font-weight="700" fill="#2a1a24">Sam</text>
+    <text x="70" y="95" font-size="8" fill="#d6336c" font-weight="700">New match · say hello</text>
+    ${[0, 1].map(i => { const y = 122 + i * 60; return `
+    <rect x="10" y="${y}" width="180" height="52" rx="12" fill="#f6f1f4"/>
+    <circle cx="40" cy="${y + 26}" r="20" fill="#b8a9d6"/>
+    <text x="70" y="${y + 22}" font-size="11" font-weight="700" fill="#2a1a24">${['Jo', 'Ren'][i]}</text>
+    <text x="70" y="${y + 37}" font-size="8" fill="#888">${['Matched 2d ago', 'Matched 5d ago'][i]}</text>`; }).join('')}
+    ${bar(1)}`),
+
+  // -- Chat: only opens after a mutual like for the pilot; the locked
+  // state and visible safety controls aren't designed yet.
+  'chat-open': () => frame(`<rect y="22" width="200" height="30" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam  🔒</text>
     <rect x="14" y="70" width="120" height="30" rx="12" fill="#eee"/><text x="22" y="89" font-size="10">Hi! Love your hike pics</text>
     <rect x="66" y="112" width="120" height="30" rx="12" fill="#d6336c"/><text x="74" y="131" font-size="10" fill="#fff">Thanks! Coffee Sat?</text>
     <rect x="14" y="154" width="90" height="30" rx="12" fill="#eee"/><text x="22" y="173" font-size="10">Sounds great</text>
     <text x="100" y="330" text-anchor="middle" font-size="8" fill="#888">End-to-end encrypted · direct connection</text>
     <rect x="14" y="300" width="172" height="26" rx="13" fill="#f6f1f4"/>${bar(2)}`),
-  profile: () => frame(`<circle cx="100" cy="80" r="40" fill="#d6a9c0"/>
+  'chat-locked': () => frame(`<rect y="22" width="200" height="30" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam</text>
+    <circle cx="100" cy="140" r="30" fill="#eee"/><text x="100" y="149" text-anchor="middle" font-size="22">🔒</text>
+    <text x="100" y="200" text-anchor="middle" font-size="10" font-weight="700" fill="#2a1a24">Chat unlocks on a mutual like</text>
+    <text x="100" y="216" text-anchor="middle" font-size="9" fill="#888">You liked Sam. You'll be able to</text>
+    <text x="100" y="230" text-anchor="middle" font-size="9" fill="#888">message if they like you back.</text>
+    <rect x="45" y="252" width="110" height="30" rx="15" fill="#f6f1f4"/>
+    <text x="100" y="271" text-anchor="middle" font-size="10" fill="#5b4b55">View profile</text>${bar(2)}`),
+  'chat-safety': () => frame(`<rect y="22" width="200" height="44" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam  🔒</text>
+    <text x="14" y="58" font-size="8" fill="#888">Hide · Block · Report</text>
+    <rect x="14" y="80" width="120" height="30" rx="12" fill="#eee"/><text x="22" y="99" font-size="10">Hi! Love your hike pics</text>
+    <rect x="66" y="122" width="120" height="30" rx="12" fill="#d6336c"/><text x="74" y="141" font-size="10" fill="#fff">Thanks! Coffee Sat?</text>
+    <text x="100" y="330" text-anchor="middle" font-size="8" fill="#888">Reporting always blocks too</text>
+    <rect x="14" y="300" width="172" height="26" rx="13" fill="#f6f1f4"/>${bar(2)}`),
+
+  // -- Profile: the design doc describes three distinct profile views
+  // (yours, theirs, and the preview card in results) -- none final.
+  'profile-me': () => frame(`<circle cx="100" cy="80" r="40" fill="#d6a9c0"/>
     <text x="100" y="146" text-anchor="middle" font-size="15" font-weight="700">Alex, 31</text>
     <rect x="20" y="164" width="160" height="50" rx="10" fill="#f6f1f4"/><text x="30" y="184" font-size="9" fill="#555">Bio: climber, bad at cooking,</text><text x="30" y="198" font-size="9" fill="#555">great at pasta anyway.</text>
     <rect x="20" y="228" width="160" height="36" rx="10" fill="#eef0ff"/><text x="30" y="250" font-size="9" fill="#5b4bdb">🔑 ID: a3f9…c21e (this device)</text>
-    <rect x="20" y="274" width="160" height="30" rx="10" fill="#f6f1f4"/><text x="30" y="293" font-size="9" fill="#555">Export my data</text>${bar(3)}`)
+    <rect x="20" y="274" width="160" height="30" rx="10" fill="#f6f1f4"/><text x="30" y="293" font-size="9" fill="#555">Export my data</text>${bar(3)}`),
+  'profile-full': () => frame(`<circle cx="100" cy="66" r="34" fill="#b8a9d6"/>
+    <text x="100" y="118" text-anchor="middle" font-size="14" font-weight="700">Sam, 25–30</text>
+    <text x="100" y="132" text-anchor="middle" font-size="8" fill="#888">≤ 20 min · long-term</text>
+    <rect x="16" y="144" width="168" height="40" rx="10" fill="#f6f1f4"/><text x="24" y="160" font-size="8" fill="#5b4b55" font-weight="700">About me</text><text x="24" y="174" font-size="8" fill="#555">Climbs, cooks badly, reads a lot.</text>
+    <rect x="16" y="190" width="168" height="40" rx="10" fill="#f6f1f4"/><text x="24" y="206" font-size="8" fill="#5b4b55" font-weight="700">What I'm into</text><text x="24" y="220" font-size="8" fill="#555">Hiking, board games, bad puns.</text>
+    <circle cx="48" cy="262" r="18" fill="#fff" stroke="#bbb"/><text x="48" y="268" text-anchor="middle" font-size="14">–</text>
+    <circle cx="100" cy="262" r="18" fill="#d6336c"/><text x="100" y="269" text-anchor="middle" font-size="14" fill="#fff">♥</text>
+    <circle cx="152" cy="262" r="18" fill="#fff" stroke="#bbb"/><text x="152" y="268" text-anchor="middle" font-size="11">⚑</text>
+    <text x="48" y="288" text-anchor="middle" font-size="7" fill="#888">Hide</text><text x="100" y="288" text-anchor="middle" font-size="7" fill="#888">Like</text><text x="152" y="288" text-anchor="middle" font-size="7" fill="#888">Report</text>${bar(0)}`),
+  'profile-preview': () => frame(`<rect x="10" y="140" width="180" height="90" rx="14" fill="#f6f1f4"/>
+    <circle cx="52" cy="185" r="28" fill="#d6a9c0"/>
+    <rect x="94" y="164" width="40" height="12" rx="6" fill="#fbe3ee"/><text x="100" y="173" font-size="7" fill="#d6336c" font-weight="700">TEST BOT</text>
+    <text x="94" y="195" font-size="11" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="94" y="209" font-size="8" fill="#5b4b55">≤ 20 min · long-term</text>
+    <text x="20" y="250" font-size="8" fill="#888">"Climbs, cooks badly, reads a lot…"</text>${bar(0)}`)
 };
 
 (async () => {

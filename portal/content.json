@@ -53,9 +53,33 @@
     ]
   },
   "mockups": [
-    {"id": "search", "title": "Search", "status": "decided"},
-    {"id": "match", "title": "It's a match", "status": "assumed"},
-    {"id": "chat", "title": "Chat", "status": "assumed"},
-    {"id": "profile", "title": "My profile", "status": "assumed"}
+    {"id": "search", "title": "Search", "status": "decided",
+     "note": "The design doc leaves list vs. grid open, and specifies a non-empty state for the early pilot -- shown as three options.",
+     "variants": [
+       {"id": "search-list", "title": "List view"},
+       {"id": "search-grid", "title": "Grid view"},
+       {"id": "search-empty", "title": "Few results (pilot)"}
+     ]},
+    {"id": "match", "title": "Matches", "status": "decided",
+     "note": "A full-screen celebration risks the gamified feel the design doc explicitly avoids -- shown next to quieter alternatives.",
+     "variants": [
+       {"id": "match-celebrate", "title": "Full-screen celebration"},
+       {"id": "match-list", "title": "Matches list"},
+       {"id": "match-minimal", "title": "Quiet notice"}
+     ]},
+    {"id": "chat", "title": "Chat", "status": "assumed",
+     "note": "Chat only opens after a mutual like for the pilot; the locked state and visible safety controls aren't designed yet.",
+     "variants": [
+       {"id": "chat-open", "title": "Open chat"},
+       {"id": "chat-locked", "title": "Awaiting mutual like"},
+       {"id": "chat-safety", "title": "Safety controls visible"}
+     ]},
+    {"id": "profile", "title": "Profile", "status": "assumed",
+     "note": "The design doc describes three distinct profile views (yours, theirs, and the preview card in results) -- none of these are final.",
+     "variants": [
+       {"id": "profile-me", "title": "My profile"},
+       {"id": "profile-full", "title": "Full profile (someone else)"},
+       {"id": "profile-preview", "title": "Preview card (in results)"}
+     ]}
   ]
 }
