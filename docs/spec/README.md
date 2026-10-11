@@ -24,7 +24,7 @@ after the prototype is built.
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided | [08](08-age-check.md) |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | being worked out in a separate thread (pros and cons) | |
-| 10 | Search filters, sort and anti-scraping limits | Low to medium | decided (numbers open) | [profile-discovery.md](../design/profile-discovery.md) |
+| 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | recommended | |
 | 12 | Stage 2: network of vetted servers | Low now, as long as 1, 2 and 5 are built federation-ready | planned | |
 
@@ -118,7 +118,8 @@ after the prototype is built.
 - **Decided:** filters (travel time, age, gender and "looking for", relationship type, active
   recently, photo verified, keywords), user-chosen sort, no hidden ranking, paginated results,
   no "who viewed me", no "online now", no paid visibility.
-- Open: daily profile-view cap for new accounts; whether "Hide" expires.
+- **Decided:** 20 results per page; 50 full-profile views a day for accounts under two weeks old,
+  200 after; "Hide" lasts until undone. See [10](10-search-limits.md).
 
 ### 11. Test bots
 - Recommended: every bot row carries a bot flag, a visible "test bot" badge, generated photos
