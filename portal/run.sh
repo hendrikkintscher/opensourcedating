@@ -27,7 +27,9 @@ if [ "$FUNNEL" = "1" ]; then
 
   cleanup() {
     kill "$SERVER_PID" 2>/dev/null || true
-    tailscale funnel "$PORT" off >/dev/null 2>&1 || true
+    # Funnel's public side always defaults to port 443 (per `tailscale funnel <port>`);
+    # "tailscale funnel $PORT off" is NOT the right syntax to tear it back down.
+    tailscale funnel --https=443 off >/dev/null 2>&1 || true
   }
   trap cleanup EXIT INT TERM
 
@@ -54,6 +56,8 @@ if [ "$FUNNEL" = "1" ]; then
     echo "!! Could not determine this tailnet's MagicDNS name; run 'tailscale status' to find it," >&2
     echo "!! then share: https://<that-name>/?k=$TOKEN" >&2
   fi
+  echo "To stop: run portal/stop.sh (don't just Ctrl+C / kill this process -- on some"
+  echo "shells, including Windows, that does not reliably turn Funnel back off)."
 
   wait "$SERVER_PID"
 else

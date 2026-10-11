@@ -30,6 +30,13 @@ restriction anymore. Treat the link as a password, more strictly than before.
    Test it yourself with `curl -sI "<link>"`: expect `302` with a `Set-Cookie`.
 5. Live chat reads `~/.claude/projects/**/*.jsonl` by default. Check that folder exists on this
    machine; if the owner keeps logs elsewhere, set `PORTAL_FEED_DIR`.
+6. To stop the portal, run `portal/stop.sh` -- do not just `kill`/Ctrl+C `run.sh`'s process.
+   Confirmed on this project: signaling a backgrounded `run.sh` does not reliably run its cleanup
+   trap on Windows/Git Bash, which can leave Funnel on (publicly routable) with a dead server
+   behind it, or leave orphaned `portal/server.py` processes running. `stop.sh` explicitly turns
+   Funnel off and kills the server (via PowerShell process matching on Windows, since Git Bash's
+   `kill`/`pkill` cannot reach native Windows python processes either). After stopping, verify
+   with `tailscale funnel status` -> `No serve config`.
 
 ### Rules
 - The link is the password — now more than ever, since it is the *only* gate (no tailnet

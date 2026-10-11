@@ -6,7 +6,8 @@ A read-only dashboard (features, P2P architecture, design mockups), file browser
 live chat feed. Stdlib-only Python, nothing to install.
 
 ```
-portal/run.sh        # publishes via Tailscale Funnel and prints the public magic link
+portal/run.sh         # publishes via Tailscale Funnel and prints the public magic link
+portal/stop.sh        # stops it -- use this, not Ctrl+C/kill (see note below)
 ```
 
 Only the machine running `portal/run.sh` needs Tailscale (with Funnel enabled — the script
@@ -19,6 +20,11 @@ it like a password: don't post it anywhere public. The token lives in `.portal-t
 
 Set `PORTAL_FUNNEL=0` to fall back to the old tailnet-only link (binds to your Tailscale IP;
 only colleagues already on your tailnet can open it, no public exposure).
+
+**Stopping it:** run `portal/stop.sh`, not Ctrl+C or `kill` on `run.sh` directly -- on some
+shells (confirmed on Windows/Git Bash) a signal to the backgrounded process does not reliably
+disable Funnel or stop the server, which can leave the portal publicly reachable with nothing
+answering, or leave orphaned processes running.
 
 | Setting | Default | Purpose |
 |---|---|---|
