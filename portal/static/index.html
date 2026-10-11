@@ -6,9 +6,9 @@
 <title>OpenSourceDating Portal</title>
 <style>
 :root{--bg:#faf8f6;--card:#fff;--ink:#1d1a1f;--mute:#6c6670;--line:#e8e3e6;--accent:#d6336c;--accent2:#5b4bdb;
---guess-bg:#fff4d6;--guess-ink:#7a5600;--ok-bg:#dff5e6;--ok-ink:#17653a;--code:#f3eff1}
+--guess-bg:#fff4d6;--guess-ink:#7a5600;--plan-bg:#e7e4ff;--plan-ink:#3d2fb0;--ok-bg:#dff5e6;--ok-ink:#17653a;--code:#f3eff1}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#151317;--card:#1e1b21;--ink:#f1edf2;--mute:#a49dab;--line:#2f2a33;
---accent:#f06595;--accent2:#8e84ff;--guess-bg:#3b3010;--guess-ink:#ffd873;--ok-bg:#12351f;--ok-ink:#7fdca1;--code:#26222a}}
+--accent:#f06595;--accent2:#8e84ff;--guess-bg:#3b3010;--guess-ink:#ffd873;--plan-bg:#272150;--plan-ink:#b9b2ff;--ok-bg:#12351f;--ok-ink:#7fdca1;--code:#26222a}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
 header{padding:20px 16px 0;max-width:1100px;margin:0 auto}
@@ -22,7 +22,9 @@ section{display:none} section.on{display:block}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
 .card h3{margin:0 0 6px;font-size:15px} .card p{margin:0;color:var(--mute)}
 .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-bottom:8px}
-.assumed{background:var(--guess-bg);color:var(--guess-ink)} .decided{background:var(--ok-bg);color:var(--ok-ink)}
+.assumed{background:var(--guess-bg);color:var(--guess-ink)} .decided{background:var(--ok-bg);color:var(--ok-ink)} .planned{background:var(--plan-bg);color:var(--plan-ink)}
+.stages{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(420px,1fr))} @media(max-width:520px){.stages{grid-template-columns:1fr}}
+.stage .diagram{margin-top:10px} .tagline{font-size:12px;color:var(--mute)} .btn{display:inline-block;background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:600}
 .stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-bottom:20px}
 .stat b{display:block;font-size:26px} .stat span{color:var(--mute);font-size:13px}
 .banner{background:var(--guess-bg);color:var(--guess-ink);padding:10px 14px;border-radius:10px;margin-bottom:18px;font-size:14px}
@@ -56,7 +58,8 @@ ul.q{margin:0;padding-left:20px;color:var(--mute)}
 <nav role="tablist" id="tabs"></nav>
 <main>
   <section id="t-overview"></section>
-  <section id="t-p2p"></section>
+  <section id="t-arch"></section>
+  <section id="t-suggestions"></section>
   <section id="t-mockups"></section>
   <section id="t-files"></section>
   <section id="t-feed"></section>
@@ -81,9 +84,9 @@ const api = async p => {
   if (!(q in map)) throw new Error(404);
   return map[q];
 };
-const badge = s => el('span', {className: 'badge ' + s, textContent: s === 'decided' ? 'Decided' : 'Guess'});
+const badge = s => el('span', {className: 'badge ' + s, textContent: {decided: 'Decided', planned: 'Planned'}[s] || 'Guess'});
 
-const TABS = [['overview','Overview'],['p2p','Peer-to-peer'],['mockups','Mockups'],['files','Files'],['feed','Live chat']]
+const TABS = [['overview','Overview'],['arch','Architecture'],['suggestions','Suggestions'],['mockups','Mockups'],['files','Files'],['feed','Live chat']]
   .filter(([t]) => !(STATIC && t === 'feed'));
 const loaded = {};
 function show(id) {
@@ -116,18 +119,30 @@ const RENDER = {
         el('td', {textContent: c.author}), el('td', {textContent: c.when}))))));
   },
 
-  async p2p() {
-    const s = $('#t-p2p'), p = DATA.p2p;
-    s.append(el('div', {className: 'banner', textContent: 'Illustrative guess. The diagram follows the decisions table below and changes when they do.'}));
-    s.append(el('p', {textContent: p.summary}));
-    s.append(diagram());
+  async arch() {
+    const s = $('#t-arch'), a = DATA.architecture;
+    s.append(el('p', {textContent: a.summary}));
+    s.append(el('div', {className: 'stages'}, a.stages.map(st =>
+      el('div', {className: 'card stage'}, badge(st.status), el('h3', {textContent: st.title}),
+        el('p', {textContent: st.summary}), diagram(st.id)))));
     s.append(el('h2', {textContent: 'Technology decisions'}));
     s.append(el('div', {className: 'card scroll'}, el('table', {},
-      el('tr', {}, ['Topic','Choice','Status','Why','Alternatives'].map(h => el('th', {textContent: h}))),
-      p.decisions.map(d => el('tr', {}, el('td', {textContent: d.topic}), el('td', {textContent: d.choice}),
-        el('td', {}, badge(d.status)), el('td', {textContent: d.why}), el('td', {textContent: d.alternatives}))))));
+      el('tr', {}, ['Topic','Stage','Choice','Status','Why','Alternatives'].map(h => el('th', {textContent: h}))),
+      a.decisions.map(d => el('tr', {}, el('td', {textContent: d.topic}), el('td', {textContent: d.stage}),
+        el('td', {textContent: d.choice}), el('td', {}, badge(d.status)), el('td', {textContent: d.why}),
+        el('td', {textContent: d.alternatives}))))));
     s.append(el('h2', {textContent: 'Open questions'}));
-    s.append(el('ul', {className: 'q'}, p.open_questions.map(q => el('li', {textContent: q}))));
+    s.append(el('ul', {className: 'q'}, a.open_questions.map(q => el('li', {textContent: q}))));
+  },
+
+  async suggestions() {
+    const s = $('#t-suggestions'), g = DATA.suggestions;
+    s.append(el('p', {textContent: g.intro}));
+    s.append(el('p', {}, el('a', {className: 'btn', href: g.issue_url, target: '_blank', rel: 'noopener', textContent: 'Make a suggestion on GitHub'})));
+    s.append(el('div', {className: 'grid'}, g.items.map(i =>
+      el('div', {className: 'card'}, el('span', {className: 'badge assumed', textContent: i.area}),
+        el('h3', {textContent: i.title}), el('p', {textContent: i.summary}),
+        el('p', {className: 'tagline', style: 'margin-top:6px', textContent: 'From the project research: ' + i.doc.split('/').pop()})))));
   },
 
   async mockups() {
@@ -184,40 +199,49 @@ const RENDER = {
   }
 };
 
-/* ---- P2P diagram: peers, DHT discovery, direct encrypted link, relay fallback ---- */
-function diagram() {
-  const svg = `<svg class="diagram" viewBox="0 0 760 360" role="img" aria-label="Peer-to-peer architecture">
-  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d6336c"/></marker></defs>
-  <rect x="270" y="20" width="220" height="90" rx="14" fill="none" stroke="#5b4bdb" stroke-dasharray="5 4"/>
-  <text x="380" y="42" text-anchor="middle" font-weight="600">DHT (peer discovery)</text>
-  <text x="380" y="60" text-anchor="middle" class="m">geohash topics, no profiles stored</text>
-  ${[310,350,390,430,455].map((x,i)=>`<circle cx="${x}" cy="${86+(i%2)*8}" r="7" fill="#5b4bdb" opacity=".6"/>`).join('')}
-
-  <rect x="40" y="200" width="150" height="100" rx="14" fill="#d6336c" opacity=".12" stroke="#d6336c"/>
-  <text x="115" y="235" text-anchor="middle" font-weight="600">Alice's phone</text>
-  <text x="115" y="255" text-anchor="middle" class="m">keypair · profile</text>
-  <text x="115" y="272" text-anchor="middle" class="m">local matching</text>
-  <rect x="570" y="200" width="150" height="100" rx="14" fill="#d6336c" opacity=".12" stroke="#d6336c"/>
-  <text x="645" y="235" text-anchor="middle" font-weight="600">Bob's phone</text>
-  <text x="645" y="255" text-anchor="middle" class="m">keypair · profile</text>
-  <text x="645" y="272" text-anchor="middle" class="m">local matching</text>
-
-  <rect x="305" y="290" width="150" height="50" rx="12" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
-  <text x="380" y="311" text-anchor="middle" font-weight="600">Community relay</text>
-  <text x="380" y="328" text-anchor="middle" class="m">encrypted blobs only</text>
-
-  <path id="d1" d="M130 198 Q200 120 300 100" fill="none" stroke="#5b4bdb" stroke-dasharray="4 4" marker-end="url(#ar)"/>
-  <path d="M630 198 Q560 120 460 100" fill="none" stroke="#5b4bdb" stroke-dasharray="4 4"/>
-  <text x="40" y="150" class="m">① announce + look up</text>
-  <path id="direct" d="M192 250 L568 250" stroke="#d6336c" stroke-width="3" fill="none"/>
-  <text x="380" y="240" text-anchor="middle">② direct encrypted channel (Noise)</text>
-  <path d="M170 302 Q230 322 305 316" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
-  <path d="M590 302 Q530 322 455 316" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
-  <text x="380" y="180" text-anchor="middle" class="m">③ if direct fails (offline / NAT): drop at relay, deliver later</text>
-  <circle r="6" fill="#d6336c"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#direct"/></animateMotion></circle>
-  <path id="directRev" d="M568 250 L192 250" fill="none"/>
-  <circle r="6" fill="#5b4bdb" opacity="0"><set attributeName="opacity" to="1" begin="1.3s"/><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#directRev"/></animateMotion></circle>
-  </svg>`;
+/* ---- Architecture diagrams, one per stage (static markup; follows DATA.architecture) ---- */
+function diagram(stage) {
+  const defs = `<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d6336c"/></marker></defs>`;
+  const phone = (x, y, name) => `<rect x="${x}" y="${y}" width="96" height="54" rx="12" fill="#d6336c" fill-opacity=".12" stroke="#d6336c"/>
+    <text x="${x + 48}" y="${y + 23}" text-anchor="middle" font-weight="600">${name}</text>
+    <text x="${x + 48}" y="${y + 40}" text-anchor="middle" class="m">app · keys</text>`;
+  const server = (x, y, w, title, lines, dash) => `<rect x="${x}" y="${y}" width="${w}" height="${36 + lines.length * 16}" rx="14" fill="#5b4bdb" fill-opacity=".08" stroke="#5b4bdb"${dash ? ' stroke-dasharray="5 4"' : ''}/>
+    <text x="${x + w / 2}" y="${y + 22}" text-anchor="middle" font-weight="600">${title}</text>
+    ${lines.map((l, i) => `<text x="${x + w / 2}" y="${y + 40 + i * 16}" text-anchor="middle" class="m">${l}</text>`).join('')}`;
+  let svg;
+  if (stage === 'stage1') {
+    svg = `<svg class="diagram" viewBox="0 0 440 300" role="img" aria-label="Stage 1: one server">${defs}
+    ${server(110, 20, 220, 'Pilot server (Berlin e.V.)', ['profiles · search by home tile', 'blocks · bans · moderation', 'chat relay: deletes on delivery'])}
+    ${phone(20, 220, 'Alice')} ${phone(324, 220, 'Bob')}
+    <path d="M80 218 L160 106" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
+    <path d="M360 218 L280 106" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
+    <text x="110" y="168" text-anchor="end" class="m">search, profile</text>
+    <path id="s1chat" d="M118 247 C200 180 240 180 322 247" stroke="#d6336c" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+    <text x="220" y="182" text-anchor="middle">E2EE chat (libsignal)</text>
+    <text x="220" y="285" text-anchor="middle" class="m">the server only ever sees ciphertext of chats</text>
+    <circle r="5" fill="#d6336c"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s1chat"/></animateMotion></circle>
+    </svg>`;
+  } else {
+    svg = `<svg class="diagram" viewBox="0 0 440 300" role="img" aria-label="Stage 2: network of vetted servers">${defs}
+    ${server(15, 20, 175, 'Berlin server', ['own users + search', 'own moderation'])}
+    ${server(250, 20, 175, 'Another city / group', ['own users + search', 'own moderation'], true)}
+    <rect x="135" y="122" width="170" height="44" rx="10" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
+    <text x="220" y="140" text-anchor="middle" font-weight="600">Shared policy</text>
+    <text x="220" y="157" text-anchor="middle" class="m">allow-list · shared blocklist</text>
+    <path id="s2fed" d="M190 60 L250 60" stroke="#5b4bdb" stroke-width="2.5" fill="none"/>
+    <text x="220" y="52" text-anchor="middle" class="m">⇄</text>
+    <path d="M102 100 L150 122" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+    <path d="M338 100 L290 122" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+    ${phone(54, 220, 'Alice')} ${phone(290, 220, 'Bob')}
+    <path d="M102 218 L102 102" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
+    <path d="M338 218 L338 102" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
+    <path id="s2chat" d="M150 247 C200 200 240 200 288 247" stroke="#d6336c" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+    <text x="220" y="197" text-anchor="middle">E2EE chat across servers</text>
+    <text x="220" y="292" text-anchor="middle" class="m">how people find each other across servers is still open</text>
+    <circle r="5" fill="#d6336c"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s2chat"/></animateMotion></circle>
+    <circle r="4" fill="#5b4bdb"><animateMotion dur="1.6s" repeatCount="indefinite" path="M190 60 L250 60"/></circle>
+    </svg>`;
+  }
   const d = el('div'); d.innerHTML = svg; return d.firstChild;
 }
 
@@ -248,7 +272,7 @@ const SCREENS = {
     ${bar(0)}`),
   'search-empty': () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
     <text x="20" y="43" font-size="9" fill="#555">🔍  ≤20 min · 25–35 · Dating</text>
-    <text x="100" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#2a1a24">No one matches yet</text>
+    <text x="100" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#2a1a24">No one fits yet</text>
     <text x="100" y="128" text-anchor="middle" font-size="9" fill="#888">Try widening your filters, or:</text>
     <rect x="20" y="150" width="160" height="50" rx="10" fill="#eef0ff"/>
     <text x="30" y="172" font-size="9" fill="#5b4bdb" font-weight="700">14 people nearby</text>
@@ -259,7 +283,7 @@ const SCREENS = {
 
   // -- Write & save: the design doc replaced mutual-liking with one opening
   // message per profile (a reply starts the conversation) and a private
-  // Save/bookmark list. The app never uses the word "match".
+  // Save/bookmark list (no mutual-like step).
   'msg-write': () => frame(`<circle cx="100" cy="56" r="26" fill="#b8a9d6"/>
     <text x="100" y="94" text-anchor="middle" font-size="12" font-weight="700">Writing to Sam</text>
     <rect x="16" y="108" width="168" height="78" rx="10" fill="#f6f1f4"/>

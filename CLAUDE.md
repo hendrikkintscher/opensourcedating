@@ -5,7 +5,7 @@ entered; nothing personal.
 
 ## Colleague portal (`portal/`)
 
-A read-only site colleagues open via a public link (dashboard of features, P2P
+A read-only site colleagues open via a public link (dashboard of features, two-stage
 architecture diagram, design mockups, file browser and a live feed of Claude Code chats).
 Stdlib-only Python, no installs. Details are in `README.md` ("Colleague portal").
 
@@ -62,10 +62,11 @@ to `main`, done. It only ever contains git-tracked files; never make it read the
 - All dashboard content lives in `portal/content.json`. When the owner decides something
   (for example the transport library), change that item's `status` from `"assumed"` to `"decided"`
   and update `choice`/`why`. No restart needed; the page reloads it.
-- Add new features to `features`, new technology choices to `p2p.decisions`, new open
-  questions to `p2p.open_questions`.
+- Add new features to `features`, new technology choices to `architecture.decisions` (with their `stage`), new open
+  questions to `architecture.open_questions`, research recommendations still awaiting a decision
+  to `suggestions.items`. Statuses: `decided`, `planned` (agreed for later, not designed), `assumed` (shown as Guess).
 - If a decision changes the architecture, update the SVG in `portal/static/index.html`
-  (function `diagram()`) so the picture matches the table. Mockups are the `SCREENS` object there.
+  (function `diagram(stage)`, one picture per entry in `architecture.stages`) so the pictures match the table. Mockups are the `SCREENS` object there.
 - Mockups and diagrams are guesses until marked decided; keep that honest.
 
 ### Staying in sync with the cloud session

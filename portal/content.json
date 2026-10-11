@@ -1,85 +1,300 @@
 {
   "project": {
     "name": "opensourcedating",
-    "tagline": "An open-source, peer-to-peer dating app. No central server holds your profile or your chats.",
+    "tagline": "An open-source dating app, piloted in Berlin. One accountable server first, a network of vetted servers later. Chats are end-to-end encrypted.",
     "stage": "Concept",
-    "note": "Everything below is a working guess until its status is changed to \"decided\" in portal/content.json."
+    "note": "Decided means Hendrik decided it. Planned means agreed as a later step but not designed yet. Guess means a working assumption or a recommendation still waiting for a decision."
   },
   "features": [
-    {"id": "identity", "title": "Self-owned identity", "status": "assumed",
-     "summary": "Your profile is a keypair on your device. No email or phone needed to sign up."},
-    {"id": "profile", "title": "Profiles", "status": "assumed",
-     "summary": "Photos, short bio, prompts and intent (dating, friends, long-term). Stored locally, shared only with peers you choose."},
-    {"id": "discovery", "title": "Discovery", "status": "decided",
-     "summary": "Search with filters and browse the results, OkCupid-style. No swiping, no card stack, no one-at-a-time decisions.",
-     "doc": "docs/design/profile-discovery.md"},
-    {"id": "messaging", "title": "Opening messages", "status": "decided",
-     "summary": "Anyone can write one opening message per profile; the recipient's reply starts the conversation. A weekly allowance (starts at 5) limits mass messaging. No swipe-matching, and the app never uses the word \"match\".",
-     "doc": "docs/design/profile-discovery.md"},
-    {"id": "chat", "title": "Encrypted chat", "status": "assumed",
-     "summary": "End-to-end encrypted direct messages, with store-and-forward when one is offline. For the pilot, a conversation starts once the recipient replies to an opening message."},
-    {"id": "safety", "title": "Safety and verification", "status": "assumed",
-     "summary": "Hide, block (silent, both ways) and report (which always also blocks) work without a central moderator, plus optional vouching and photo verification."},
-    {"id": "oss", "title": "Open source and portable", "status": "assumed",
-     "summary": "Open protocol and open clients. Export your data and move to any compatible app."}
+    {
+      "id": "identity",
+      "title": "Sign-in without passwords",
+      "status": "decided",
+      "summary": "Passkeys plus one-time email codes through Ory Kratos (open source). No passwords, no phone number, no custom auth code."
+    },
+    {
+      "id": "profile",
+      "title": "Profiles",
+      "status": "assumed",
+      "summary": "Photos, short bio, prompts and intent (dating, friends, long-term). Stored on the pilot server, which reviews profile photos before they are public. Every field is listed in the data-scope doc before it gets a column."
+    },
+    {
+      "id": "discovery",
+      "title": "Discovery",
+      "status": "decided",
+      "summary": "Search with filters and browse the results, OkCupid-style. No swiping, no card stack, no one-at-a-time decisions.",
+      "doc": "docs/design/profile-discovery.md"
+    },
+    {
+      "id": "messaging",
+      "title": "Opening messages",
+      "status": "decided",
+      "summary": "Anyone can write one opening message per profile; the recipient's reply starts the conversation. A weekly allowance (starts at 5) limits mass messaging. No swiping and no mutual-like step.",
+      "doc": "docs/design/profile-discovery.md"
+    },
+    {
+      "id": "chat",
+      "title": "Encrypted chat",
+      "status": "assumed",
+      "summary": "End-to-end encrypted with libsignal. The server only relays: it holds a message until it is delivered, then deletes it. A conversation starts once the recipient replies to an opening message."
+    },
+    {
+      "id": "safety",
+      "title": "Safety and verification",
+      "status": "decided",
+      "summary": "Hide, block (silent, both ways, enforced by the server) and report (which always also blocks). Reported users hear about a report only if action is taken, with reasons and a way to appeal."
+    },
+    {
+      "id": "location",
+      "title": "Coarse location",
+      "status": "decided",
+      "summary": "No GPS. You pick your home tile on a Berlin map with a ~500 m grid and choose how precisely it is shown; changing it is rate-limited. Results show travel time, not distance."
+    },
+    {
+      "id": "oss",
+      "title": "Open source and portable",
+      "status": "assumed",
+      "summary": "Public repo, open code, no patents. Anyone can run a server; once stage 2 arrives, vetted servers can join one network."
+    }
   ],
-  "p2p": {
-    "summary": "Peers find each other through a DHT, connect directly over encrypted channels, and fall back to community relays when a direct connection is impossible.",
+  "mockups": [
+    {
+      "id": "search",
+      "title": "Search",
+      "status": "decided",
+      "note": "The design doc leaves list vs. grid open, and specifies a non-empty state for the early pilot -- shown as three options.",
+      "variants": [
+        {
+          "id": "search-list",
+          "title": "List view"
+        },
+        {
+          "id": "search-grid",
+          "title": "Grid view"
+        },
+        {
+          "id": "search-empty",
+          "title": "Few results (pilot)"
+        }
+      ]
+    },
+    {
+      "id": "messaging",
+      "title": "Write & save",
+      "status": "decided",
+      "note": "Updated 11 Oct 2026: the design doc replaced mutual-liking with one opening message per profile, a reply starts the conversation, and a private Save/bookmark list. These mockups replace the earlier mutual-like ones.",
+      "variants": [
+        {
+          "id": "msg-write",
+          "title": "Write (opening message)"
+        },
+        {
+          "id": "msg-inbox",
+          "title": "Inbox"
+        },
+        {
+          "id": "msg-saved",
+          "title": "Saved"
+        }
+      ]
+    },
+    {
+      "id": "chat",
+      "title": "Chat",
+      "status": "assumed",
+      "note": "A conversation opens once the recipient replies to an opening message (not a mutual like, which is no longer the model); the safety-controls layout isn't designed yet.",
+      "variants": [
+        {
+          "id": "chat-open",
+          "title": "Open chat"
+        },
+        {
+          "id": "chat-locked",
+          "title": "Awaiting a reply"
+        },
+        {
+          "id": "chat-safety",
+          "title": "Safety controls visible"
+        }
+      ]
+    },
+    {
+      "id": "profile",
+      "title": "Profile",
+      "status": "assumed",
+      "note": "The design doc describes three distinct profile views (yours, theirs, and the preview card in results) -- none of these are final. The other-person view's actions are Write, Save, Hide, Block and Report, not Like.",
+      "variants": [
+        {
+          "id": "profile-me",
+          "title": "My profile"
+        },
+        {
+          "id": "profile-full",
+          "title": "Full profile (someone else)"
+        },
+        {
+          "id": "profile-preview",
+          "title": "Preview card (in results)"
+        }
+      ]
+    }
+  ],
+  "architecture": {
+    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, more servers run by vetted operators can join, so no single party owns the network. The data model and the safety service are built so stage 2 doesn't need a rewrite.",
+    "stages": [
+      {
+        "id": "stage1",
+        "title": "Stage 1: one server (Berlin pilot)",
+        "status": "decided",
+        "summary": "Phones talk to a single open-source server in Germany. It holds profiles, the search index (home tiles, never GPS), blocks, bans and the moderation queue. Chats are end-to-end encrypted; the server relays them and deletes each message once it is delivered."
+      },
+      {
+        "id": "stage2",
+        "title": "Stage 2: a network of vetted servers (later)",
+        "status": "planned",
+        "summary": "Other cities or communities run their own server. Servers join through an allow-list and agree to a shared safety policy and a joint-controller agreement. Each server keeps its own users' profiles and search; servers pass encrypted chat to each other and share a blocklist, so a banned person can't just move to a laxer server."
+      }
+    ],
     "decisions": [
-      {"topic": "Transport", "choice": "libp2p (WebRTC + QUIC)", "status": "assumed",
-       "alternatives": "Hyper/Holepunch, Matrix, Nostr relays",
-       "why": "Mature NAT traversal and browser/mobile support."},
-      {"topic": "Discovery", "choice": "Kademlia DHT + geohash topics", "status": "assumed",
-       "alternatives": "Bootstrap servers, gossip only",
-       "why": "No central directory; coarse geohash keeps location vague."},
-      {"topic": "Encryption", "choice": "Noise handshake + double ratchet for chats", "status": "assumed",
-       "alternatives": "MLS, plain TLS",
-       "why": "Forward secrecy and offline-friendly sessions."},
-      {"topic": "Offline delivery", "choice": "Community relay nodes (encrypted blobs)", "status": "assumed",
-       "alternatives": "Peers store for each other",
-       "why": "Phones are often offline; relays see only ciphertext."},
-      {"topic": "Identity", "choice": "ed25519 keypair, device-held", "status": "assumed",
-       "alternatives": "DID, account server",
-       "why": "Simplest self-owned identity; recovery is an open question."},
-      {"topic": "Spam and fake profiles", "choice": "Proof-of-work + web-of-trust vouching", "status": "assumed",
-       "alternatives": "Phone verification, payment",
-       "why": "Raises cost of abuse without a central authority."}
+      {
+        "topic": "Topology",
+        "stage": "1",
+        "choice": "One central open-source server",
+        "status": "decided",
+        "why": "Search, blocking and moderation need an accountable operator; one shared pool helps the small pilot.",
+        "alternatives": "Federation from day one, pure peer-to-peer"
+      },
+      {
+        "topic": "Location",
+        "stage": "1",
+        "choice": "Self-chosen home tile on a ~500 m grid, no GPS, changes rate-limited",
+        "status": "decided",
+        "why": "Coarse by default, chosen by the user, hard to triangulate.",
+        "alternatives": "GPS radius, district only"
+      },
+      {
+        "topic": "Discovery",
+        "stage": "1",
+        "choice": "Filtered search, no swiping",
+        "status": "decided",
+        "why": "Better decisions, no dark patterns, no swipe-patent exposure.",
+        "alternatives": "Card stack"
+      },
+      {
+        "topic": "Sign-in",
+        "stage": "1",
+        "choice": "Ory Kratos with passkeys + email codes",
+        "status": "decided",
+        "why": "No passwords and no custom auth code to get wrong.",
+        "alternatives": "Phone number, own auth"
+      },
+      {
+        "topic": "Chat",
+        "stage": "1+2",
+        "choice": "libsignal E2EE + relay that deletes after delivery",
+        "status": "assumed",
+        "why": "Nothing readable or lasting on the server; works when the other phone is offline.",
+        "alternatives": "Matrix (keeps history on servers), pure phone-to-phone (no offline delivery, leaks IPs)"
+      },
+      {
+        "topic": "Operator",
+        "stage": "1",
+        "choice": "Berlin e.V., founded before real users join",
+        "status": "assumed",
+        "why": "Someone has to be the GDPR controller and DSA hosting provider.",
+        "alternatives": "gGmbH, UG"
+      },
+      {
+        "topic": "Hosting",
+        "stage": "1",
+        "choice": "Separate Hetzner CAX11 in Germany",
+        "status": "assumed",
+        "why": "Cheap, EU-hosted, isolated from other personal services.",
+        "alternatives": "An existing personal server"
+      },
+      {
+        "topic": "Safety data",
+        "stage": "1+2",
+        "choice": "Bans, verification and hash lists in their own service with an API",
+        "status": "assumed",
+        "why": "Lets stage 2 share a blocklist between servers without a rewrite.",
+        "alternatives": "Inside the main database"
+      },
+      {
+        "topic": "Federation",
+        "stage": "2",
+        "choice": "Allow-listed servers under a shared policy",
+        "status": "planned",
+        "why": "Open federation lets bad actors pick the laxest server; an allow-list keeps a common safety floor.",
+        "alternatives": "Open federation, staying on one server"
+      }
     ],
     "open_questions": [
-      "How does a user recover their identity after losing their phone?",
-      "How do we keep the DHT from leaking who is near whom?",
-      "Who runs relay nodes at launch?",
-      "The decided search/discovery design (docs/design/profile-discovery.md) describes server-side two-way gender/orientation filtering, keyword search and server-enforced block/report -- how much of a trusted filter-service component does that need, and how does it square with the no-central-directory P2P design above?"
+      "Which app framework? libsignal only has official Kotlin and Swift bindings, while React Native/Expo was suggested.",
+      "Stage 2: how do people on different servers find each other without copying every profile to every server?",
+      "Stage 2: which protocol between servers (ActivityPub, Matrix-style, or our own API)?",
+      "Stage 2: how does deleting an account reach other servers reliably (GDPR Art. 17(2)), and what must the joint-controller agreement contain?",
+      "Who runs the server and pays for it before the e.V. exists?"
     ]
   },
-  "mockups": [
-    {"id": "search", "title": "Search", "status": "decided",
-     "note": "The design doc leaves list vs. grid open, and specifies a non-empty state for the early pilot -- shown as three options.",
-     "variants": [
-       {"id": "search-list", "title": "List view"},
-       {"id": "search-grid", "title": "Grid view"},
-       {"id": "search-empty", "title": "Few results (pilot)"}
-     ]},
-    {"id": "messaging", "title": "Write & save", "status": "decided",
-     "note": "Updated 11 Oct 2026: the design doc replaced mutual-liking with one opening message per profile, a reply starts the conversation, and a private Save/bookmark list. The app never uses the word \"match\" -- these mockups replace the earlier match-based ones.",
-     "variants": [
-       {"id": "msg-write", "title": "Write (opening message)"},
-       {"id": "msg-inbox", "title": "Inbox"},
-       {"id": "msg-saved", "title": "Saved"}
-     ]},
-    {"id": "chat", "title": "Chat", "status": "assumed",
-     "note": "A conversation opens once the recipient replies to an opening message (not a mutual like, which is no longer the model); the safety-controls layout isn't designed yet.",
-     "variants": [
-       {"id": "chat-open", "title": "Open chat"},
-       {"id": "chat-locked", "title": "Awaiting a reply"},
-       {"id": "chat-safety", "title": "Safety controls visible"}
-     ]},
-    {"id": "profile", "title": "Profile", "status": "assumed",
-     "note": "The design doc describes three distinct profile views (yours, theirs, and the preview card in results) -- none of these are final. The other-person view's actions are Write, Save, Hide, Block and Report, not Like.",
-     "variants": [
-       {"id": "profile-me", "title": "My profile"},
-       {"id": "profile-full", "title": "Full profile (someone else)"},
-       {"id": "profile-preview", "title": "Preview card (in results)"}
-     ]}
-  ]
+  "suggestions": {
+    "intro": "Recommendations from the research so far that still need a decision. Have an idea of your own? Open an issue on GitHub.",
+    "issue_url": "https://github.com/hendrikkintscher/opensourcedating/issues/new?labels=suggestion",
+    "items": [
+      {
+        "title": "Apply to the Prototype Fund",
+        "area": "Funding",
+        "doc": "research/funding.md",
+        "summary": "Pays developer time on public-interest open source (up to 47,500 € for one person). Current round closes 30 Nov 2026."
+      },
+      {
+        "title": "Apply to NLnet for one component",
+        "area": "Funding",
+        "doc": "research/funding.md",
+        "summary": "For example the E2EE chat relay or libsignal bindings for React Native/Expo. Deadline 3 Nov 2026, noon CET."
+      },
+      {
+        "title": "Found a Berlin e.V. before phase 2",
+        "area": "Legal",
+        "doc": "research/legal-entity-and-dpo.md",
+        "summary": "No entity needed for the fake-data test; the e.V. becomes the operator before real users join, with an asset lock in its statutes."
+      },
+      {
+        "title": "Write down why phase 1 needs no DPO",
+        "area": "Legal",
+        "doc": "research/legal-entity-and-dpo.md",
+        "summary": "Holds only while phase 1 really uses fake data. A DPIA and an external DPO are needed once real dating data comes in."
+      },
+      {
+        "title": "Human security review before any real data",
+        "area": "Security",
+        "doc": "research/data-security.md",
+        "summary": "Keep the pilot on test data until a person has reviewed the server, the relay and the sign-in setup."
+      },
+      {
+        "title": "Invite-only waves, balanced and recruited at events",
+        "area": "Launch",
+        "doc": "research/cold-start-berlin.md",
+        "summary": "Gate waves so the gender and orientation mix stays balanced; open an area only once new users would see real profiles on day one."
+      },
+      {
+        "title": "Age check on the device",
+        "area": "Safety",
+        "doc": "research/safety-and-moderation.md",
+        "summary": "Self-declared birthdate plus on-device selfie age estimation; accept the EU age-verification app once available. Never store ID scans."
+      },
+      {
+        "title": "Contact the Alovoa maintainer",
+        "area": "Community",
+        "doc": "research/alovoa-dossier.md",
+        "summary": "Report their encryption issue privately through their SECURITY.md and ask about sharing pieces later."
+      },
+      {
+        "title": "Register the name as a trademark",
+        "area": "Protection",
+        "doc": "research/threat-model-hostile-actors.md",
+        "summary": "German mark at the DPMA (around 290 €) before phase 2; consider an EU mark if stage 2 reaches other countries."
+      }
+    ]
+  }
 }
