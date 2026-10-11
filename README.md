@@ -6,7 +6,7 @@ A read-only dashboard (features, P2P architecture, design mockups), file browser
 live chat feed. Stdlib-only Python, nothing to install.
 
 ```
-PORTAL_HOST=$(tailscale ip -4) python3 portal/server.py
+portal/run.sh        # binds to your Tailscale IP and prints the magic link
 ```
 
 It prints a **magic link** (`http://<tailscale-ip>:8787/?k=<token>`). Opening it logs the
