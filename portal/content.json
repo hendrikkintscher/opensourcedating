@@ -197,6 +197,14 @@
         "alternatives": "Matrix (keeps history on servers), pure phone-to-phone (no offline delivery, leaks IPs)"
       },
       {
+        "topic": "App framework",
+        "stage": "1+2",
+        "status": "decided",
+        "choice": "React Native + Expo, libsignal in our own native Kotlin/Swift module",
+        "alternatives": "Flutter, Kotlin Multiplatform, fully native Kotlin + Swift",
+        "why": "Fastest for one developer on both platforms; every option needs a native libsignal bridge anyway, and that module is reusable and fundable. See docs/design/app-framework.md."
+      },
+      {
         "topic": "Operator",
         "stage": "1",
         "choice": "Berlin e.V., founded before real users join",
@@ -230,7 +238,6 @@
       }
     ],
     "open_questions": [
-      "Which app framework? libsignal only has official Kotlin and Swift bindings, while React Native/Expo was suggested.",
       "Stage 2: how do people on different servers find each other without copying every profile to every server?",
       "Stage 2: which protocol between servers (ActivityPub, Matrix-style, or our own API)?",
       "Stage 2: how does deleting an account reach other servers reliably (GDPR Art. 17(2)), and what must the joint-controller agreement contain?",
