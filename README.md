@@ -6,17 +6,24 @@ A read-only dashboard (features, P2P architecture, design mockups), file browser
 live chat feed. Stdlib-only Python, nothing to install.
 
 ```
-portal/run.sh        # binds to your Tailscale IP and prints the magic link
+portal/run.sh        # publishes via Tailscale Funnel and prints the public magic link
 ```
 
-It prints a **magic link** (`http://<tailscale-ip>:8787/?k=<token>`). Opening it logs the
-browser in via a 30-day HttpOnly cookie and redirects to a clean URL; share it only with
-colleagues on your tailnet. The token lives in `.portal-token` (git-ignored); delete the
-file and restart to revoke every link.
+Only the machine running `portal/run.sh` needs Tailscale (with Funnel enabled — the script
+walks you through the one-time approval the first time). Colleagues need no Tailscale of
+their own: it prints a **magic link** (`https://<tailnet-name>.ts.net/?k=<token>`) that works
+from any browser. Opening it logs the browser in via a 30-day HttpOnly+Secure cookie and
+redirects to a clean URL. Since the link now works for anyone, not just your tailnet, treat
+it like a password: don't post it anywhere public. The token lives in `.portal-token`
+(git-ignored); delete the file and restart to revoke every link.
+
+Set `PORTAL_FUNNEL=0` to fall back to the old tailnet-only link (binds to your Tailscale IP;
+only colleagues already on your tailnet can open it, no public exposure).
 
 | Setting | Default | Purpose |
 |---|---|---|
-| `PORTAL_HOST` / `PORTAL_PORT` | `127.0.0.1` / `8787` | bind address |
+| `PORTAL_PORT` | `8787` | local bind port |
+| `PORTAL_FUNNEL` | `1` | `0` to fall back to tailnet-only (no Funnel, no public exposure) |
 | `PORTAL_FEED_DIR` | `~/.claude/projects` | where Claude Code session logs (`*.jsonl`) are read; newest file is streamed |
 | `PORTAL_TOKEN` | generated | fixed token instead of `.portal-token` |
 

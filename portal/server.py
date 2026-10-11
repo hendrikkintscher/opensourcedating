@@ -60,6 +60,10 @@ def load_token() -> str:
 TOKEN = load_token()
 # Session cookie value is derived, so the raw link token is never stored client-side.
 SESSION = hmac.new(TOKEN.encode(), b"portal-session", "sha256").hexdigest()
+# Set only when served over HTTPS (Tailscale Funnel terminates TLS in front of us);
+# on the plain-HTTP tailnet-only path it would stop the browser ever sending the
+# cookie back.
+SECURE_COOKIE = os.environ.get("PORTAL_SECURE_COOKIE") == "1"
 
 
 def safe_path(rel: str):
@@ -184,6 +188,8 @@ class Handler(BaseHTTPRequestHandler):
         if "k" in q:  # magic link
             if hmac.compare_digest(q["k"][0], TOKEN):
                 cookie = f"{COOKIE}={SESSION}; HttpOnly; SameSite=Strict; Path=/; Max-Age=2592000"
+                if SECURE_COOKIE:
+                    cookie += "; Secure"
                 return self.send(302, headers=[("Location", u.path or "/"), ("Set-Cookie", cookie)])
             return self.send(403, b"Invalid link.")
 
