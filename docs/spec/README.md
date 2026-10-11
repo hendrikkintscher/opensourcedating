@@ -79,6 +79,9 @@ after the prototype is built.
 - Recommended: report attaches the reported messages from the reporter's phone; message franking
   later so evidence can be verified.
 - Recommended: bans, verification and photo hashes in their own service with an API.
+- Ban evasion uses hashes of the photo files (like PDQ), hashed email and device signals, never
+  face templates. Keeping biometric data of banned users without consent is the riskiest item
+  the legal research found (legal-gdpr-berlin.md §8); retention periods still need the lawyer.
 - Recommended: moderator web tool with queue, evidence view, warn/suspend/ban, statement of
   reasons (DSA Art. 17).
 - Open: report reasons list, response times, who moderates during the test.
