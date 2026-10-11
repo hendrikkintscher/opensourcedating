@@ -18,7 +18,7 @@ after the prototype is built.
 | 1 | Accounts and identity (account IDs, devices, recovery, federation-ready addresses) | Very high: every table, every chat key and every block points at an account ID | decided | [01](01-accounts-and-identity.md) |
 | 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | being worked out in a separate thread | |
 | 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread | |
-| 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | partly decided | [profile-discovery.md](../design/profile-discovery.md) |
+| 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | partly decided | |
 | 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (defaults open) | |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | recommended | |
@@ -66,10 +66,10 @@ after the prototype is built.
   allowance starting at 5, lower for new accounts; unanswered messages disappear after 30 days;
   no read receipts on opening messages.
 - **Decided:** chat is libsignal end to end, relay keeps ciphertext only until delivery.
-- Open: is the opening message itself end-to-end encrypted, or readable by the server (it is
-  sent before the recipient has agreed to anything, and spam checks need to see it)?
-- Open: how a conversation ends (the old docs had "unmatch = block"); does ending a conversation
-  also block?
+- **Decided:** opening messages are end-to-end encrypted; "no links" is enforced on the
+  recipient's phone; spam is handled by allowance, rate limits and reports.
+- **Decided:** either person can end a conversation; no further messages or new opening message
+  between the two, but no block. See [04](04-conversations.md).
 - Open: allowance numbers, and whether an unanswered message gives its slot back.
 - Recommended: photos in chat off for the prototype; push payloads never carry content.
 
