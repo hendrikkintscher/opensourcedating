@@ -30,6 +30,23 @@
   or secret sharing (fewer than k pieces reveal nothing). The values of k and n.
 - How deletion reaches every piece, and the joint-controller agreement between operators.
 
+## Proposal from the photo and profile storage work (not yet decided)
+
+See section 3b of photos-and-profile-storage.md in the project research.
+
+- Photos, profile texts and conversation-only fields are encrypted with a fresh key per item,
+  split with erasure coding into n pieces (any k rebuild it), and the key is split the same way
+  with secret sharing. Start at k = 2 of n = 3, raise as operators join. Operators must be
+  independent (different legal entities and hosters, all in the EU).
+- Search still needs a **small readable search index** on the servers that run search: age,
+  location tile, gender, "looking for" and the "who can find me" limits. Searching over split
+  secrets exists in research but is far too slow and complex for this project. Which fields go
+  in that index is the open question above.
+- Every server holding pieces checks on its own whether a viewer may see a profile, and rate
+  limits are counted across the whole network, not per server.
+- The home server sees each photo briefly while checking it, then deletes it. "No server holds a
+  full profile" is true for everything stored, not for those minutes; we say so openly.
+
 ## What stage 1 must do so this isn't a rewrite
 
 - Profile storage sits behind its own interface in the server code, so the single-server store
