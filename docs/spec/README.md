@@ -20,7 +20,7 @@ after the prototype is built.
 | 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread | |
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (details open) | [05](05-safety.md) |
-| 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (defaults open) | |
+| 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (display defaults open) | [06](06-location.md) |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | recommended | |
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | recommended | |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | recommended | |
@@ -93,7 +93,8 @@ after the prototype is built.
   changes are rate-limited; only the current tile is stored; travel-time bands, never distances.
 - Open: default precision shown in search (research says coarser than 500 m, e.g. district or
   1 km, with 500 m opt-in).
-- Open: exact rate limit for tile changes.
+- **Decided:** the server stores only the precision the user chose; tile changes at most once a
+  day and 4 times in 30 days. See [06](06-location.md).
 
 ### 7. Photos
 - Recommended: re-encode and strip metadata on the server, CSAM hash check, nudity pre-screen,
