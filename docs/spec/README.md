@@ -26,7 +26,7 @@ after the prototype is built.
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | being worked out in a separate thread (pros and cons) | |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
-| 12 | Stage 2: network of vetted servers | Low now, as long as 1, 2 and 5 are built federation-ready | planned | |
+| 12 | Stage 2: network of vetted servers | Low now, as long as 1, 2 and 5 are built federation-ready | decided (search data open) | [12](12-stage-2-network.md) |
 
 ## Inventory
 
@@ -128,9 +128,12 @@ after the prototype is built.
 ### 12. Stage 2
 - Planned: allow-listed servers under a shared policy. Open questions are on the dashboard
   (cross-server search, protocol, deletion across servers).
+- **Decided:** vetted network; no server holds a full profile, profiles are stored as encrypted,
+  redundant pieces across servers; servers mainly broker contact. What search needs, and where it
+  can be read, is still to be worked out. See [12](12-stage-2-network.md).
 - What stage 1 must already get right so stage 2 is not a rewrite: account IDs that include the
-  home server (topic 1), safety data in its own service (topic 5), and keeping profile data on the
-  user's home server.
+  home server (topic 1), safety data in its own service (topic 5), and profile storage and search
+  behind their own interfaces.
 
 ## Wording
 
