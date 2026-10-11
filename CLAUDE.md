@@ -15,6 +15,13 @@ tailnet-only design): only the host machine needs Tailscale; colleagues open a p
 **token in the link is the only access control** — there is no network-level
 restriction anymore. Treat the link as a password, more strictly than before.
 
+### Public copy on GitHub Pages
+`https://hendrikkintscher.github.io/opensourcedating/` is a static, login-free copy (no Live
+chat tab) rebuilt by `.github/workflows/portal-pages.yml` on every push to `main`. That is how
+the dashboard updates from cloud sessions too: change `portal/content.json` (or any doc), merge
+to `main`, done. It only ever contains git-tracked files; never make it read the chat feed,
+`.portal-token`, or anything untracked. The private portal below stays the only place with live chat.
+
 ### First-time setup on this machine (the one running Tailscale)
 1. `git pull` the branch that contains `portal/` (`claude/brave-franklin-qlvnt3` until it is merged).
 2. Check Tailscale is up: `tailscale status`. If not, tell the owner to run `tailscale up`; do
