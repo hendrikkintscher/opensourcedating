@@ -68,10 +68,23 @@ const el = (tag, props = {}, ...kids) => {
   kids.flat().forEach(k => e.append(k));
   return e;
 };
-const api = async p => { const r = await fetch(p); if (!r.ok) throw new Error(r.status); return r.json(); };
+const get = async p => { const r = await fetch(p); if (!r.ok) throw new Error(r.status); return r.json(); };
+// Public static copy (GitHub Pages, built by portal/build_static.py): same views, read from
+// pre-built JSON instead of the local server. No live chat there.
+const STATIC = !!window.PORTAL_STATIC, cache = {};
+const once = n => cache[n] || (cache[n] = get('data/' + n + '.json'));
+const api = async p => {
+  if (!STATIC) return get(p);
+  const u = new URL(p, location.href), q = u.searchParams.get('path') || '';
+  if (u.pathname.endsWith('/api/overview')) return once('overview');
+  const map = await once(u.pathname.endsWith('/api/tree') ? 'tree' : 'files');
+  if (!(q in map)) throw new Error(404);
+  return map[q];
+};
 const badge = s => el('span', {className: 'badge ' + s, textContent: s === 'decided' ? 'Decided' : 'Guess'});
 
-const TABS = [['overview','Overview'],['p2p','Peer-to-peer'],['mockups','Mockups'],['files','Files'],['feed','Live chat']];
+const TABS = [['overview','Overview'],['p2p','Peer-to-peer'],['mockups','Mockups'],['files','Files'],['feed','Live chat']]
+  .filter(([t]) => !(STATIC && t === 'feed'));
 const loaded = {};
 function show(id) {
   TABS.forEach(([t]) => {
@@ -91,7 +104,7 @@ const RENDER = {
     s.append(el('div', {className: 'banner', textContent: DATA.project.note}));
     s.append(el('div', {className: 'stats'},
       [['Stage', DATA.project.stage], ['Features', DATA.features.length], ['Commits', r.commits_total],
-       ['Files', r.files], ['Branch', r.branch]].map(([k, v]) =>
+       ['Files', r.files], ['Branch', r.branch], ...(r.built ? [['Updated', new Date(r.built).toLocaleDateString()]] : [])].map(([k, v]) =>
         el('div', {className: 'card stat'}, el('b', {textContent: v}), el('span', {textContent: k})))));
     s.append(el('h2', {textContent: 'Major features'}));
     s.append(el('div', {className: 'grid'}, DATA.features.map(f =>
@@ -333,7 +346,7 @@ const SCREENS = {
 
 (async () => {
   try { DATA = await api('/api/overview'); }
-  catch { document.body.textContent = 'Not signed in. Open the shared link.'; return; }
+  catch { document.body.textContent = STATIC ? 'Could not load the dashboard data.' : 'Not signed in. Open the shared link.'; return; }
   $('#name').textContent = DATA.project.name; $('#tagline').textContent = DATA.project.tagline;
   const h = location.hash.slice(1); show(TABS.some(t => t[0] === h) ? h : 'overview');
 })();

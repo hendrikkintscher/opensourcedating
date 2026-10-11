@@ -5,6 +5,18 @@
 A read-only dashboard (features, P2P architecture, design mockups), file browser and
 live chat feed. Stdlib-only Python, nothing to install.
 
+### Public copy (no login, always current)
+
+**https://hendrikkintscher.github.io/opensourcedating/** shows the Overview, Peer-to-peer,
+Mockups and Files tabs to anyone. GitHub Actions (`.github/workflows/portal-pages.yml`)
+rebuilds it with `portal/build_static.py` on every push to `main`, so any merged commit,
+from a laptop or a cloud session, updates it within a minute or two. It is built only from
+files tracked in git (the same files the public repo shows) and has **no Live chat tab**:
+local Claude Code logs never leave the machine running the private portal below.
+Preview locally: `python3 portal/build_static.py && python3 -m http.server -d _site`.
+
+### Private portal (with live chat)
+
 ```
 portal/run.sh         # publishes via Tailscale Funnel and prints the public magic link
 portal/stop.sh        # stops it -- use this, not Ctrl+C/kill (see note below)
