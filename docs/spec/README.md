@@ -25,7 +25,7 @@ after the prototype is built.
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided | [08](08-age-check.md) |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | being worked out in a separate thread (pros and cons) | |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
-| 11 | Test bots and test data separation | Low, but needed from day one | recommended | |
+| 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
 | 12 | Stage 2: network of vetted servers | Low now, as long as 1, 2 and 5 are built federation-ready | planned | |
 
 ## Inventory
@@ -122,7 +122,7 @@ after the prototype is built.
   200 after; "Hide" lasts until undone. See [10](10-search-limits.md).
 
 ### 11. Test bots
-- Recommended: every bot row carries a bot flag, a visible "test bot" badge, generated photos
+- **Decided** (see [11](11-test-bots.md)): every bot row carries a bot flag, a visible "test bot" badge, generated photos
   only, bot runner on another machine using the public API, all bot data wipeable in one go.
 
 ### 12. Stage 2
