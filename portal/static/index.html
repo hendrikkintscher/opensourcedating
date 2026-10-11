@@ -95,7 +95,7 @@ function show(id) {
     document.querySelector(`[data-tab=${t}]`).setAttribute('aria-selected', t === id);
   });
   history.replaceState(null, '', '#' + id);
-  if (!loaded[id]) { loaded[id] = true; RENDER[id](); }
+  if (DATA && !loaded[id]) { loaded[id] = true; RENDER[id](); }  // rendered once data arrives
 }
 TABS.forEach(([id, label]) => $('#tabs').append(el('button', {textContent: label, role: 'tab', onclick: () => show(id)}, )));
 [...$('#tabs').children].forEach((b, i) => b.dataset.tab = TABS[i][0]);
@@ -372,7 +372,8 @@ const SCREENS = {
   try { DATA = await api('/api/overview'); }
   catch { document.body.textContent = STATIC ? 'Could not load the dashboard data.' : 'Not signed in. Open the shared link.'; return; }
   $('#name').textContent = DATA.project.name; $('#tagline').textContent = DATA.project.tagline;
-  const h = location.hash.slice(1); show(TABS.some(t => t[0] === h) ? h : 'overview');
+  const h = location.hash.slice(1), cur = TABS.find(([t]) => $("#t-" + t).classList.contains("on"));
+  show(cur ? cur[0] : TABS.some(t => t[0] === h) ? h : "overview");
 })();
 </script>
 </body>
