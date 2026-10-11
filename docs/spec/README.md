@@ -19,7 +19,7 @@ after the prototype is built.
 | 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | being worked out in a separate thread | |
 | 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread | |
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
-| 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | partly decided | |
+| 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (details open) | [05](05-safety.md) |
 | 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (defaults open) | |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | recommended | |
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | recommended | |
@@ -76,9 +76,11 @@ after the prototype is built.
 ### 5. Safety
 - **Decided:** hide, block (silent, both ways, server-enforced), report (always also blocks).
   Reported users are told only when action is taken, with reasons and appeal.
-- Recommended: report attaches the reported messages from the reporter's phone; message franking
-  later so evidence can be verified.
-- Recommended: bans, verification and photo hashes in their own service with an API.
+- Recommended: report attaches the reported messages from the reporter's phone.
+- **Decided:** message franking in the message format from the first version, so forwarded
+  evidence can be verified.
+- **Decided:** bans, reports, verification and photo hashes in their own service with an API.
+  See [05](05-safety.md).
 - Ban evasion uses hashes of the photo files (like PDQ), hashed email and device signals, never
   face templates. Keeping biometric data of banned users without consent is the riskiest item
   the legal research found (legal-gdpr-berlin.md §8); retention periods still need the lawyer.
