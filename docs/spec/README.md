@@ -15,7 +15,7 @@ after the prototype is built.
 
 | # | Topic | Cost to change later | Status | Spec |
 |---|---|---|---|---|
-| 1 | Accounts and identity (account IDs, devices, recovery, federation-ready addresses) | Very high: every table, every chat key and every block points at an account ID | open | |
+| 1 | Accounts and identity (account IDs, devices, recovery, federation-ready addresses) | Very high: every table, every chat key and every block points at an account ID | decided | [01](01-accounts-and-identity.md) |
 | 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | open | |
 | 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | open | |
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | partly decided | [profile-discovery.md](../design/profile-discovery.md) |
@@ -33,11 +33,9 @@ after the prototype is built.
 ### 1. Accounts and identity
 - Sign-in: **decided**, Ory Kratos, passkeys plus email one-time codes, no passwords, no phone
   number required.
-- Open: what an account ID looks like, and whether it carries the home server from day one
-  (needed for stage 2).
-- Open: one phone per account or several devices. Signal-protocol multi-device is real extra work.
-- Open: what happens on a lost phone (account recoverable by email code; chat history is on the
-  device only, so it is lost unless we add an encrypted backup).
+- **Decided:** account ID is a random ID plus the home server (`id@server`); email is never a key.
+- **Decided:** one phone per account in the pilot, no chat backup; a lost phone means the account
+  comes back by email code but old chats are gone. See [01](01-accounts-and-identity.md).
 - Recommended: session list and "log out everywhere"; re-authentication before deletion, export
   or email change.
 
