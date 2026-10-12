@@ -47,6 +47,7 @@ named phase gate).
 | **D16** Seven report reasons, response targets, Hendrik plus one named backup moderate | 12 Oct 2026 | [05](spec/05-safety.md) |
 | Invite tree with inviter accountability and moderator approval in phases 3 to 5; no ID or eID; no background checks or Führungszeugnis | 12 Oct 2026 | [05](spec/05-safety.md) |
 | A first "something happened when we met" report suspends the account at once; a moderator confirms or lifts within 24 hours | 12 Oct 2026 | [05](spec/05-safety.md) |
+| Share my date and a check-in timer to a friend on an accepted meeting, both only on the phone | 12 Oct 2026 | [04](spec/04-conversations.md) |
 | No GPS: home tile on a ~500 m Berlin grid, travel-time bands, only the chosen precision stored, tile changes rate-limited | 11 Oct 2026 | [06](spec/06-location.md) |
 | **D6** Precision levels 500 m, about 1.5 km (default) and district; finer location only phone to phone | 12 Oct 2026 | [06](spec/06-location.md) |
 | Photos: pipeline and moderation not decided yet | open | [07](spec/07-photos.md) |

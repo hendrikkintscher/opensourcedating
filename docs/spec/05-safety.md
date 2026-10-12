@@ -126,6 +126,11 @@ the ban or lifts the suspension within 24 hours. The person is told nothing whil
 therefore costs at most a day of silence; a day in which a reported attacker could reach
 another person is the greater harm. A suspension does not touch the inviter.
 
+**Meeting tools (decided 12 Oct).** An accepted meeting suggestion offers *Share my date* and
+a *check-in timer* to a friend; both run entirely on the phone and are described in
+[04](04-conversations.md#decided-the-conversation). Before a first meeting the app shows the
+fixed safety tips (public place, tell a friend, own transport).
+
 **Response targets:**
 
 - CSAM and threats to life: immediately.
@@ -144,8 +149,7 @@ advises.
 
 ## Still open
 
-- Meeting tools (share my date, check-in timer to a friend), telling earlier contacts about a
-  ban for offline harm (being decided).
+- Telling earlier contacts about a ban for offline harm (being decided).
 - Admission for phase 6, once sign-up opens to everyone.
 - Who the backup moderator is.
 - Which escalation contacts apply to which case (lawyer).

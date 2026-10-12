@@ -63,6 +63,13 @@ meeting suggestions and going silent added 12 Oct 2026 (topic 13, see
   day and a rough time). It is sent as a special end-to-end encrypted message. The other person
   answers *yes*, *suggest another time* (the same form, pre-filled) or *not yet*. An accepted
   suggestion is pinned at the top of the chat.
+- **Two meeting tools on the accepted suggestion (decided 12 Oct), both only on the phone.**
+  *Share my date* sends a friend of your choice the other person's first name, one profile
+  photo, the time and the place through the phone's share sheet. *Check-in timer*: you set a
+  time ("are you home safe?"); if you don't confirm, the phone sends a prepared message with the
+  same details to that friend by SMS or your messenger. The server learns nothing about either;
+  no friend contact is ever uploaded. The app points to the phone's own emergency SOS for 110
+  rather than rebuilding it. Specified from the safety side in [05](05-safety.md).
 - **A private nudge after a week.** When both sides have written on several days across more
   than a week and no meeting has been suggested, the chat shows one line, only to you: "You two
   have been writing for a week. Suggest meeting?" No notification, never shown to the other
