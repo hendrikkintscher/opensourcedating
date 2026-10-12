@@ -31,8 +31,8 @@
       "id": "messaging",
       "title": "Opening messages",
       "status": "decided",
-      "summary": "Anyone can write one opening message per profile; the recipient's reply starts the conversation. A weekly allowance (starts at 5) limits mass messaging. No swiping and no mutual-like step.",
-      "doc": "docs/design/profile-discovery.md"
+      "summary": "Anyone can write one opening message per profile; the recipient's reply starts the conversation. 5 opening messages a week, 2 for new or unverified accounts, and the allowance comes back if a message expires unanswered after 30 days. Inboxes hold at most 15 unanswered messages (adjustable); senders then see a 'full' notice, never a number. No swiping and no mutual-like step. Future idea, not decided: an allowance relative to how many profiles fit your search.",
+      "doc": "docs/spec/04-conversations.md"
     },
     {
       "id": "chat",
@@ -44,8 +44,15 @@
       "id": "safety",
       "title": "Safety and verification",
       "status": "decided",
-      "summary": "Hide, block (silent, both ways, enforced by the server) and report (which always also blocks). Reported users hear about a report only if action is taken, with reasons and a way to appeal. Optional photo verification runs on the phone; only a signed yes or no reaches the server.",
+      "summary": "Hide, block (silent, both ways, enforced by the server) and report (which always also blocks), with seven report reasons. CSAM and threats to life are handled immediately, under-18 reports within a few hours, the rest within 24 hours. Reported users hear about a report only if action is taken, with reasons and a way to appeal. Optional photo verification runs on the phone; only a signed yes or no reaches the server.",
       "doc": "docs/spec/05-safety.md"
+    },
+    {
+      "id": "data",
+      "title": "Deleting and exporting your data",
+      "status": "decided",
+      "summary": "Deleting your account takes effect at once (after signing in again); backups expire after 30 days and photos are crypto-shredded. Inactive profiles are hidden after 3 months and deleted after 12, with warnings. Export by request during the test, in the app before real users. No IP logging in the test; later only keyed hashes, kept 7 days.",
+      "doc": "docs/spec/09-deletion-and-retention.md"
     },
     {
       "id": "location",
@@ -251,10 +258,66 @@
       {
         "topic": "Operator",
         "stage": "1",
-        "choice": "Berlin e.V., founded before real users join",
-        "status": "assumed",
-        "why": "Someone has to be the GDPR controller and DSA hosting provider.",
-        "alternatives": "gGmbH, UG"
+        "choice": "Berlin e.V., founded now with seven founders, before any public announcement or grant press",
+        "status": "decided",
+        "why": "Someone has to be the GDPR controller and DSA hosting provider, and the project is already public, so liability should move off one person early.",
+        "alternatives": "Found it only before real users, gGmbH, UG"
+      },
+      {
+        "topic": "Opening-message limits",
+        "stage": "1",
+        "choice": "5 opening messages a week (2 for accounts under two weeks old or unverified); allowance returned when a message expires unanswered after 30 days; inbox cap of 15 unanswered messages, adjustable, with a 'full' notice and no number",
+        "status": "decided",
+        "why": "Limits mass messaging and overloaded inboxes without a hidden ranking; numbers are tuned with pilot data.",
+        "alternatives": "No inbox cap, allowance never returned, allowance relative to available profiles (future idea)"
+      },
+      {
+        "topic": "Moderation",
+        "stage": "1",
+        "choice": "Seven report reasons; CSAM and threats to life immediately, under-18 within a few hours, the rest within 24 h; Hendrik plus one backup, both with escalation contacts",
+        "status": "decided",
+        "why": "Clear targets for the worst cases and no single point of failure during the pilot. The backup is not named yet.",
+        "alternatives": "Volunteer moderators, no fixed targets"
+      },
+      {
+        "topic": "Deletion and retention",
+        "stage": "1",
+        "choice": "Instant deletion with a hold under open reports; 30-day backups with a replayed deletion list; photos crypto-shredded; only a ban record kept after a ban, 2 years; inactive accounts hidden at 3 months, deleted at 12",
+        "status": "decided",
+        "why": "Smallest data set that still keeps bans effective. The lawyer confirms the 2-year period and the basis for the open-report hold.",
+        "alternatives": "Delayed deletion with undo, keeping reports against non-banned accounts"
+      },
+      {
+        "topic": "IP logging",
+        "stage": "1",
+        "choice": "None during the fake-data test; before real users, keyed IP hashes (key rotated daily, kept 7 days) in the reverse proxy, Kratos, relay and safety service",
+        "status": "decided",
+        "why": "Spots sign-up farms within a week without storing addresses that reveal where people are.",
+        "alternatives": "Raw IPs for 7 days, no logging at all"
+      },
+      {
+        "topic": "Transactional email",
+        "stage": "1",
+        "choice": "An EU-based transactional email provider with a DPA, minimal content, no app name in the subject if possible; provider not chosen yet (Scaleway, Lettermint or Brevo compared)",
+        "status": "decided",
+        "why": "An email alone can reveal that someone uses a dating app, so it should say as little as possible and stay with an EU processor.",
+        "alternatives": "A US email service, own mail server"
+      },
+      {
+        "topic": "Age check",
+        "stage": "1",
+        "choice": "Self-declared date of birth for the fake-data test; the stronger check is chosen before real users (recommended: German eID age-only query, ID scan through an EU vendor as the fallback)",
+        "status": "planned",
+        "why": "The DSA guidelines expect verification for high-risk services; the choice is deferred until real users are near.",
+        "alternatives": "Selfie estimate only, human video check"
+      },
+      {
+        "topic": "Licence",
+        "stage": "1+2",
+        "choice": "AGPL-3.0-or-later with a section 7 additional permission for app store distribution (LICENSE-EXCEPTION)",
+        "status": "decided",
+        "why": "App store terms conflict with the AGPL; adding the permission is easy now while the copyright holders are few. The lawyer is asked once about libsignal on iOS.",
+        "alternatives": "No exception, relicensing store builds"
       },
       {
         "topic": "Hosting",
@@ -296,7 +359,10 @@
       "Relationship type: what describes it beyond the intention (the 'intensity' question)?",
       "Stage 2: which protocol between servers (ActivityPub, Matrix-style, or our own API)?",
       "Stage 2: how does deleting an account reach other servers reliably (GDPR Art. 17(2)), and what must the operator agreement contain for each level?",
-      "Who runs the server and pays for it before the e.V. exists?"
+      "Who runs the server and pays for it before the e.V. exists?",
+      "Which stronger age check before real users join: German eID age-only query, or an ID scan through an EU vendor?",
+      "Which EU transactional email provider for login codes (Scaleway, Lettermint, Brevo)?",
+      "Who is the named backup moderator for the pilot?"
     ]
   },
   "suggestions": {
@@ -314,12 +380,6 @@
         "area": "Funding",
         "doc": "research/funding.md",
         "summary": "For example the E2EE chat relay or libsignal bindings for React Native/Expo. Deadline 3 Nov 2026, noon CET."
-      },
-      {
-        "title": "Found a Berlin e.V. before phase 2",
-        "area": "Legal",
-        "doc": "research/legal-entity-and-dpo.md",
-        "summary": "No entity needed for the fake-data test; the e.V. becomes the operator before real users join, with an asset lock in its statutes."
       },
       {
         "title": "Write down why phase 1 needs no DPO",
@@ -343,7 +403,7 @@
         "title": "Age check on the device",
         "area": "Safety",
         "doc": "research/safety-and-moderation.md",
-        "summary": "Self-declared birthdate plus on-device selfie age estimation; accept the EU age-verification app once available. Never store ID scans."
+        "summary": "Self-declared birthdate for the fake-data test. Before real users: on-device selfie age estimation, with the German eID age-only query (ID scan as fallback) for anyone near the line; the EU age-verification app once available. Never store ID scans."
       },
       {
         "title": "Contact the Alovoa maintainer",
