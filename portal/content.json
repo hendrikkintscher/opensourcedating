@@ -4,7 +4,7 @@
     "name_note": "Working title. No name has been chosen yet.",
     "tagline": "An open-source dating app, piloted in Berlin. You search and read profiles instead of swiping, write one thoughtful opening message, and chat end-to-end encrypted.",
     "stage": "Concept",
-    "stage_detail": "Writing the spec. No app code yet; the first test will use fake data only.",
+    "stage_detail": "Phase 1 of 7: planning and building. No app code yet; the first tests use bots, then fake profiles only.",
     "note": "Decided means Hendrik decided it. Planned means agreed as a later step but not designed yet. Guess means a working assumption or a recommendation still waiting for a decision. Open means nobody has decided yet."
   },
   "intro": {
@@ -112,7 +112,7 @@
     },
     {
       "title": "Leave whenever you want",
-      "text": "Deleting your account takes effect at once, after you sign in again; backups expire after 30 days and photos are crypto-shredded. Inactive profiles are hidden after 3 months and deleted after 12, with warnings. Export your data by request during the test, in the app before real users.",
+      "text": "Deleting your account takes effect at once, after you sign in again; backups expire after 30 days and photos are crypto-shredded. Inactive profiles are hidden after 3 months and deleted after 12, with warnings. Export your data by request during the test, in the app before real users (phase 5).",
       "status": "decided",
       "doc": "docs/spec/09-deletion-and-retention.md"
     }
@@ -298,7 +298,7 @@
         "stage": "1",
         "choice": "Optional on-device liveness and face comparison with its own consent; the server gets only a signed yes or no with app attestation",
         "status": "decided",
-        "why": "Scales without staff and keeps biometric data on the phone. The DPO and lawyer confirm the consent design before real users.",
+        "why": "Scales without staff and keeps biometric data on the phone. The DPO and lawyer confirm the consent design before real users (phase 5).",
         "alternatives": "Human check of a requested-pose photo, a vendor service",
         "doc": "docs/spec/05-safety.md"
       },
@@ -368,7 +368,7 @@
       {
         "topic": "Age check",
         "stage": "1+2",
-        "choice": "Self-declared date of birth for the fake-data test; only the result is ever stored. The stronger check is chosen before real users (recommended: German eID age-only query, ID scan through an EU vendor as the fallback)",
+        "choice": "Self-declared date of birth for the fake-data phases (2 to 4); only the result is ever stored. The stronger check is chosen before real users (phase 5) (recommended: German eID age-only query, ID scan through an EU vendor as the fallback)",
         "status": "planned",
         "why": "No ID scans or face data on the server. The DSA guidelines expect verification for high-risk services; the choice is deferred until real users are near and can change behind one interface.",
         "alternatives": "Selfie estimate only, human video check, ID upload",
@@ -386,7 +386,7 @@
       {
         "topic": "IP logging",
         "stage": "1",
-        "choice": "None during the fake-data test; before real users, keyed IP hashes (key rotated daily, kept 7 days) in the reverse proxy, Kratos, relay and safety service",
+        "choice": "None during the fake-data phases (2 to 4); before real users (phase 5), keyed IP hashes (key rotated daily, kept 7 days) in the reverse proxy, Kratos, relay and safety service",
         "status": "decided",
         "why": "Spots sign-up farms within a week without storing addresses that reveal where people are.",
         "alternatives": "Raw IPs for 7 days, no logging at all",
@@ -415,7 +415,7 @@
         "choice": "Berlin e.V. (non-profit association), founded now with seven founders, before any public announcement or grant press",
         "status": "decided",
         "why": "Someone has to be the GDPR controller and DSA hosting provider, and the project is already public, so liability should move off one person early.",
-        "alternatives": "Found it only before real users, gGmbH, UG"
+        "alternatives": "Found it only before real users (phase 5), gGmbH, UG"
       },
       {
         "topic": "Licence",
@@ -476,7 +476,7 @@
         "status": "partly",
         "points": [
           "You choose your own search groups, separate from the gender labels you show. Search groups are two-way.",
-          "Orientation is an optional label, hidden by default and never a filter. No trans filter in phase 1.",
+          "Orientation is an optional label, hidden by default and never a filter. No trans filter in the fake-data phases.",
           "\"Looking for\" is stored as a list of intentions; the first app shows one.",
           "A new profile stays hidden until you publish it; the publish step shows the privacy choices and asks for the Art. 9 consent.",
           "Still open: how relationship types are described beyond the intention (the \"intensity\" question), and gender as one value or several."
@@ -546,8 +546,8 @@
         "status": "partly",
         "doc": "docs/spec/08-age-check.md",
         "points": [
-          "Self-declared date of birth for the fake-data test.",
-          "Which stronger check is deferred until before real users. Recommended: German eID age-only query, ID scan through an EU vendor as the fallback; the EU age app once available.",
+          "Self-declared date of birth for the fake-data phases (2 to 4).",
+          "Which stronger check is deferred until before real users (phase 5). Recommended: German eID age-only query, ID scan through an EU vendor as the fallback; the EU age app once available.",
           "Only the result is stored, never a selfie or an ID."
         ]
       },
@@ -558,8 +558,8 @@
         "points": [
           "Deletion takes effect at once (after signing in again), held only while a report is open; 30-day backups, photos crypto-shredded.",
           "After a ban only the ban record is kept, 2 years pending the lawyer.",
-          "Export by request during the test, in the app before real users. Inactive accounts hidden at 3 months, deleted at 12, with warnings.",
-          "No IP logging in the fake-data test; before real users only keyed IP hashes, kept 7 days."
+          "Export by request during the test, in the app before real users (phase 5). Inactive accounts hidden at 3 months, deleted at 12, with warnings.",
+          "No IP logging in the fake-data phases (2 to 4); before real users (phase 5) only keyed IP hashes, kept 7 days."
         ],
         "doc": "docs/spec/09-deletion-and-retention.md"
       },
@@ -602,7 +602,7 @@
     "other": [
       {
         "title": "Pilot scope",
-        "text": "Berlin, city-wide. Phase 1 is a technical test with the Berlin tech scene using fake data. The queer community joins only once gender, preference and safety features are solid."
+        "text": "Berlin, city-wide. Phase 3 is a test with the Berlin tech scene using fake profiles; phase 4 brings in the queer community, still with fake profiles, once gender, preference and safety features are solid. Real profiles start in phase 5."
       },
       {
         "title": "Build our own",
@@ -687,7 +687,7 @@
         "items": [
           "Name the backup moderator for the pilot.",
           "Lawyer confirms the 2-year ban-record period and the basis for holding accounts under open reports.",
-          "DPO and lawyer confirm the consent design for photo verification before real users."
+          "DPO and lawyer confirm the consent design for photo verification before real users (phase 5)."
         ]
       },
       {
@@ -697,7 +697,7 @@
           "Which EU email provider sends login codes (Scaleway, Lettermint or Brevo).",
           "Gender as one value or several, a free-text option, and which free-text sections the profile has.",
           "Rate limits on search requests.",
-          "Which stronger age check before real users: German eID age-only query, or an ID scan through an EU vendor."
+          "Which stronger age check before real users (phase 5): German eID age-only query, or an ID scan through an EU vendor."
         ]
       },
       {
@@ -711,54 +711,121 @@
   },
   "roadmap": [
     {
-      "title": "Research and ground rules",
-      "state": "done",
-      "items": [
-        "Research on GDPR in Berlin, data security, safety and moderation, hostile actors, funding and launch.",
-        "Core design: search instead of swiping, one opening message, coarse location, two stages.",
-        "App framework chosen; pilot server set up in Germany."
-      ]
-    },
-    {
-      "title": "Spec review",
+      "title": "Plan and build",
+      "sub": "now",
+      "step": "team",
+      "data": "none",
       "state": "now",
+      "gate": [],
+      "who": "Hendrik and the e.V. founders. No users.",
       "items": [
-        "10 of 12 topics decided; 3 proposals waiting for a decision (see Open questions).",
-        "Founding the Berlin e.V. with seven founders, before any public announcement.",
-        "Funding applications: NLnet (deadline 3 Nov 2026) and the Prototype Fund (30 Nov 2026)."
+        "Spec review: settle the costly decisions first.",
+        "Found the Berlin e.V. with seven founders, before any public announcement.",
+        "Funding applications: NLnet (3 Nov 2026) and the Prototype Fund (30 Nov 2026).",
+        "Build the prototype: server, safety service, sign-in, relay, app with the libsignal module, test bots."
       ]
     },
     {
-      "title": "Prototype with fake data",
+      "title": "Server and bot test",
+      "short": "Server and bots",
+      "sub": "no people yet",
+      "step": "test bots",
+      "data": "bot",
       "state": "next",
+      "gate": [
+        "prototype runs",
+        "end to end"
+      ],
+      "who": "Test bots only, all data generated and bot-flagged.",
       "items": [
-        "Server, safety service and the libsignal native module.",
-        "Android and iOS app; labelled test bots, including attack bots.",
-        "Testers from the Berlin tech scene, using fake profiles only."
+        "Deploy to the pilot server in Germany.",
+        "Load test with many bots; attack bots try scraping, spam, allowance abuse and ban evasion.",
+        "Restore and deletion drills; wipe all bot data in one go."
       ]
     },
     {
-      "title": "Before any real user",
+      "title": "Tech testers",
+      "sub": "code review too",
+      "step": "invited testers",
+      "data": "fake",
       "state": "later",
+      "gate": [
+        "e.V. founded,",
+        "tester terms"
+      ],
+      "who": "Invited people from the Berlin tech scene, using fake profiles, who also review the code.",
       "items": [
-        "Human security review of the server, relay and sign-in.",
-        "The e.V. takes over as operator; data protection impact assessment and an external data protection officer.",
-        "Stronger age check, in-app data export, keyed IP hashes, lawyer on retention periods."
+        "Real people try search, opening messages, block and report.",
+        "Code review and security reports.",
+        "Apps via TestFlight and Google Play internal testing."
       ]
     },
     {
-      "title": "Real dating in Berlin",
+      "title": "Community test",
+      "sub": "queer scene first",
+      "step": "one community",
+      "data": "fake",
       "state": "later",
+      "gate": [
+        "queer-safe features,",
+        "community asked"
+      ],
+      "who": "A small invited community, starting with the Berlin queer scene, still with fake profiles.",
       "items": [
-        "Invite-only waves, kept balanced, recruited at events.",
-        "The queer community joins once gender, preference and safety features are solid."
+        "Check the data model, wording and safety tools with the people who need them most.",
+        "Being in this group can itself reveal something real, so the data protection check is redone first.",
+        "All fake data is wiped at the end."
       ]
     },
     {
-      "title": "Stage 2: network of servers",
+      "title": "Real profiles, selected users",
+      "short": "Real profiles",
+      "sub": "selected users",
+      "step": "invite-only waves",
+      "data": "real",
       "state": "later",
+      "big": true,
+      "gate": [
+        "Before real users:",
+        "DPIA, DPO, security",
+        "review, age check"
+      ],
+      "who": "Invite-only waves with real profiles, kept balanced.",
       "items": [
-        "One server program on two levels: sealed servers run by vetted operators, plain servers anyone in the EU can run under a signed agreement."
+        "Before it starts: external security review, data protection impact assessment and external DPO, stronger age check, keyed IP hashes, export in the app, named moderators.",
+        "Real dating in small waves; limits tuned with real use."
+      ]
+    },
+    {
+      "title": "Berlin, open to all",
+      "sub": "city-wide",
+      "step": "anyone in Berlin",
+      "data": "real",
+      "state": "later",
+      "gate": [
+        "store listing,",
+        "funding, DSA duties"
+      ],
+      "who": "Anyone in Berlin.",
+      "items": [
+        "Public store listings in Germany and the EU.",
+        "Recruit by district and events so every area has enough people.",
+        "Build stage 2."
+      ]
+    },
+    {
+      "title": "Beyond Berlin",
+      "sub": "other cities",
+      "step": "more cities",
+      "data": "real",
+      "state": "later",
+      "gate": [
+        "local grids, operators,",
+        "moderators"
+      ],
+      "who": "Other cities or communities.",
+      "items": [
+        "Most likely through stage 2: one server program on two levels, sealed servers run by vetted operators, plain servers anyone in the EU can run under a signed agreement."
       ]
     }
   ],
@@ -779,10 +846,10 @@
         "summary": "For example the libsignal module for React Native/Expo or the encrypted chat relay. Deadline 3 Nov 2026, noon CET."
       },
       {
-        "title": "Write down why phase 1 needs no DPO",
+        "title": "Write down why the fake-data phases need no DPO",
         "area": "Legal",
         "doc": "research/legal-entity-and-dpo.md",
-        "summary": "Holds only while phase 1 really uses fake data. A DPIA and an external DPO are needed once real dating data comes in."
+        "summary": "Holds only while phases 2 to 4 really use fake data. A DPIA and an external DPO are needed once real dating data comes in."
       },
       {
         "title": "Human security review before any real data",
@@ -806,7 +873,7 @@
         "title": "Register the name as a trademark",
         "area": "Protection",
         "doc": "research/threat-model-hostile-actors.md",
-        "summary": "Once a name is chosen: German mark at the DPMA (around 290 €) before phase 2; consider an EU mark if stage 2 reaches other countries."
+        "summary": "Once a name is chosen: German mark at the DPMA (around 290 €) before phase 5 (real profiles); consider an EU mark if stage 2 reaches other countries."
       }
     ]
   }

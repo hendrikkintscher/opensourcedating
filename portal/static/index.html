@@ -62,6 +62,15 @@ th{color:var(--mute);font-weight:600}
 .road .card::before{content:"";position:absolute;left:-31px;top:18px;width:16px;height:16px;border-radius:50%;background:var(--line);border:3px solid var(--bg)}
 .road .done::before{background:var(--ok-ink)} .road .now::before{background:var(--accent)}
 .road .now{border-color:var(--accent)}
+.road .card h3{margin-top:6px} .badge.plain{background:var(--code);color:var(--mute);margin-left:6px}
+.phases-fig{overflow-x:auto;margin-bottom:20px} .phases-fig svg{display:block;min-width:900px;width:100%;height:auto}
+.phases-fig .ink{fill:var(--ink)} .phases-fig .mute{fill:var(--mute)} .phases-fig .pink{fill:var(--ink)}
+.pd-none{fill:#d9d3dc} .pd-bot{fill:#6f63e6} .pd-fake{fill:#f2a93b} .pd-real{fill:#d6336c} .ps1{fill:#2f7d74} .ps2{fill:#275fa8} .ps2b{fill:#275fa8;fill-opacity:.3}
+.on-none,.on-fake{fill:#1f1a24} .on-bot,.on-real,.on-s{fill:#fff}
+.pgate{fill:var(--card);stroke:var(--mute);stroke-width:1.5} .pgate.big{fill:var(--accent);stroke:var(--accent)}
+.pln{stroke:var(--line)} .pwipe{stroke:var(--ink);stroke-width:2;stroke-dasharray:3 3}
+.pnum{font-size:11px;letter-spacing:.12em;font-weight:700} .pttl{font-size:15px;font-weight:700} .psub,.pstp,.pbar{font-size:12px}
+.pstp,.pbar{font-weight:600} .pgl{font-size:11px} .pglb{font-size:11px;font-weight:700} .plane{font-size:10.5px;letter-spacing:.14em;font-weight:700}
 .phones{display:flex;gap:18px;flex-wrap:wrap}
 .phone{width:200px} .phone svg{width:100%;height:auto;display:block;border-radius:26px;box-shadow:0 4px 18px rgba(0,0,0,.15)}
 .phone figcaption{text-align:center;margin-top:8px;font-weight:600}
@@ -225,11 +234,18 @@ const RENDER = {
 
   async next() {
     const s = $('#t-next'), g = DATA.suggestions;
-    s.append(el('h2', {textContent: 'Roadmap'}));
+    s.append(el('h2', {textContent: 'Seven phases'}));
+    s.append(el('p', {className: 'sub'}, 'Each step lets more people in; each gate lists what has to be true first. Phases end when their list is done, not on a date. Full plan: ', docLink('docs/phases.md')));
+    const fig = el('div', {className: 'card phases-fig'});
+    fig.innerHTML = phasesDiagram(DATA.roadmap);
+    s.append(fig);
     const STATE = {done: ['decided', 'Done'], now: ['open', 'Now'], next: ['planned', 'Next'], later: ['assumed', 'Later']};
-    s.append(el('div', {className: 'road'}, DATA.roadmap.map(r =>
+    const DATA_LBL = {none: 'No profile data', bot: 'Bot data only', fake: 'Fake profiles', real: 'Real profiles'};
+    s.append(el('div', {className: 'road'}, DATA.roadmap.map((r, i) =>
       el('div', {className: 'card ' + r.state}, el('span', {className: 'badge ' + STATE[r.state][0], textContent: STATE[r.state][1]}),
-        el('h3', {textContent: r.title}), el('ul', {}, r.items.map(x => el('li', {textContent: x})))))));
+        el('span', {className: 'badge plain', textContent: DATA_LBL[r.data]}),
+        el('h3', {textContent: `Phase ${i + 1}: ${r.title}`}), el('p', {textContent: r.who}),
+        el('ul', {}, r.items.map(x => el('li', {textContent: x})))))));
     s.append(el('h2', {textContent: 'Recommendations still to decide'}));
     s.append(el('p', {className: 'sub', textContent: g.intro}));
     s.append(el('div', {className: 'grid'}, g.items.map(i =>
@@ -294,6 +310,39 @@ const RENDER = {
 };
 
 /* ---- Architecture diagrams, one per stage (static markup; follows DATA.architecture) ---- */
+// Seven-phase staircase for the Next steps tab, drawn from content.json `roadmap`.
+// Step colour = what profile data is in the app; gates sit between steps. Matches docs/phases.svg.
+function phasesDiagram(P) {
+  const X0 = 40, CW = 148, BASE = 360, H = [36, 62, 92, 120, 162, 206, 250];
+  const L = i => X0 + CW * i, esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const T = (x, y, cls, t, a = '') => `<text class="${cls}" x="${x}" y="${y}" ${a}>${esc(t)}</text>`;
+  let o = '';
+  P.forEach((p, i) => {
+    o += T(L(i) + 4, 34, 'pnum' + (p.state === 'now' ? ' ink' : ' mute'), 'PHASE ' + (i + 1));
+    o += T(L(i) + 4, 56, 'pttl ink', p.short || p.title) + T(L(i) + 4, 74, 'psub mute', p.sub);
+    o += `<rect class="pd-${p.data}" x="${L(i) + 4}" y="${BASE - H[i]}" width="${CW - 8}" height="${H[i]}" rx="6"/>`;
+    o += T(L(i) + 14, BASE - H[i] + 22, 'pstp on-' + p.data, p.step);
+    if (p.state === 'now') o += `<path class="pink" d="M${L(i) + CW / 2} ${BASE - H[i] - 8} l-7 -10 h14 z"/>` + T(L(i) + CW / 2, BASE - H[i] - 26, 'pglb ink', 'You are here', 'text-anchor="middle"');
+    if (i) {
+      const x = L(i);
+      o += `<rect class="pgate${p.big ? ' big' : ''}" x="${x - 6}" y="${BASE + 12}" width="12" height="12" transform="rotate(45 ${x} ${BASE + 18})"/>`;
+      p.gate.forEach((g, j) => o += T(x, BASE + 44 + j * 14, (p.big && !j) ? 'pglb ink' : 'pgl mute', g, 'text-anchor="middle"'));
+    }
+  });
+  o += `<line class="pln" x1="${X0}" x2="${L(7)}" y1="${BASE + .5}" y2="${BASE + .5}"/>` + T(X0 + 4, 396, 'plane mute', 'GATES');
+  let Y = 470;
+  o += T(X0 + 4, Y - 10, 'plane mute', 'SERVERS') + T(L(0) + 4, Y + 18, 'psub mute', 'none public');
+  o += `<rect class="ps1" x="${L(1) + 4}" y="${Y}" width="${CW * 5 - 8}" height="28" rx="5"/>` + T(L(1) + 14, Y + 19, 'pbar on-s', 'Stage 1: one server, run by the Berlin e.V.');
+  o += `<rect class="ps2b" x="${L(5) + 4}" y="${Y + 34}" width="${CW - 4}" height="28" rx="5"/><rect class="ps2" x="${L(6)}" y="${Y + 34}" width="${CW - 4}" height="28" rx="5"/>`;
+  o += T(L(5) + 14, Y + 53, 'psub ink', 'stage 2 built') + T(L(6) + 10, Y + 53, 'pbar on-s', 'Stage 2: network');
+  Y = 560;
+  o += T(X0 + 4, Y - 8, 'plane mute', 'PROFILE DATA');
+  [[0, 1, 'none', 'none'], [1, 1, 'bot', 'bot data only'], [2, 2, 'fake', 'fake profiles'], [4, 3, 'real', 'real profiles, treated as Art. 9 data']].forEach(([st, n, d, t]) =>
+    o += `<rect class="pd-${d}" x="${L(st) + 4}" y="${Y}" width="${CW * n - 8}" height="28" rx="5"/>` + T(L(st) + 14, Y + 19, 'pbar on-' + d, t));
+  o += `<line class="pwipe" x1="${L(4)}" x2="${L(4)}" y1="${Y - 14}" y2="${Y + 40}"/>` + T(L(4), Y + 52, 'pgl ink', 'fake data wiped', 'text-anchor="middle"');
+  return `<svg viewBox="0 0 1120 630" role="img" aria-label="Seven project phases from planning to cities beyond Berlin, with gates between them, the server stage and the kind of profile data in each.">${o}</svg>`;
+}
+
 function diagram(stage) {
   const P = '#d6336c', V = '#5b4bdb';
   const defs = `<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="${V}"/></marker></defs>`;
