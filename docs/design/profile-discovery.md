@@ -1,6 +1,6 @@
 # Profile discovery: search and filters, no swiping
 
-*Design note, first published 11 Oct 2026, updated the same day (messaging). Status: decided direction for the prototype; details will change.*
+*Design note, first published 11 Oct 2026, updated the same day (messaging) and on 12 Oct 2026 (design review decisions D4 to D9, and first publishing). Status: decided direction for the prototype; details will change.*
 
 ## Decision
 
@@ -23,23 +23,28 @@ Filters for the prototype:
 
 | Filter | Values | Notes |
 |---|---|---|
-| Travel time | bands, e.g. "up to 20 / 40 / 60 min by public transport" | Computed from both users' map tiles; no distance in metres, no GPS |
-| Age | range, shown as bands in previews | Exact age only once a conversation has started |
-| Gender and "looking for" | multiple choice | **Two-way**: you only see people who are also looking for someone like you, and only appear to them |
-| Relationship type | e.g. long-term, short-term, friendship, open to see | |
+| Travel time | bands, e.g. "up to 20 / 40 / 60 min by public transport" | Computed from both users' map tiles; no distance in metres, no GPS. **One-way**: it only decides what you see. If you are beyond the other person's travel time, their tile shows a small location symbol |
+| Age | range | **Two-way with a 5-year margin**: you are hidden from someone only if your age is more than 5 years outside their range. Within the margin, their tile shows a small age symbol ("you're outside their range") |
+| Search groups | multiple choice | Self-chosen, separate from gender labels. **Two-way**: you only see people who are also looking for someone like you, and only appear to them |
+| Looking for | intentions, e.g. long-term, short-term, friendship, open to see | Stored as a list; the first version shows one |
 | Active recently | this week / this month | Coarse, never "online now" |
-| Photo verified | yes / any | |
-| Keywords | free text in profile texts and interests | Simple full-text search |
+| Photo verified | yes / any | Optional on-device check, see [spec 05](../spec/05-safety.md) |
+| Interest tags | fixed list plus short tags people type themselves | Replaces free-text keywords |
+| Profile texts | words | Only for people who made their own texts searchable (opt-in, off by default), and only finds others who did the same. Search words are never logged |
+
+Orientation is never a filter. It is an optional label for display only, hidden by default.
+
+Saved searches, and alerts about new profiles for a saved search, run on the phone: it re-runs the search and shows a quiet in-app note. Nothing about a saved search is stored on the server.
 
 Sort order is the user's choice: **shortest travel time**, **recently active** or **newest**. There is no hidden ranking algorithm and no paid boosting. A compatibility score from answered questions (as classic OkCupid had) is a possible later addition, but always shown with how it was calculated.
 
 ### 2. Profile preview (in the results)
 
-One photo, first name or nickname, age band, travel-time band, relationship type and the first lines of the profile text. Test bots carry a visible "test bot" badge.
+One photo, first name or nickname, exact age (the date of birth is never shown), travel-time band, what they're looking for and the first lines of the profile text. An age or location symbol shows when you are outside their range. Test bots carry a visible "test bot" badge.
 
 ### 3. Full profile
 
-Opening a preview shows the whole profile: photos, several free-text sections (for example "About me", "What I'm into", "You should write to me if …"), interests, and the details the user chose to show. Long-form text is the centre of the profile, not the photos.
+Opening a preview shows the whole profile: photos, several free-text sections (for example "About me", "What I'm into", "You should write to me if …"), interest tags, and the details the user chose to show. Long-form text is the centre of the profile, not the photos.
 
 Actions on a full profile:
 
@@ -63,7 +68,11 @@ Anyone can write to anyone whose profile they can see, but only **one opening me
 
 **Wording:** the app, its descriptions and its announcements never use the word "match". We talk about writing, answering and conversations.
 
-### 5. What we deliberately don't build
+### 5. Publishing your profile for the first time
+
+A new profile is not visible to anyone until the person actively publishes it the first time. The publish step shows the privacy choices with safe defaults and one honest sentence each: searchable profile texts (off by default), location precision (about 1.5 km by default), which fields are visible, and conversation-only photos. It is also where the separate explicit consent for Art. 9 data is asked.
+
+### 6. What we deliberately don't build
 
 - No swipe gestures, card stacks or one-at-a-time decisions.
 - No endless scrolling feed. Results are paginated, and the list ends.
@@ -73,16 +82,16 @@ Anyone can write to anyone whose profile they can see, but only **one opening me
 
 ## Privacy and safety in search
 
-- Filtering on gender, orientation and "looking for" happens on the server inside a separate filter service, because the server has to filter. These fields are **not shown** in previews unless the user turns that on (see the data-scope rules in the project research).
-- Previews show only coarse data: age band, travel-time band, activity this week or this month.
+- Filtering on search groups, age and "looking for" happens on the server inside a separate filter service, because the server has to filter. Orientation is never filtered on. Gender and orientation are **not shown** in previews unless the user turns that on (see the data-scope rules in the project research).
+- Previews show exact age but never the date of birth, a travel-time band rather than a location, and activity only as this week or this month.
+- The stored location is only as precise as the person chose (default about 1.5 km). A finer location or meeting spot is only ever shared phone to phone inside the encrypted chat.
+- Free text is searchable only for people who opted in, so labels someone chose to hide can't be found through their texts by default.
 - **Anti-scraping:** rate limits on searches and profile views, paginated results, a daily cap on profile views for new accounts, and no public profile URLs.
 - Blocked and hidden people never appear, in either direction.
 - When too few people fit the filters (early pilot), the app shows how many people are on the waitlist nearby and upcoming events, not an empty page.
 
 ## Open questions
 
-- Show exact age or an age band in previews?
-- Should "Hide" expire after a while (so people can reappear), or stay until undone?
 - Which free-text sections should the profile have?
 - How many opening messages per week, and per month for new accounts?
 - Should an unanswered message give the allowance back after 30 days?
