@@ -7,10 +7,17 @@ project research. Search filters are in [10](10-search-limits.md) and
 
 ## Decided
 
-- **Search groups are self-chosen and separate from gender labels.** Each person picks which
-  search groups they belong to and which groups they want to find. Gender labels are what the
-  profile shows; search groups are what the filter uses. The two-way rule applies to search
-  groups: you only see people who are also looking for someone like you.
+- **Gender labels and one search group.** People pick or add any number of gender labels,
+  freely. Separately, each person chooses exactly one search group: woman, man or non-binary.
+  Gender labels are what the profile shows; the search group is what the filter uses
+  (Hendrik, 12 Oct).
+- **Only gender and age are two-way.** You only see people who are also looking for someone in
+  your search group, and age is two-way with a 5-year margin (see [10](10-search-limits.md)).
+  Relationship types, openness and relationship status are the searcher's own filters only and
+  never hide anyone (Hendrik, 11 Oct).
+- **Openness** is its own field: mono / open / poly.
+- **Relationship status** is its own field. Draft values: single, in a relationship, married,
+  it's complicated.
 - **Orientation is an optional label for display only.** It is hidden by default and is never
   used as a filter.
 - **"Looking for" is stored as a list of intentions.** The first version of the app shows and
@@ -26,7 +33,7 @@ project research. Search filters are in [10](10-search-limits.md) and
 - **"How soon do you like to meet?"** Optional field with four values: after a few messages,
   after a week or two of writing, after a call first, no rush. One-way (your own filter only),
   shown on the full profile and in the fit checklist.
-- **Narrative prompts.** The profile texts are prompts that invite specifics instead of a blank
+- **Narrative prompts.** The profile texts are prompts (confirmed by Hendrik on 12 Oct over a single "About me") that invite specifics instead of a blank
   "About me"; the wording of the prompts is a later detail.
 - **Photo age bands and "taken in the app".** Each photo carries a self-declared band (from the
   last year / 1 to 2 years / older), read from the capture date on the phone and confirmed by the
@@ -45,8 +52,5 @@ project research. Search filters are in [10](10-search-limits.md) and
 
 ## Still open
 
-- **Relationship type ("intensity"):** what describes a relationship type beyond the intention
-  is not decided. The draft dimensions in the identity doc are a proposal only.
-- Gender as one value or several, and a free-text option.
-- Which free-text sections the profile has (the design review suggests three: About me; What I'm
-  into; Write to me if …).
+- **Relationship dimensions:** "intensity" is replaced by several dimensions (Hendrik, 12 Oct).
+  Which dimensions, their answers and the layout are still being worked out and are not decided.
