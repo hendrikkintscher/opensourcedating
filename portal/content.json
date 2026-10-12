@@ -65,7 +65,7 @@
   "journey": [
     {
       "title": "Sign up without a password",
-      "text": "A passkey or a one-time email code (Ory Kratos). No password and no phone number. You confirm you are 18 or older. Your account gets a random ID tied to its home server; your email is never shown or used as a key.",
+      "text": "A passkey or a one-time email code (Ory Kratos). No password and no phone number. You confirm you are 18 or older. Your account gets a random ID; your email is never shown or used as a key.",
       "status": "decided",
       "doc": "docs/spec/01-accounts-and-identity.md"
     },
@@ -201,7 +201,7 @@
     }
   ],
   "architecture": {
-    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, servers run by vetted operators join one network, so no single party owns it, and no single server holds a full profile. Stage 1 is built so stage 2 needs no rewrite.",
+    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, servers run by vetted operators form one decentralised network: no server owns a person, and no server holds a full profile. Stage 1 is built so stage 2 needs no rewrite.",
     "stages": [
       {
         "id": "stage1",
@@ -213,11 +213,11 @@
         "id": "stage2",
         "title": "Stage 2: a network of vetted servers (later)",
         "status": "decided",
-        "summary": "Other cities or communities run their own server and join through an allow-list and a shared safety policy. Each person has a home server that holds their login and a small search card. Photos and profile texts are encrypted and split into pieces spread across several servers, so no server holds a full profile and some can go offline without losing anything. Servers mainly broker contact: answering searches, passing on messages, and sharing one ban list."
+        "summary": "Other cities or communities run servers that join through an allow-list and a shared safety policy. There are no home servers: nobody belongs to one server. Each person's data (search card, message mailbox, counters) is held by a small group of servers the network picks, and photos and profile texts are encrypted and split into pieces across servers, so no server holds a full profile and some can go offline without losing anything. Servers mainly broker contact: answering searches, passing on messages, and sharing one ban list. How exactly this works is still open."
       }
     ],
     "groundwork": [
-      "Account IDs include the home server (id@server) from day one.",
+      "Account IDs that don't depend on any one server (the exact format is being reconsidered, see Open questions).",
       "Safety data (bans, reports, verification) lives in its own service with an API, ready to be shared.",
       "Profile and photo storage sit behind one interface, so sharded storage can replace it later.",
       "Search reads only the fields it needs through its own interface, never the full profile.",
@@ -243,20 +243,20 @@
       },
       {
         "topic": "Sign-in",
-        "stage": "1+2",
+        "stage": "1",
         "choice": "Ory Kratos with passkeys + email codes",
         "status": "decided",
-        "why": "No passwords and no custom auth code to get wrong.",
+        "why": "No passwords and no custom auth code to get wrong. How sign-in works without home servers in stage 2 is open.",
         "alternatives": "Phone number, own auth",
         "doc": "docs/spec/01-accounts-and-identity.md"
       },
       {
         "topic": "Account IDs",
         "stage": "1+2",
-        "choice": "Random ID plus home server (id@server); one phone per account; no chat backup in the pilot",
-        "status": "decided",
-        "why": "Ready for a network without a migration; email never becomes a key.",
-        "alternatives": "Email or phone number as the ID",
+        "choice": "Reopened: random ID plus server name (id@server) ties people to a home server. Proposal: an ID made from a key created on the phone. One phone per account and no chat backup stay decided.",
+        "status": "open",
+        "why": "The network should have no home servers, and changing IDs later touches every table.",
+        "alternatives": "id@server (decided on 11 Oct, now reopened)",
         "doc": "docs/spec/01-accounts-and-identity.md"
       },
       {
@@ -332,9 +332,9 @@
       {
         "topic": "Network",
         "stage": "2",
-        "choice": "Allow-listed servers under a shared safety policy and one ban list",
+        "choice": "Decentralised network of vetted servers: no home servers, an allow-list, one shared safety policy and ban list",
         "status": "decided",
-        "why": "In an open network a banned person moves to the laxest server.",
+        "why": "No server owns a person; in an open network a banned person would move to the laxest server.",
         "alternatives": "Open federation like Mastodon, pure phone-to-phone",
         "doc": "docs/spec/12-stage-2-network.md"
       },
@@ -346,6 +346,14 @@
         "why": "A breach or a rogue operator of one server can't read whole profiles, and profiles survive servers going offline.",
         "alternatives": "Each server keeps its own users' full profiles",
         "doc": "docs/spec/12-stage-2-network.md"
+      },
+      {
+        "topic": "Who holds each person's data",
+        "stage": "2",
+        "choice": "Proposal: a small group of servers picked by the network from the account ID, acting only when most of the group agrees",
+        "status": "open",
+        "why": "No single server owns a person, and any one server can fail. Costs: much more engineering, slower search, and Ory Kratos would not fit stage 2.",
+        "alternatives": "Home servers (rejected by Hendrik)"
       }
     ]
   },
@@ -355,11 +363,11 @@
       {
         "n": 1,
         "title": "Accounts and identity",
-        "status": "decided",
+        "status": "partly",
         "doc": "docs/spec/01-accounts-and-identity.md",
         "points": [
           "Passkeys or email codes, no passwords, no phone number.",
-          "Account ID is a random ID plus the home server; email is never a key.",
+          "Reopened: the account ID format. id@server ties a person to a home server; the proposal is an ID made from a key created on the phone. Email is never a key either way.",
           "One phone per account in the pilot, no chat backup. A lost phone gets the account back, but not old chats."
         ]
       },
@@ -469,9 +477,9 @@
         "status": "partly",
         "doc": "docs/spec/12-stage-2-network.md",
         "points": [
-          "A vetted network with one shared ban list.",
+          "A decentralised network of vetted servers with one shared ban list. No home servers.",
           "No server holds a full profile: encrypted pieces spread redundantly across servers.",
-          "What search needs, and where it can be read, is still open."
+          "Who holds each person's data, how sign-in works, and what search can read are still open."
         ]
       }
     ],
@@ -492,6 +500,36 @@
   },
   "open": {
     "awaiting": [
+      {
+        "topic": "No home servers: a truly decentralised network (topics 1 and 12)",
+        "doc": "photos-and-profile-storage.md",
+        "questions": [
+          [
+            "Account ID made from a key created on the phone, with no server name in it?",
+            "Yes, from day one"
+          ],
+          [
+            "Each person's search card, mailbox and counters held by a small group of servers picked from their ID?",
+            "Yes"
+          ],
+          [
+            "Sign-in with the phone's key; Ory Kratos only for email codes on the stage 1 server?",
+            "Yes, with an external security review"
+          ],
+          [
+            "Assume honest but fallible operators, with joint signatures only for admitting accounts, access passes and key hand-over?",
+            "Yes"
+          ],
+          [
+            "Servers admitted to or removed from the network by a vote of the operators?",
+            "Yes"
+          ],
+          [
+            "Accept the costs: much more engineering, slower search, harder recovery and operations?",
+            "Your call"
+          ]
+        ]
+      },
       {
         "topic": "Gender, orientation and \"looking for\" (topic 2)",
         "doc": "identity-and-intentions-model.md",
@@ -565,10 +603,6 @@
             "Yes, start at 2 of 3"
           ],
           [
-            "Search card held only by each user's home server, searches sent to all servers?",
-            "Yes"
-          ],
-          [
             "Free-text keyword search: interest tags from a fixed list, drop it, or keep free text?",
             "Interest tags"
           ],
@@ -609,7 +643,8 @@
       {
         "area": "Stage 2 network",
         "items": [
-          "Which fields the readable search card holds, and on which servers.",
+          "How groups of servers agree on counters and signatures (replication method).",
+          "Which fields the readable search card holds.",
           "Who holds the keys to profile pieces, and how a viewer gets access.",
           "Splitting method and the values of k and n.",
           "Which protocol servers use to talk to each other.",
@@ -654,7 +689,7 @@
       "title": "Spec review",
       "state": "now",
       "items": [
-        "8 of 12 topics decided; 4 proposals waiting for a decision (see Open questions).",
+        "8 of 12 topics decided; 5 proposals waiting for a decision (see Open questions).",
         "Funding applications: NLnet (deadline 3 Nov 2026) and the Prototype Fund (30 Nov 2026)."
       ]
     },
@@ -688,7 +723,7 @@
       "title": "Stage 2: network of servers",
       "state": "later",
       "items": [
-        "Other cities or communities run vetted servers; profiles split across them."
+        "Other cities or communities run vetted servers in one decentralised network; profiles split across them."
       ]
     }
   ],
