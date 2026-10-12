@@ -1,6 +1,6 @@
 # 11. Test bots
 
-*Decided by Hendrik, 11 Oct 2026. Background: data-security.md §12.1 in the project research.*
+*Decided by Hendrik, 11 Oct 2026.*
 
 ## Decided
 
@@ -25,3 +25,7 @@
   devices. What phones add (mobile networks, push delivery, the app in the background) is
   covered by the testers using the real app. Scripted UI tests of the app on emulators or a
   spare test phone can come later.
+
+## Background
+
+Project research: security baseline (security/security-baseline.md, server and bots).

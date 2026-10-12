@@ -87,7 +87,7 @@
       "text": "Set filters (travel time, age, search groups and \"looking for\", relationship type, recently active, photo verified, interest tags) and browse 20 results a page. Search groups are two-way: you only see people who are also looking for someone like you. Age is two-way with a 5-year margin, and a symbol shows when you are outside someone's range. Results show the exact age, never the date of birth. Profile texts are searchable only for people who opt in.",
       "status": "decided",
       "screen": "search-list",
-      "doc": "docs/design/profile-discovery.md"
+      "doc": "docs/spec/10-search.md"
     },
     {
       "title": "Write one opening message",
@@ -247,7 +247,7 @@
         "choice": "React Native + Expo, libsignal in our own native Kotlin/Swift module",
         "why": "Fastest for one developer on both platforms; every option needs a native libsignal bridge anyway, and that module is reusable and fundable.",
         "alternatives": "Flutter, Kotlin Multiplatform, fully native Kotlin + Swift",
-        "doc": "docs/design/app-framework.md"
+        "doc": "docs/spec/14-app-framework.md"
       },
       {
         "topic": "Sign-in",
@@ -328,7 +328,7 @@
         "status": "decided",
         "why": "Better decisions, no dark patterns, no swipe-patent exposure.",
         "alternatives": "Card stack",
-        "doc": "docs/design/profile-discovery.md"
+        "doc": "docs/spec/10-search.md"
       },
       {
         "topic": "Keyword search",
@@ -337,7 +337,7 @@
         "status": "decided",
         "why": "Free text for everyone would need readable texts on the server and would find labels people chose to hide.",
         "alternatives": "Free-text search over all profiles, no keyword search",
-        "doc": "docs/spec/10-search-limits.md"
+        "doc": "docs/spec/10-search.md"
       },
       {
         "topic": "Two-way limits",
@@ -346,7 +346,7 @@
         "status": "decided",
         "why": "Cuts unwanted messages without hiding people over small differences. Accepted leak: symbols hint where the other person's limits are.",
         "alternatives": "Age and travel time both two-way, only search groups two-way",
-        "doc": "docs/spec/10-search-limits.md"
+        "doc": "docs/spec/10-search.md"
       },
       {
         "topic": "Profile data model",
@@ -575,7 +575,7 @@
         "n": 10,
         "title": "Search limits",
         "status": "decided",
-        "doc": "docs/spec/10-search-limits.md",
+        "doc": "docs/spec/10-search.md",
         "points": [
           "20 results a page, and the list ends.",
           "Interest tags instead of free-text keywords; profile texts searchable only for people who opt in (off by default, reciprocal). Search words are never logged.",
@@ -652,17 +652,17 @@
     "awaiting": [
       {
         "topic": "Relationship type (topic 2)",
-        "doc": "identity-and-intentions-model.md",
+        "doc": "docs/spec/02-profile-data-model.md",
         "questions": [
           [
-            "Describe relationship types beyond the intention with the draft dimensions (openness, length, intensity): openness two-way, length and intensity your own filter only?",
+            "Which relationship dimensions replace \"intensity\"? The draft proposes physical closeness, time together, commitment, and kids and family plans (openness and relationship status are already decided as their own fields).",
             "Draft proposal, not decided"
           ]
         ]
       },
       {
         "topic": "Photos (topic 7)",
-        "doc": "photos-and-profile-storage.md",
+        "doc": "docs/spec/07-photos.md",
         "questions": [
           [
             "Two tiers: public profile on the server, conversation-only content sent after a reply?",
@@ -839,43 +839,43 @@
       {
         "title": "Apply to the Prototype Fund",
         "area": "Funding",
-        "doc": "research/funding.md",
+        "doc": "research/legal-and-org/funding.md",
         "summary": "Pays developer time on public-interest open source (up to 47,500 € for one person). Current round closes 30 Nov 2026."
       },
       {
         "title": "Apply to NLnet for one component",
         "area": "Funding",
-        "doc": "research/funding.md",
+        "doc": "research/legal-and-org/funding.md",
         "summary": "For example the libsignal module for React Native/Expo or the encrypted chat relay. Deadline 3 Nov 2026, noon CET."
       },
       {
         "title": "Write down why the fake-data phases need no DPO",
         "area": "Legal",
-        "doc": "research/legal-entity-and-dpo.md",
+        "doc": "research/legal-and-org/legal.md",
         "summary": "Holds only while phases 2 to 4 really use fake data. A DPIA and an external DPO are needed once real dating data comes in."
       },
       {
         "title": "Human security review before any real data",
         "area": "Security",
-        "doc": "research/data-security.md",
+        "doc": "research/security/security-baseline.md",
         "summary": "Keep the pilot on test data until a person has reviewed the server, the relay and the sign-in setup."
       },
       {
         "title": "Invite-only waves, balanced and recruited at events",
         "area": "Launch",
-        "doc": "research/cold-start-berlin.md",
+        "doc": "research/product/cold-start-berlin.md",
         "summary": "Gate waves so the gender and orientation mix stays balanced; open an area only once new users would see real profiles on day one."
       },
       {
         "title": "Contact the Alovoa maintainer",
         "area": "Community",
-        "doc": "research/alovoa-dossier.md",
+        "doc": "research/archive/alovoa-dossier.md",
         "summary": "Report their encryption issue privately through their SECURITY.md and ask about sharing pieces later."
       },
       {
         "title": "Register the name as a trademark",
         "area": "Protection",
-        "doc": "research/threat-model-hostile-actors.md",
+        "doc": "research/security/threat-model-hostile-actors.md",
         "summary": "Once a name is chosen: German mark at the DPMA (around 290 €) before phase 5 (real profiles); consider an EU mark if stage 2 reaches other countries."
       }
     ]

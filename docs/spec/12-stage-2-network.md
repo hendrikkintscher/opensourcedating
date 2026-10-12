@@ -5,7 +5,7 @@ which replaces the earlier sharded design. Stage 1 (the Berlin pilot) stays one 
 Stage 1 runs project phases 2 to 6; stage 2 is built in phase 6 and is the natural setup for
 phase 7 (see [docs/phases.md](../phases.md)).*
 
-## Decided (12 Oct)
+## Decided (12 Oct, D2)
 
 - **The "3e" shape: one server program that runs on two levels.**
   - **Sealed level:** the parts that have to read data (search cards, admission and ban checks,
@@ -30,10 +30,10 @@ phase 7 (see [docs/phases.md](../phases.md)).*
   pure phone-to-phone stays rejected (bans can't be enforced, IP addresses are exposed, messages
   only arrive while both phones are on).
 
-## Proposed details (from the storage work and the design review, not yet decided)
+## Recommended, not yet decided
 
-See sections 3d and 3e of photos-and-profile-storage.md and section 5.6 of the design review in
-the project research.
+From the stage 2 reasoning (security/stage-2.md in the project research) and section 5.6 of the
+archived design review.
 
 - Search cards in the sealed level stay minimal (age, location tile, search groups, "looking
   for", interest tags, visibility limits), so an enclave break exposes little. Search is
@@ -69,3 +69,8 @@ the project research.
 - Search reads only the search card fields through a separate interface, never the full profile.
 - Safety and admission run as their own services, so they can move to the sealed level.
 - A device signing key is registered at sign-up (see [01](01-accounts-and-identity.md)).
+
+## Background
+
+Project research: stage 2 reasoning (security/stage-2.md); the rejected shard, DHT and home-server
+designs are in archive/stage-2-history.md; legal (legal-and-org/legal.md, controllership).

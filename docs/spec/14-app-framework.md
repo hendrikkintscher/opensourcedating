@@ -1,9 +1,10 @@
-# App framework: which one, and why
+# 14. App framework
 
-*Design note, 11 Oct 2026. Compares React Native/Expo, Flutter, Kotlin Multiplatform and fully
-native apps for the Android + iOS client. Points marked "inferred" are judgement, not measured.*
+*Decided by Hendrik, 11 Oct 2026 (PR #7). Moved here from docs/design/app-framework.md on
+12 Oct 2026. Compares React Native/Expo, Flutter, Kotlin Multiplatform and fully native apps for
+the Android + iOS client. Points marked "inferred" are judgement, not measured.*
 
-## Recommendation
+## Decided
 
 **React Native with Expo** (development builds, not Expo Go), with all chat cryptography in a
 small native module of our own: Kotlin calling Signal's official `libsignal-android` on Android,
@@ -56,9 +57,9 @@ so moving to fully native later throws away UI code, not the crypto.
 
 ## Pros and cons
 
-### React Native + Expo (recommended)
+### React Native + Expo (chosen)
 **Pros**
-- One TypeScript codebase for both platforms; quickest to a working pilot.
+- One TypeScript codebase for both platforms; quickest to a working prototype.
 - Expo Modules API makes writing the Kotlin/Swift libsignal module straightforward and keeps it
   isolated and testable on its own.
 - That module is a clean, reusable deliverable for **NLnet (deadline 3 Nov)** and fits the
@@ -111,16 +112,16 @@ so moving to fully native later throws away UI code, not the crypto.
 ## What would change the recommendation
 - If an independent audit of a cross-platform libsignal wrapper appears, Flutter becomes as
   attractive as React Native.
-- If the pilot shows the bridge causing real security or reliability problems, move to native;
+- If the tester phases (3 and 4) show the bridge causing real security or reliability problems, move to native;
   the crypto module carries over unchanged.
 - If a funder wants a component for the Kotlin ecosystem, KMP would earn a second look.
 
-## Next steps once decided
+## Follows from this (once building starts)
 1. Set up an Expo app (TypeScript, development builds) in `app/`, built locally/CI, no EAS
    or Expo push required.
 2. Write the `libsignal` Expo module (Kotlin + Swift) with its own tests; keys in
    Keystore/Keychain.
-3. Pitch that module plus the store-until-delivered relay to NLnet by 3 Nov.
+3. Pitch that module plus the store-until-delivered relay to NLnet (deadline 3 Nov 2026).
 
 ## Sources
 - libsignal (official bindings: Java, Swift, TypeScript): https://github.com/signalapp/libsignal
@@ -129,4 +130,4 @@ so moving to fully native later throws away UI code, not the crypto.
 - Compose Multiplatform 1.8.0 (iOS stable): https://blog.jetbrains.com/kotlin/2025/05/compose-multiplatform-1-8-0-released
 - KMP roadmap, Swift export status: https://blog.jetbrains.com/kotlin/2025/08/kmp-roadmap-aug-2025/
 - Alovoa app (Expo): https://github.com/Alovoa/alovoa-expo
-- Project research: `research/data-security.md`, `research/alovoa-dossier.md`, `research/funding.md`
+- Project research: security-baseline, archive/alovoa-dossier and funding (project folder `research/`)

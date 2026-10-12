@@ -6,8 +6,8 @@ decisions D1 and D3); email provider rules added 12 Oct 2026 (D14).*
 ## Decisions
 
 - **Sign-in:** Ory Kratos with passkeys first and email one-time codes as the fallback. No
-  passwords, no phone number required. (Decided earlier, see data-security.md §12.2 in the
-  project research.)
+  passwords, no phone number required (decided 11 Oct; confirmed with the recovery waiting
+  period in D3).
 - **Account ID (decided 12 Oct):** a random, opaque 128-bit ID. It contains no server name (no
   `@server`) and is not derived from any key. Every table, chat key, block and report refers to
   this ID. The email address is only a login detail and is never used as a key or shown to
@@ -31,7 +31,7 @@ decisions D1 and D3); email provider rules added 12 Oct 2026 (D14).*
   recovery ("this wasn't me"). This stops someone who can read the email inbox (for example an
   ex-partner) from silently taking over the account and its chats.
 
-## Email for login codes and notices (decided 12 Oct, D14)
+## Decided: email for login codes and notices (12 Oct, D14)
 
 An email alone can reveal that someone uses a dating app, so:
 
@@ -55,7 +55,7 @@ say the data stays in the EU (check each sub-processor list before signing). Bre
 platform with open and click tracking that would need turning off. For the fake-data phases (2 to 4) the free
 tiers are enough.
 
-## Follows from this
+## Recommended, follows from this
 
 - Sessions are listed in settings, with "log out everywhere".
 - Re-authentication before deleting the account, exporting data or changing the email address.
@@ -72,3 +72,8 @@ tiers are enough.
   and Android Credential Manager). Fallback if not: a small, well-reviewed WebAuthn library in
   our API for passkeys, with Kratos for email codes and sessions.
 - An optional recovery PIN, and whether the waiting period should be longer than 24 hours.
+
+## Background
+
+Project research: security baseline (security/security-baseline.md, login section), stage 2
+reasoning (security/stage-2.md), and the archived design review of 12 Oct.

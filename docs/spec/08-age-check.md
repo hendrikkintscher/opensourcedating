@@ -1,12 +1,11 @@
 # 8. Age check (18+)
 
-*Decided by Hendrik, 11 Oct 2026. Background: safety-and-moderation.md §2 and
-legal-gdpr-berlin.md §7 in the project research. Stronger check reviewed 12 Oct 2026 (design
-review decision D10: deferred).*
+*Decided by Hendrik, 11 Oct 2026. Stronger check reviewed 12 Oct 2026 (design review decision
+D10: deferred).*
 
 ## Decided
 
-- **Fake-data phases (3 and 4):** a self-declared date of birth at sign-up. Under 18 cannot sign up.
+- **Fake-data phases (2 to 4):** a self-declared date of birth at sign-up. Under 18 cannot sign up.
 - **Before real users join (gate to phase 5):** date of birth plus a selfie age estimate that runs only on the
   phone; the selfie is discarded right after. Anyone estimated close to 18 (for example under
   25) needs a stronger check. The EU age-verification app becomes the preferred method once it
@@ -16,7 +15,7 @@ review decision D10: deferred).*
 - **Built behind one interface** from the start, so the method can change (self-declared,
   selfie estimate, EU app, German eID) without touching the rest of the app.
 
-## Stronger check: deferred until before real users, the gate to phase 5 (D10, 12 Oct)
+## Deferred: the stronger check, decided before real users (gate to phase 5, D10)
 
 Hendrik deferred this decision on 12 Oct. The fake-data phases keep the self-declared date of
 birth. The stronger check is chosen before real users join, and sign-up does not open to the
@@ -45,3 +44,8 @@ once Germany offers it.
 - Whether on-device facial age estimation counts as biometric categorisation under the AI Act
   (Annex III 1(b)) or is excluded as ancillary (lawyer).
 - Which on-device age-estimation model to use.
+
+## Background
+
+Project research: safety and moderation (age verification section), legal
+(legal-and-org/legal.md, age and youth protection).

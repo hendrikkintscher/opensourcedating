@@ -1,213 +1,76 @@
-# App spec: features, rules and open decisions
+# App spec
 
-*Started 11 Oct 2026. Goes through every key feature and rule of the app, one topic at a time,
-before prototype code is written. The aim: find the decisions that would cause a lot of rework if
-we got them wrong now, and settle them first. Each topic gets its own file in this folder once
-Hendrik has decided it.*
+*Started 11 Oct 2026, restructured 12 Oct 2026. Goes through every key feature and rule of the
+app, one topic at a time, before prototype code is written, so the decisions that would cause a
+lot of rework later are settled first. Each topic has one file; a decision is written in exactly
+one of them. The one-line index of all decisions is [docs/decisions.md](../decisions.md).*
 
 Phases: numbers like "phase 5" refer to the seven project phases in
 [docs/phases.md](../phases.md). "Before real users" always means the gate before phase 5.
+"Stage 1" and "stage 2" mean the server setup (one server, then a network), see
+[12](12-stage-2-network.md).
 
-Status words: **decided** (Hendrik decided), **recommended** (research suggests it, not yet
-confirmed), **open** (needs a decision).
+## How a topic file is laid out
+
+Every file starts with a status line (who decided what, when, with decision numbers), then:
+**Decided** sections, **Recommended, not yet decided**, **Still open**, and **Background** (which
+project research notes hold the reasoning). Research notes live in the project folder, not in
+this repo; where they and a spec differ, the spec wins.
 
 ## Topics, costliest to change first
 
-"Cost" means how much code and data would have to be rewritten or migrated if we changed our mind
-after the prototype is built.
+"Cost" means how much code and data would have to be rewritten or migrated if we changed our
+mind after the prototype is built.
 
-| # | Topic | Cost to change later | Status | Spec |
-|---|---|---|---|---|
-| 1 | Accounts and identity (account IDs, devices, recovery) | Very high: every table, every chat key and every block points at an account ID | decided | [01](01-accounts-and-identity.md) |
-| 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | decided (relationship type open) | [02](02-profile-data-model.md) |
-| 3 | Visibility stages: what others see before and after a conversation starts | High: replaces the old like/like-back stages in data-scope.md | decided | [03](03-visibility.md) |
-| 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
-| 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (backup moderator still to be named) | [05](05-safety.md) |
-| 6 | Location tiles and travel-time bands | Medium: decided design and defaults | decided | [06](06-location.md) |
-| 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
-| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided (stronger check deferred to before phase 5) | [08](08-age-check.md) |
-| 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | decided (lawyer confirms ban-record period) | [09](09-deletion-and-retention.md) |
-| 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
-| 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
-| 12 | Stage 2: one server program on sealed and plain levels | Low now, as long as 1, 2 and 5 are built ready for stage 2 | decided (details open) | [12](12-stage-2-network.md) |
-| 13 | Common frustrations: from chat to meeting, going silent, current photos, AI-written chats | Low to medium: a message type, a few profile fields, on-phone timers | decided | [13](13-frustrations.md) |
+| # | Topic | Cost to change later | Status |
+|---|---|---|---|
+| [01](01-accounts-and-identity.md) | Accounts and identity: account IDs, sign-in, devices, recovery, email | Very high: every table, chat key and block points at an account ID | decided |
+| [02](02-profile-data-model.md) | Profile data model: gender labels, search groups, "looking for", profile texts, first publishing | Very high: drives the two-way filter, Art. 9 encryption and the community test | decided, except relationship dimensions |
+| [03](03-visibility.md) | Who sees what, and when: six steps, per-field visibility, pause | High | decided |
+| [04](04-conversations.md) | Opening messages, inbox, conversations, meeting suggestions, ending | High: shapes the relay protocol and libsignal sessions | decided |
+| [05](05-safety.md) | Safety: block, report, moderation, verification, ban evasion | High: safety data lives in its own service to be shareable in stage 2 | decided, backup moderator to be named |
+| [06](06-location.md) | Location tiles and travel-time bands | Medium | decided |
+| [07](07-photos.md) | Photos: upload pipeline, moderation, resolutions | Medium | **open** |
+| [08](08-age-check.md) | Age check (18+) | Medium: sits behind one interface so the method can change | decided, stronger check deferred to phase 5 |
+| [09](09-deletion-and-retention.md) | Deletion, retention, export, inactive accounts, IP logging | Medium: designed into every store, backups included | decided, lawyer confirms ban-record period |
+| [10](10-search.md) | Search and browsing: filters, sort, tags, limits, no swiping | Low to medium | decided |
+| [11](11-test-bots.md) | Test bots and test data separation | Low, but needed from day one | decided |
+| [12](12-stage-2-network.md) | Stage 2: one server program on sealed and plain levels | Low now, if 01, 02 and 05 are built ready for it | decided, details open |
+| [13](13-frustrations.md) | Common frustrations: the reasons and principles; the features live in 02 to 05 | Low to medium | decided |
+| [14](14-app-framework.md) | App framework: React Native with Expo, native libsignal module | High once built | decided |
 
-## Inventory
+## Principles across all topics
 
-### 1. Accounts and identity
-- Sign-in: **decided**, Ory Kratos, passkeys first with email one-time codes as the fallback, no
-  passwords, no phone number required. Open: a one-day spike to confirm Kratos supports passkeys
-  in native apps.
-- **Decided (12 Oct):** account ID is a random opaque 128-bit ID, with no `@server` and not
-  derived from a key, bound to the device key by a certificate; email is never a key.
-- **Decided:** one phone per account in the pilot, no chat backup; a lost phone means the account
-  comes back by email code but old chats are gone.
-- **Decided (12 Oct):** account recovery waits 24 hours, with a notice to the old phone that can
-  cancel it. See [01](01-accounts-and-identity.md).
-- Recommended: session list and "log out everywhere"; re-authentication before deletion, export
-  or email change.
-- **Decided (12 Oct):** login codes and notices go through an EU-based transactional email
-  provider with a DPA, not a US provider; minimal email content, no app name in the subject if
-  possible. The provider itself is not chosen yet (comparison in [01](01-accounts-and-identity.md)).
+- **Search, never swiping.** No card stacks, no endless feed, no daily picks, no streaks
+  ([10](10-search.md)).
+- **No hidden ranking and no paid visibility.** Sort order is always the user's choice.
+- **No "who viewed me", no "online now", no exact distance** ([03](03-visibility.md)).
+- **No AI writing help** of any kind ([04](04-conversations.md)).
+- **Details only become more precise when that person acts** ([03](03-visibility.md)).
+- **The server learns as little as possible:** chats are end-to-end encrypted, location is only
+  as precise as the person chose, nudges and timers run on the phone.
+- **Built for stage 2 from the start:** account IDs, the safety service, profile storage and
+  search sit behind their own interfaces ([12](12-stage-2-network.md)).
 
-### 2. Profile data model
-- Fields from [profile-discovery.md](../design/profile-discovery.md): first name or nickname,
-  date of birth, home tile, photos, several free-text sections, interests, relationship type,
-  gender, "looking for".
-- **Decided:** filtering is two-way: you only see people who are also looking for someone like
-  you.
-- **Decided:** queer community joins only once gender, preference and safety features are mature,
-  which means the data model must already support them from the first deployed version
-  (phase 2); the community tests it in phase 4.
-- **Decided (12 Oct):** search groups are self-chosen and separate from gender labels;
-  orientation is an optional display-only label, hidden by default, never a filter; "looking
-  for" is stored as a list of intentions, one shown in the first version; no trans filter in
-  the fake-data phases. See [02](02-profile-data-model.md).
-- **Decided (12 Oct):** a new profile is hidden until the person publishes it the first time; the
-  publish step holds the privacy choices and the Art. 9 consent.
-- Open: gender as one value or several, and a free-text option.
-- Open: what describes a relationship type beyond the intention (the "intensity" question).
-- Recommended: Art. 9 fields encrypted per field, only the filter service can read them;
-  not shown in previews by default.
-- Open: which free-text sections the profile has; health fields stay out of v1.
+## Still open
 
-### 3. Visibility stages
-- **Decided (12 Oct):** six steps replace the old like/like-back stages: not findable, search
-  preview, full profile, opening message, conversation, shared by choice. Details get more
-  precise only when the person described takes an action. See [03](03-visibility.md).
-- **Decided (12 Oct):** a fit checklist on every full profile shows why someone is in your
-  results, using only fields they made visible.
-- **Decided (12 Oct):** "only people I write to" mode and a pause switch, free for everyone;
-  any photo can be conversation-only, but one stays visible in search unless in that mode.
-- **Decided (12 Oct):** no secret "both interested" signal. Compatibility questions with a
-  visible score are a later idea (phase 5 at the earliest).
-- **Decided (12 Oct):** exact age in previews; the date of birth is never shown.
-- **Decided (12 Oct):** once a conversation has started, a finer location is shared only phone
-  to phone inside the encrypted chat; the server never holds more than the search precision.
+One line each; the details are in the linked topic.
 
-### 4. Conversations
-- **Decided:** one text-only opening message per person; a reply starts the conversation; weekly
-  allowance starting at 5, lower for new accounts; unanswered messages disappear after 30 days;
-  no read receipts on opening messages.
-- **Decided:** chat is libsignal end to end, relay keeps ciphertext only until delivery.
-- **Decided:** opening messages are end-to-end encrypted; "no links" is enforced on the
-  recipient's phone; spam is handled by allowance, rate limits and reports.
-- **Decided:** either person can end a conversation; no further messages or new opening message
-  between the two, but no block. See [04](04-conversations.md).
-- **Decided (12 Oct):** inbox cap of 15 unanswered opening messages, adjustable by the
-  recipient; senders get a "full" notice with no number. The allowance comes back when an
-  opening message expires unanswered after 30 days. 5 opening messages a week, 2 for accounts
-  under two weeks old or unverified; numbers tuned with pilot data. Future idea, not decided: an
-  allowance relative to the number of profiles that fit the sender's search.
-- **Decided (12 Oct):** the recipient chooses how their inbox is sorted and can filter it (for
-  example, hide opening messages from unverified accounts); ending a conversation can send an
-  optional short, kind fixed message.
-- Recommended: photos in chat off for the prototype; push payloads never carry content.
-
-### 5. Safety
-- **Decided:** hide, block (silent, both ways, server-enforced), report (always also blocks).
-  Reported users are told only when action is taken, with reasons and appeal.
-- Recommended: report attaches the reported messages from the reporter's phone.
-- **Decided:** message franking in the message format from the first version, so forwarded
-  evidence can be verified.
-- **Decided:** bans, reports, verification and photo hashes in their own service with an API.
-  See [05](05-safety.md).
-- Ban evasion uses hashes of the photo files (like PDQ), hashed email and device signals, never
-  face templates. Keeping biometric data of banned users without consent is the riskiest item
-  the legal research found (legal-gdpr-berlin.md §8). Ban records are kept 2 years, pending the
-  lawyer (see [09](09-deletion-and-retention.md)).
-- Recommended: moderator web tool with queue, evidence view, warn/suspend/ban, statement of
-  reasons (DSA Art. 17).
-- **Decided (12 Oct):** seven report reasons (under 18; fake profile or scam; unwanted sexual
-  content; harassment or threats; something happened when we met; hate; other). Response
-  targets: CSAM and threats to life immediately, under 18 within a few hours, the rest within
-  24 hours. Hendrik plus one backup moderate the pilot, both with escalation contacts.
-- Open: who the backup moderator is.
-
-### 6. Location
-- **Decided:** no GPS; user picks a home tile on a ~500 m Berlin grid, chooses the precision;
-  changes are rate-limited; only the current tile is stored; travel-time bands, never distances.
-- **Decided (12 Oct):** precision levels 500 m, about 1.5 km (3x3 tiles) and district; the
-  default is about 1.5 km.
-- **Decided:** the server stores only the precision the user chose; tile changes at most once a
-  day and 4 times in 30 days. See [06](06-location.md).
-
-### 7. Photos
-- Recommended: re-encode and strip metadata on the server, CSAM hash check, nudity pre-screen,
-  human review before a photo goes public; signed short-lived URLs; perceptual hash for ban
-  evasion.
-- Open: how many photos, and whether previews get a lower resolution.
-
-### 8. Age check
-- Recommended: date of birth plus on-device selfie age estimation, stronger check near the line,
-  EU age-verification app once Germany offers it; store only the result, never images or IDs.
-- **Decided:** self-declared date of birth for the fake-data phases; the stronger check before real
-  users join; only the result is stored. See [08](08-age-check.md).
-- **Deferred (12 Oct):** which stronger check, decided before real users (phase 5). Recommended: German
-  eID age-only query, with an ID scan through an EU vendor as the fallback.
-
-### 9. Deletion and retention
-- **Decided (12 Oct):** instant deletion, with a hold on accounts under an open report (needs a
-  DPIA basis); re-login before deleting; deletion list replayed after restores; 30-day backups;
-  photos crypto-shredded.
-- **Decided (12 Oct):** after a ban only the ban record is kept, 2 years pending the lawyer.
-  Export by request during the test, in the app before real users (phase 5). Inactive accounts hidden at
-  3 months, deleted at 12, with warnings.
-- **Decided (12 Oct):** no IP logging during the fake-data phases; before real users (phase 5), keyed IP
-  hashes (key rotated daily, kept 7 days) in every layer: reverse proxy, Kratos, relay, safety
-  service. See [09](09-deletion-and-retention.md).
-
-### 10. Search
-- **Decided:** filters (travel time, age, search groups, "looking for", active recently, photo
-  verified, interest tags), user-chosen sort, no hidden ranking, paginated results, no "who
-  viewed me", no "online now", no paid visibility.
-- **Decided (12 Oct):** interest tags (fixed list plus own short tags) instead of free-text
-  keywords; profile texts searchable only for people who opt in (off by default, reciprocal);
-  search words never logged; saved searches and alerts run on the phone.
-- **Decided (12 Oct):** age is two-way with a 5-year margin; travel time is one-way; a symbol on
-  a tile shows when you are outside the other person's range.
-- **Decided (12 Oct):** "photo verified" means an optional on-device liveness and face
-  comparison with its own consent; only a signed yes or no reaches the server. See
-  [05](05-safety.md).
-- **Decided:** 20 results per page; 50 full-profile views a day for accounts under two weeks old,
-  200 after; "Hide" lasts until undone. See [10](10-search-limits.md).
-
-### 11. Test bots
-- **Decided** (see [11](11-test-bots.md)): every bot row carries a bot flag, a visible "test bot" badge, generated photos
-  only, bot runner on another machine using the public API, all bot data wipeable in one go.
-
-### 12. Stage 2
-- **Decided (12 Oct, replaces the sharded design):** one server program on two levels. The
-  sealed (enclave) level reads search cards and runs admission and photo checks; it is run only
-  by vetted operators in data centres under a signed agreement. The plain level stores and relays
-  ciphertext; anyone in the EU who signs the operator agreement can run it. Shards, k-of-n and
-  home servers are dropped. See [12](12-stage-2-network.md).
-- Open: who holds profile content keys, sealed-server hosting, the protocol between servers and
-  deletion across servers.
-- What stage 1 must already get right so stage 2 is not a rewrite: account IDs per topic 1,
-  safety and admission in their own services (topic 5), and profile storage and search behind
-  their own interfaces.
-
-### 13. Common frustrations
-- **Decided (12 Oct):** "Suggest meeting" message in the chat; an optional "how soon do you like
-  to meet" profile field; a private nudge after a week of writing; a private "did you meet, did
-  you feel safe" check-in that feeds safety only.
-- **Decided (12 Oct):** ending kindly is the one-tap default (three fixed lines or free text);
-  quiet chats archive themselves after 30 days; "waiting for your reply" is visible only to you;
-  reply or end before writing to someone new once more than 8 chats wait on you.
-- **Decided (12 Oct):** photo age bands, a dated verification badge renewed yearly, "taken in the
-  app" photos, narrative profile prompts, and a soft report sub-reason for stale photos.
-- **Decided (12 Oct):** the app never offers AI writing help; the other person's profile sits
-  beside the text field with one fixed tip; a community agreement at first publish asks people to
-  end chats with a tap and write their own messages. See [13](13-frustrations.md).
-
-## Outside the topic list
-
-- **Decided (12 Oct):** the e.V. is founded now, before any public announcement or grant press,
-  with seven founders. See [GOVERNANCE.md](../../GOVERNANCE.md).
-- **Decided (12 Oct):** a section 7 additional permission for app store distribution, in
-  [LICENSE-EXCEPTION](../../LICENSE-EXCEPTION). The lawyer is asked once about libsignal (AGPL)
-  on iOS.
+- Relationship dimensions: which dimensions, answers and layout (**not decided**, draft in the
+  project research) ([02](02-profile-data-model.md)). Wording of the narrative prompts.
+- Photos: the whole pipeline, number of photos, preview resolution ([07](07-photos.md)).
+- Kratos passkeys in native apps: a one-day spike before building login; optional recovery PIN
+  ([01](01-accounts-and-identity.md)).
+- Which EU email provider ([01](01-accounts-and-identity.md)).
+- Who the backup moderator is; escalation contacts per case ([05](05-safety.md)).
+- The stronger age check, before real users ([08](08-age-check.md)).
+- Search request rate limits ([10](10-search.md)).
+- Stage 2: who holds profile content keys, sealed-server hosting, the protocol between servers,
+  deletion across servers, the operator agreement ([12](12-stage-2-network.md)).
+- **For the lawyer:** ban-record period and legal basis, the open-report hold, JMStV age level,
+  AI Act readings for age estimation and photo verification, operator roles in stage 2,
+  libsignal on iOS. The full list of questions for the lawyer and DPO is in the project research
+  (legal-and-org/legal.md).
 
 ## Wording
 
