@@ -1,8 +1,7 @@
 # 6. Location
 
-*Decided by Hendrik, 11 Oct 2026. Background: data-security.md §6 and §12.4 in the project
-research. How precisely other people see a location is part of the "who sees what, and when"
-topic, worked out separately.*
+*Decided by Hendrik, 11 Oct 2026. Precision levels and default added 12 Oct 2026 (design review
+decision D6). Background: data-security.md §6 and §12.4 in the project research.*
 
 ## Already decided earlier
 
@@ -22,7 +21,16 @@ topic, worked out separately.*
   30 days. This stops someone from moving step by step across the map to pin down another
   person's location, while still allowing a real move.
 
-## Still open
+## Decided 12 Oct
 
-- Which precision levels are offered (500 m tile, ~1 km, district) and which is the default;
-  belongs to the "who sees what, and when" topic.
+- **Precision levels for search:** 500 m tile, about 1.5 km (a 3x3 block of 500 m tiles) and
+  district. **The default is about 1.5 km.** 500 m and district can be chosen instead.
+  - Why: a determined attacker with many accounts can narrow anyone down to their stored tile, so
+    the stored precision is the real limit. A 500 m tile around someone's home is a handful of
+    streets; 1.5 km is a neighbourhood. Districts in Berlin are large (up to about 30 km across),
+    which makes travel-time bands much less useful.
+- **Finer location only phone to phone in a conversation.** The server never holds anything
+  finer than the search precision the person chose. If someone wants to share a finer tile or a
+  meeting spot, their phone sends it to the other phone inside the end-to-end encrypted chat,
+  never through the server in readable form. So the server never sees a finer tile, before or
+  after a conversation starts.
