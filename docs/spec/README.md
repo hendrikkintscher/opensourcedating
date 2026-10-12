@@ -15,27 +15,31 @@ after the prototype is built.
 
 | # | Topic | Cost to change later | Status | Spec |
 |---|---|---|---|---|
-| 1 | Accounts and identity (account IDs, devices, recovery, federation-ready addresses) | Very high: every table, every chat key and every block points at an account ID | decided | [01](01-accounts-and-identity.md) |
-| 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | being worked out in a separate thread | |
-| 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread | |
+| 1 | Accounts and identity (account IDs, devices, recovery) | Very high: every table, every chat key and every block points at an account ID | decided | [01](01-accounts-and-identity.md) |
+| 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | decided (relationship type open) | [02](02-profile-data-model.md) |
+| 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread (exact age and location in conversations decided 12 Oct) | |
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (details open) | [05](05-safety.md) |
-| 6 | Location tiles and travel-time bands | Medium: decided design, defaults still open | decided (display defaults open) | [06](06-location.md) |
+| 6 | Location tiles and travel-time bands | Medium: decided design and defaults | decided | [06](06-location.md) |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
 | 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided | [08](08-age-check.md) |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | being worked out in a separate thread (pros and cons) | |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
-| 12 | Stage 2: network of vetted servers | Low now, as long as 1, 2 and 5 are built federation-ready | decided (search data open) | [12](12-stage-2-network.md) |
+| 12 | Stage 2: one server program on sealed and plain levels | Low now, as long as 1, 2 and 5 are built ready for stage 2 | decided (details open) | [12](12-stage-2-network.md) |
 
 ## Inventory
 
 ### 1. Accounts and identity
-- Sign-in: **decided**, Ory Kratos, passkeys plus email one-time codes, no passwords, no phone
-  number required.
-- **Decided:** account ID is a random ID plus the home server (`id@server`); email is never a key.
+- Sign-in: **decided**, Ory Kratos, passkeys first with email one-time codes as the fallback, no
+  passwords, no phone number required. Open: a one-day spike to confirm Kratos supports passkeys
+  in native apps.
+- **Decided (12 Oct):** account ID is a random opaque 128-bit ID, with no `@server` and not
+  derived from a key, bound to the device key by a certificate; email is never a key.
 - **Decided:** one phone per account in the pilot, no chat backup; a lost phone means the account
-  comes back by email code but old chats are gone. See [01](01-accounts-and-identity.md).
+  comes back by email code but old chats are gone.
+- **Decided (12 Oct):** account recovery waits 24 hours, with a notice to the old phone that can
+  cancel it. See [01](01-accounts-and-identity.md).
 - Recommended: session list and "log out everywhere"; re-authentication before deletion, export
   or email change.
 
@@ -43,13 +47,18 @@ after the prototype is built.
 - Fields from [profile-discovery.md](../design/profile-discovery.md): first name or nickname,
   date of birth, home tile, photos, several free-text sections, interests, relationship type,
   gender, "looking for".
-- **Decided:** "looking for" filtering is two-way: you only see people who are also looking for
-  someone like you.
+- **Decided:** filtering is two-way: you only see people who are also looking for someone like
+  you.
 - **Decided:** queer community joins only once gender, preference and safety features are mature,
   which means the data model must already support them in phase 1.
-- Open: gender as one value or several, a free-text option, and how "looking for" is expressed
-  (genders, relationship types, both).
-- Open: is orientation a stored field at all, or only implied by gender plus "looking for"?
+- **Decided (12 Oct):** search groups are self-chosen and separate from gender labels;
+  orientation is an optional display-only label, hidden by default, never a filter; "looking
+  for" is stored as a list of intentions, one shown in the first version; no trans filter in
+  phase 1. See [02](02-profile-data-model.md).
+- **Decided (12 Oct):** a new profile is hidden until the person publishes it the first time; the
+  publish step holds the privacy choices and the Art. 9 consent.
+- Open: gender as one value or several, and a free-text option.
+- Open: what describes a relationship type beyond the intention (the "intensity" question).
 - Recommended: Art. 9 fields encrypted per field, only the filter service can read them;
   not shown in previews by default.
 - Open: which free-text sections the profile has; health fields stay out of v1.
@@ -58,8 +67,9 @@ after the prototype is built.
 - data-scope.md defines stages S0 to S5 around liking and liking back. Those steps no longer
   exist (replaced by opening messages), so the stages need redefining, for example: account,
   in search, opening message sent, conversation started, shared by choice.
-- Open: exact age or age band in previews.
-- Open: what precision of location the other person sees once a conversation has started.
+- **Decided (12 Oct):** exact age in previews; the date of birth is never shown.
+- **Decided (12 Oct):** once a conversation has started, a finer location is shared only phone
+  to phone inside the encrypted chat; the server never holds more than the search precision.
 
 ### 4. Conversations
 - **Decided:** one text-only opening message per person; a reply starts the conversation; weekly
@@ -91,8 +101,8 @@ after the prototype is built.
 ### 6. Location
 - **Decided:** no GPS; user picks a home tile on a ~500 m Berlin grid, chooses the precision;
   changes are rate-limited; only the current tile is stored; travel-time bands, never distances.
-- Open: default precision shown in search (research says coarser than 500 m, e.g. district or
-  1 km, with 500 m opt-in).
+- **Decided (12 Oct):** precision levels 500 m, about 1.5 km (3x3 tiles) and district; the
+  default is about 1.5 km.
 - **Decided:** the server stores only the precision the user chose; tile changes at most once a
   day and 4 times in 30 days. See [06](06-location.md).
 
@@ -115,9 +125,17 @@ after the prototype is built.
 - Open: inactive period, ban-record period (lawyer).
 
 ### 10. Search
-- **Decided:** filters (travel time, age, gender and "looking for", relationship type, active
-  recently, photo verified, keywords), user-chosen sort, no hidden ranking, paginated results,
-  no "who viewed me", no "online now", no paid visibility.
+- **Decided:** filters (travel time, age, search groups, "looking for", active recently, photo
+  verified, interest tags), user-chosen sort, no hidden ranking, paginated results, no "who
+  viewed me", no "online now", no paid visibility.
+- **Decided (12 Oct):** interest tags (fixed list plus own short tags) instead of free-text
+  keywords; profile texts searchable only for people who opt in (off by default, reciprocal);
+  search words never logged; saved searches and alerts run on the phone.
+- **Decided (12 Oct):** age is two-way with a 5-year margin; travel time is one-way; a symbol on
+  a tile shows when you are outside the other person's range.
+- **Decided (12 Oct):** "photo verified" means an optional on-device liveness and face
+  comparison with its own consent; only a signed yes or no reaches the server. See
+  [05](05-safety.md).
 - **Decided:** 20 results per page; 50 full-profile views a day for accounts under two weeks old,
   200 after; "Hide" lasts until undone. See [10](10-search-limits.md).
 
@@ -126,14 +144,16 @@ after the prototype is built.
   only, bot runner on another machine using the public API, all bot data wipeable in one go.
 
 ### 12. Stage 2
-- Planned: allow-listed servers under a shared policy. Open questions are on the dashboard
-  (cross-server search, protocol, deletion across servers).
-- **Decided:** vetted network; no server holds a full profile, profiles are stored as encrypted,
-  redundant pieces across servers; servers mainly broker contact. What search needs, and where it
-  can be read, is still to be worked out. See [12](12-stage-2-network.md).
-- What stage 1 must already get right so stage 2 is not a rewrite: account IDs that include the
-  home server (topic 1), safety data in its own service (topic 5), and profile storage and search
-  behind their own interfaces.
+- **Decided (12 Oct, replaces the sharded design):** one server program on two levels. The
+  sealed (enclave) level reads search cards and runs admission and photo checks; it is run only
+  by vetted operators in data centres under a signed agreement. The plain level stores and relays
+  ciphertext; anyone in the EU who signs the operator agreement can run it. Shards, k-of-n and
+  home servers are dropped. See [12](12-stage-2-network.md).
+- Open: who holds profile content keys, sealed-server hosting, the protocol between servers and
+  deletion across servers.
+- What stage 1 must already get right so stage 2 is not a rewrite: account IDs per topic 1,
+  safety and admission in their own services (topic 5), and profile storage and search behind
+  their own interfaces.
 
 ## Wording
 
