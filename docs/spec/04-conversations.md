@@ -1,7 +1,8 @@
 # 4. Opening messages and conversations
 
 *Decided by Hendrik, 11 Oct 2026. Builds on [profile-discovery.md](../design/profile-discovery.md)
-(section 4, Messaging).*
+(section 4, Messaging). Inbox cap and allowance numbers added 12 Oct 2026 (design review
+decision D17).*
 
 ## Already decided earlier
 
@@ -24,6 +25,21 @@
 - **Either person can end a conversation at any time.** The server then refuses all further
   messages between the two, and neither can send a new opening message to the other. Unlike a
   block, both can still appear in each other's search.
+
+## Inbox cap and allowance (decided 12 Oct, D17)
+
+- **Inbox cap:** at most 15 unanswered opening messages wait in someone's inbox. The recipient
+  can change the number in settings. When the inbox is full, a sender gets a notice that it is
+  full, with no number, and keeps the allowance for that message.
+- **Allowance returned on expiry:** when an opening message expires unanswered after the full 30
+  days, the sender gets that allowance back. Silence the sender can't control is not punished.
+- **Weekly allowance:** 5 opening messages per week; 2 per week for accounts under two weeks old
+  or without verification. The numbers are starting values and get tuned with pilot data.
+- **Accepted leak:** the "full" notice tells a sender that the recipient gets many messages (yes
+  or no only, never a count).
+- **Future idea, not decided:** the weekly allowance could later be set relative to the number
+  of available profiles (for example, the profiles that fit the sender's search) instead of a
+  fixed number.
 
 ## Rejected alternative
 
