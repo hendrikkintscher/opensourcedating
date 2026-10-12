@@ -64,6 +64,10 @@ through people and open, transparent moderation, not by identity vendors.*
 - **Inviter accountability.** When an invited person is banned, the inviter's invite rights are
   paused for a period; repeated bans among someone's invitees end their invite rights. A
   suspension alone does not touch the inviter.
+- **Inviter protection (decided 12 Oct).** A paused inviter is told only "paused for N days
+  because an invitation led to a ban", never which invitee. The app tells every invitee that
+  inviters have no power over their account, so a threat of "I got you in, I can get you out"
+  is known to be empty.
 - **Moderator approval.** A new sign-up is approved by a moderator before the profile becomes
   findable, with a short "who invited you and why do you want to join" field, as Mastodon's
   approval mode does.
@@ -126,13 +130,33 @@ the ban or lifts the suspension within 24 hours. The person is told nothing whil
 therefore costs at most a day of silence; a day in which a reported attacker could reach
 another person is the greater harm. A suspension does not touch the inviter.
 
+*Against misuse (decided 12 Oct):* the immediate effect needs an **accepted meeting
+suggestion** between the reporter and the reported person (the "Did you meet?" check-in links
+it automatically). A reason-5 report without one goes to the queue like any other reason, with
+the 24-hour target. So nobody can silence a person they never arranged to meet, and a meeting
+arranged off the app is reported the normal way.
+
+**False reports have a cost (decided 12 Oct).** Reports are never anonymous to moderators; the
+reported person never learns who reported them. The report form says that a report is a
+statement we act on. A report found baseless after review is noted on the reporter's record and
+weighs less next time. A report found malicious (an invented account of events) or a pattern of
+baseless reports breaks the rules in the same way harassment does: a warning, then a ban. The
+rules say this openly. A lifted suspension leaves no trace on the reported person's record.
+
+**Independent reports (decided 12 Oct).** Several reports against one person weigh more only
+when they are independent: from accounts in different invite subtrees, each with its own
+conversation with the reported person, and not filed within the same short window. Otherwise
+the moderator tool shows a cluster warning instead of "several reports".
+
 **Earlier contacts are told after a confirmed ban for harm at a meeting (decided 12 Oct).**
 When a ban after a reason-5 report is confirmed, everyone who had an accepted meeting with that
 person in the last months gets one neutral notice: "Someone you met through the app was removed
 for breaking our safety rules. If something happened, you can tell us or find support here",
 with the report flow and the support contacts. No name of the reporter, no details of the
 report. The lawyer approves the wording and the look-back period before phase 5, since the
-notice points at a person on the strength of one confirmed report.
+notice points at a person on the strength of one confirmed report. If an appeal succeeds after
+the notice went out, the same people get one neutral line that the earlier notice no longer
+applies, and the ban record is deleted (decided 12 Oct).
 
 **Meeting tools (decided 12 Oct).** An accepted meeting suggestion offers *Share my date* and
 a *check-in timer* to a friend; both run entirely on the phone and are described in
@@ -144,6 +168,15 @@ fixed safety tips (public place, tell a friend, own transport).
 - CSAM and threats to life: immediately.
 - Under 18: within a few hours.
 - Everything else: within 24 hours.
+
+**Four eyes, recusal and the other side (decided 12 Oct).** A confirmed ban and the notice
+to earlier contacts need both moderators. A moderator who personally knows either person steps
+aside, and the log says so (with two moderators, the other one then decides alone). An appeal
+goes to the moderator who did not decide. Before confirming a ban after a meeting report, the
+moderator may ask the reported person for their own franked copy of the conversation, without
+saying who reported them; the suspension stays in force meanwhile. The appeal always allows the
+reported person to submit their copy. Every decision is logged; the public moderation report
+shows counts only, never people.
 
 **Who moderates during the pilot:** Hendrik plus one named backup (not named yet). Both have
 the escalation contacts at hand: the police, and jugendschutz.net or the BKA as the lawyer
