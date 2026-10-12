@@ -16,8 +16,8 @@ project research. Search filters are in [10](10-search-limits.md) and
 - **"Looking for" is stored as a list of intentions.** The first version of the app shows and
   lets people pick one, but the data model holds a list, so more can be shown later without a
   migration.
-- **No trans filter in phase 1.** Before phase 2 we ask the queer community whether and how to
-  offer a T4T option.
+- **No trans filter in the fake-data phases.** Before phase 4 (community test) we ask the
+  queer community whether and how to offer a T4T option.
 - **Exact age in previews; the date of birth is never shown.** Age filters reveal the exact age
   by stepping anyway, so age bands would only look private.
 

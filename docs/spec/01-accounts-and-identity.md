@@ -52,7 +52,7 @@ and directory listings; check prices and the DPA before signing):
 
 **Recommendation (not decided):** Scaleway or Lettermint, because both are transactional-only and
 say the data stays in the EU (check each sub-processor list before signing). Brevo works too, but is a marketing
-platform with open and click tracking that would need turning off. For the fake-data test the free
+platform with open and click tracking that would need turning off. For the fake-data phases (2 to 4) the free
 tiers are enough.
 
 ## Follows from this

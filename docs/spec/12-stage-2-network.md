@@ -1,7 +1,9 @@
 # 12. Stage 2: one server program on two levels
 
 *First decided by Hendrik, 11 Oct 2026. Rewritten 12 Oct 2026 after design review decision D2,
-which replaces the earlier sharded design. Stage 1 (the Berlin pilot) stays one server.*
+which replaces the earlier sharded design. Stage 1 (the Berlin pilot) stays one server.
+Stage 1 runs project phases 2 to 6; stage 2 is built in phase 6 and is the natural setup for
+phase 7 (see [docs/phases.md](../phases.md)).*
 
 ## Decided (12 Oct)
 

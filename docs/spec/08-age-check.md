@@ -6,8 +6,8 @@ review decision D10: deferred).*
 
 ## Decided
 
-- **Fake-data test phase:** a self-declared date of birth at sign-up. Under 18 cannot sign up.
-- **Before real users join:** date of birth plus a selfie age estimate that runs only on the
+- **Fake-data phases (3 and 4):** a self-declared date of birth at sign-up. Under 18 cannot sign up.
+- **Before real users join (gate to phase 5):** date of birth plus a selfie age estimate that runs only on the
   phone; the selfie is discarded right after. Anyone estimated close to 18 (for example under
   25) needs a stronger check. The EU age-verification app becomes the preferred method once it
   is available in Germany.
@@ -16,9 +16,9 @@ review decision D10: deferred).*
 - **Built behind one interface** from the start, so the method can change (self-declared,
   selfie estimate, EU app, German eID) without touching the rest of the app.
 
-## Stronger check: deferred until before real users (D10, 12 Oct)
+## Stronger check: deferred until before real users, the gate to phase 5 (D10, 12 Oct)
 
-Hendrik deferred this decision on 12 Oct. The fake-data test keeps the self-declared date of
+Hendrik deferred this decision on 12 Oct. The fake-data phases keep the self-declared date of
 birth. The stronger check is chosen before real users join, and sign-up does not open to the
 public before it exists.
 
