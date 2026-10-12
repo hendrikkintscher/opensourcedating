@@ -4,7 +4,7 @@ Thanks for helping. A few rules keep this project free and legally clean.
 
 ## Licence
 
-All code in this repository is licensed under the **GNU Affero General Public License v3.0 or later** (AGPL-3.0-or-later), see [LICENSE](LICENSE). By contributing you agree that your contribution is released under the same licence. There is no contributor licence agreement: you keep the copyright in your contribution, and nobody (including the maintainers) can relicense the project under closed terms.
+All code in this repository is licensed under the **GNU Affero General Public License v3.0 or later** (AGPL-3.0-or-later), see [LICENSE](LICENSE), with the app store permission in [LICENSE-EXCEPTION](LICENSE-EXCEPTION). By contributing you agree that your contribution is released under the same licence, including that permission. There is no contributor licence agreement: you keep the copyright in your contribution, and nobody (including the maintainers) can relicense the project under closed terms.
 
 ## Sign off every commit (DCO)
 
