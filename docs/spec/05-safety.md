@@ -132,6 +132,13 @@ it automatically). A reason-5 report without one goes to the queue like any othe
 the 24-hour target. So nobody can silence a person they never arranged to meet, and a meeting
 arranged off the app is reported the normal way.
 
+**False reports have a cost (decided 12 Oct).** Reports are never anonymous to moderators; the
+reported person never learns who reported them. The report form says that a report is a
+statement we act on. A report found baseless after review is noted on the reporter's record and
+weighs less next time. A report found malicious (an invented account of events) or a pattern of
+baseless reports breaks the rules in the same way harassment does: a warning, then a ban. The
+rules say this openly. A lifted suspension leaves no trace on the reported person's record.
+
 **Earlier contacts are told after a confirmed ban for harm at a meeting (decided 12 Oct).**
 When a ban after a reason-5 report is confirmed, everyone who had an accepted meeting with that
 person in the last months gets one neutral notice: "Someone you met through the app was removed
