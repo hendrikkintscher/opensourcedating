@@ -1,7 +1,8 @@
 # 5. Safety and moderation
 
 *Decided by Hendrik, 11 Oct 2026. Background: safety-and-moderation.md, data-security.md §8 and
-§12.3, legal-gdpr-berlin.md §8 in the project research.*
+§12.3, legal-gdpr-berlin.md §8 in the project research. Photo verification added 12 Oct 2026
+(design review decision D9).*
 
 ## Already decided earlier
 
@@ -20,6 +21,24 @@
   version.** Each chat message, opening messages included, carries a cryptographic commitment
   that the relay stamps on delivery. When someone reports a conversation, their phone forwards the
   messages, and moderation can check they are genuine without the server ever reading chats.
+
+## Photo verification (decided 12 Oct)
+
+The "photo verified" search filter uses **on-device liveness and face comparison**:
+
+- **Optional.** The face comparison needs its own explicit Art. 9 consent, separate from the
+  profile consent. Saying no costs only the "photo verified" badge.
+- **Nothing biometric leaves the phone.** The check runs on the phone; no selfie or face template
+  is uploaded. The selfie and template are deleted after the check. The server gets only a
+  signed yes or no plus the model version.
+- **App attestation on the result** (Play Integrity / App Attest), because the server can't see
+  the check and a modified app could fake a yes. Profile photo changes trigger a new check, and
+  users can report a wrong badge. The app says plainly what the badge does and doesn't prove.
+- **Before real users:** the DPO and the lawyer confirm the consent design and the AI Act
+  reading (1:1 verification is outside the high-risk biometric identification category, but
+  Art. 50 transparency and the DPIA still apply).
+- The on-device model is open source, with a known false acceptance rate across skin tones and
+  genders, and is tested before launch.
 
 ## Ban evasion, kept clear of biometric data
 
