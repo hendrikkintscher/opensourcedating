@@ -118,6 +118,14 @@ asks for a re-verification or new photos; no ban for this alone.
 feed no ranking (there is none). For the pilot only, and with its own consent, an aggregate count
 (met / not met) tells us whether the design works.
 
+**Suspend at once on a meeting report (decided 12 Oct).** One credible report with reason 5
+("Something happened when we met") suspends the reported account immediately, before a
+moderator has looked: the profile is hidden and no messages go in or out. A moderator confirms
+the ban or lifts the suspension within 24 hours. The person is told nothing while suspended
+(see above) and gets the reasons and an appeal only if the ban is confirmed. A false report
+therefore costs at most a day of silence; a day in which a reported attacker could reach
+another person is the greater harm. A suspension does not touch the inviter.
+
 **Response targets:**
 
 - CSAM and threats to life: immediately.
@@ -136,8 +144,6 @@ advises.
 
 ## Still open
 
-- Whether one credible "something happened when we met" report suspends the account before
-  review (being decided).
 - Meeting tools (share my date, check-in timer to a friend), telling earlier contacts about a
   ban for offline harm (being decided).
 - Admission for phase 6, once sign-up opens to everyone.

@@ -62,8 +62,7 @@ One line each; the details are in the linked topic.
 - Kratos passkeys in native apps: a one-day spike before building login; optional recovery PIN
   ([01](01-accounts-and-identity.md)).
 - Which EU email provider ([01](01-accounts-and-identity.md)).
-- Who the backup moderator is; escalation contacts per case; suspension on a first meeting
-  report; meeting tools; admission in phase 6 ([05](05-safety.md)).
+- Who the backup moderator is; escalation contacts per case; meeting tools; admission in phase 6 ([05](05-safety.md)).
 - The stronger age check, before real users ([08](08-age-check.md)).
 - Search request rate limits ([10](10-search.md)).
 - Stage 2: who holds profile content keys, sealed-server hosting, the protocol between servers,
