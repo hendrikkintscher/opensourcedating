@@ -42,6 +42,7 @@ named phase gate).
 | Opening messages end to end encrypted; "no links" enforced on the recipient's phone; either person can end a conversation | 11 Oct 2026 | [04](spec/04-conversations.md) |
 | **D17** Inbox cap of 15, allowance back after 30 days unanswered, 5 opening messages a week (2 for new or unverified accounts) | 12 Oct 2026 | [04](spec/04-conversations.md) |
 | Hide, silent two-way block, report always blocks; separate safety service; message franking; ban evasion without face data | 11 Oct 2026 | [05](spec/05-safety.md) |
+| Chats are never scanned, not even on the phone; every new conversation shows one fixed safety tip instead | 12 Oct 2026 | [05](spec/05-safety.md) |
 | **D9** Photo verification: optional on-device liveness and face comparison, only a signed yes or no leaves the phone | 12 Oct 2026 | [05](spec/05-safety.md) |
 | **D16** Seven report reasons, response targets, Hendrik plus one named backup moderate | 12 Oct 2026 | [05](spec/05-safety.md) |
 | No GPS: home tile on a ~500 m Berlin grid, travel-time bands, only the chosen precision stored, tile changes rate-limited | 11 Oct 2026 | [06](spec/06-location.md) |

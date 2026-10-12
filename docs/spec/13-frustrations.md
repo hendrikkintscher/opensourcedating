@@ -23,8 +23,9 @@ mid-conversation, old or embellished photos and profiles, and AI-written chats.
    ghosted want closure. So ending well is one tap.
 3. **Give the chat a destination.** Meeting is the obvious next step, offered, not forced.
 4. **Honesty through structure, not surveillance.** Chats are end-to-end encrypted; we cannot and
-   will not read or classify them. Profile and message design make specific, personal content the
-   easy path.
+   will not read or classify them, not even on the phone (confirmed 12 Oct: safety warnings are
+   fixed tips, never based on chat content, see [05](05-safety.md)). Profile and message design
+   make specific, personal content the easy path.
 5. **Computed on the phone.** Timers, labels and nudges use timestamps the two phones already
    have. The server learns nothing new.
 

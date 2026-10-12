@@ -22,6 +22,16 @@ report and meeting check-in added 12 Oct 2026 (topic 13).*
   that the relay stamps on delivery. When someone reports a conversation, their phone forwards the
   messages, and moderation can check they are genuine without the server ever reading chats.
 
+## Decided: fixed safety tips, no scanning of chats (12 Oct)
+
+- **Every new conversation shows one fixed safety tip** to both people, for example: "Never send
+  money to someone you haven't met. Stay in the app until you feel sure." It is the same text for
+  everyone and does not depend on what anyone writes.
+- **No scanning of chat text, not even on the phone.** No scam keyword warnings, no hint when
+  someone shares a messenger handle or payment link early, and no "are you sure?" check before
+  sending a message. Scams and harassment are handled by the allowance, rate limits, reports with
+  franked evidence and moderation. This keeps principle 4 of [13](13-frustrations.md).
+
 ## Decided: photo verification (12 Oct, D9)
 
 The "photo verified" search filter uses **on-device liveness and face comparison**:
