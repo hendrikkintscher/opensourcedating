@@ -52,6 +52,36 @@ The "photo verified" search filter uses **on-device liveness and face comparison
 - **Dated and renewed yearly (topic 13):** the badge shows the month of the check ("verified
   Mar 2026") and lapses after twelve months until the check runs again.
 
+## Decided: who gets in, phases 3 to 5 (12 Oct)
+
+*Background: dangerous-people.md in the project research. Decided after looking at how open
+projects (Mastodon, Lobste.rs, Tildes, Matrix, Bluesky) handle dangerous people: by admission
+through people and open, transparent moderation, not by identity vendors.*
+
+- **Invite tree.** In phases 3 to 5 every account is created from an invitation by an existing
+  member. The safety service records who invited whom. Moderators can see the tree; users
+  cannot, and it is never public (on a dating app that would out people).
+- **Inviter accountability.** When an invited person is banned, the inviter's invite rights are
+  paused for a period; repeated bans among someone's invitees end their invite rights. A
+  suspension alone does not touch the inviter.
+- **Moderator approval.** A new sign-up is approved by a moderator before the profile becomes
+  findable, with a short "who invited you and why do you want to join" field, as Mastodon's
+  approval mode does.
+- **No ID, no eID, no face data** is needed for admission in these phases. The optional
+  "photo verified" badge (D9) stays as it is.
+- **Later, optional:** a "verified real person" badge through public infrastructure only (the
+  German eID or the EU digital identity wallet), never through a commercial ID-scan vendor,
+  together with a "only verified people can write to me" setting. Not designed yet.
+- **Limit.** The tree does not stop a first offence by a well-liked person, and it stops
+  working once sign-up opens to all of Berlin (phase 6). Admission for phase 6 is decided
+  before that phase, when the EU wallet may be available.
+
+**Not doing, and why:** background checks and sex-offender registries (US practice, no such
+registry in Germany, and no legal basis for a dating app to process criminal-record data under
+GDPR Art. 10, lawyer to confirm); asking users for a Führungszeugnis (same legal problem, easy
+to fake, excludes people, misses the great majority of offenders who were never convicted, and
+gives false comfort); sharing bans with other companies (accusation data, defamation risk).
+
 ## Decided: ban evasion, kept clear of biometric data
 
 To stop banned people from coming back, the safety service keeps, for a fixed period:
@@ -88,6 +118,27 @@ asks for a re-verification or new photos; no ban for this alone.
 feed no ranking (there is none). For the pilot only, and with its own consent, an aggregate count
 (met / not met) tells us whether the design works.
 
+**Suspend at once on a meeting report (decided 12 Oct).** One credible report with reason 5
+("Something happened when we met") suspends the reported account immediately, before a
+moderator has looked: the profile is hidden and no messages go in or out. A moderator confirms
+the ban or lifts the suspension within 24 hours. The person is told nothing while suspended
+(see above) and gets the reasons and an appeal only if the ban is confirmed. A false report
+therefore costs at most a day of silence; a day in which a reported attacker could reach
+another person is the greater harm. A suspension does not touch the inviter.
+
+**Earlier contacts are told after a confirmed ban for harm at a meeting (decided 12 Oct).**
+When a ban after a reason-5 report is confirmed, everyone who had an accepted meeting with that
+person in the last months gets one neutral notice: "Someone you met through the app was removed
+for breaking our safety rules. If something happened, you can tell us or find support here",
+with the report flow and the support contacts. No name of the reporter, no details of the
+report. The lawyer approves the wording and the look-back period before phase 5, since the
+notice points at a person on the strength of one confirmed report.
+
+**Meeting tools (decided 12 Oct).** An accepted meeting suggestion offers *Share my date* and
+a *check-in timer* to a friend; both run entirely on the phone and are described in
+[04](04-conversations.md#decided-the-conversation). Before a first meeting the app shows the
+fixed safety tips (public place, tell a friend, own transport).
+
 **Response targets:**
 
 - CSAM and threats to life: immediately.
@@ -106,13 +157,16 @@ advises.
 
 ## Still open
 
+- Admission for phase 6, once sign-up opens to everyone.
 - Who the backup moderator is.
-- Which escalation contacts apply to which case (lawyer).
+- Which escalation contacts apply to which case; wording and look-back period of the notice to
+  earlier contacts; GDPR Art. 10 reading of background checks (lawyer).
 - Retention: ban records are kept 2 years pending the lawyer, see
   [09](09-deletion-and-retention.md); the legal basis for keeping them after consent is
   withdrawn still needs the lawyer.
 
 ## Background
 
-Project research: safety and moderation (security/safety-and-moderation.md), security
-baseline, legal (legal-and-org/legal.md, the answers to the safety questions).
+Project research: safety and moderation (security/safety-and-moderation.md), dangerous people
+(security/dangerous-people.md), security baseline, legal (legal-and-org/legal.md, the answers
+to the safety questions).
