@@ -52,6 +52,7 @@ named phase gate).
 | Instant suspension only when an accepted meeting suggestion exists between reporter and reported; otherwise the report is reviewed first | 12 Oct 2026 | [05](spec/05-safety.md) |
 | False reports: baseless ones noted on the reporter's record, malicious or repeated ones get a warning then a ban; reports never anonymous to moderators | 12 Oct 2026 | [05](spec/05-safety.md) |
 | Bans and notices need both moderators; recusal when a moderator knows either person; appeal to the other moderator; the reported person may be asked for their franked copy before a ban | 12 Oct 2026 | [05](spec/05-safety.md) |
+| Reports count as independent only across invite subtrees with own conversations; paused inviters are not told which invitee; a successful appeal retracts the notice and deletes the ban record | 12 Oct 2026 | [05](spec/05-safety.md) |
 | No GPS: home tile on a ~500 m Berlin grid, travel-time bands, only the chosen precision stored, tile changes rate-limited | 11 Oct 2026 | [06](spec/06-location.md) |
 | **D6** Precision levels 500 m, about 1.5 km (default) and district; finer location only phone to phone | 12 Oct 2026 | [06](spec/06-location.md) |
 | Photos: pipeline and moderation not decided yet | open | [07](spec/07-photos.md) |
