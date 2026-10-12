@@ -1,7 +1,8 @@
 # 8. Age check (18+)
 
 *Decided by Hendrik, 11 Oct 2026. Background: safety-and-moderation.md §2 and
-legal-gdpr-berlin.md §7 in the project research.*
+legal-gdpr-berlin.md §7 in the project research. Stronger check reviewed 12 Oct 2026 (design
+review decision D10: deferred).*
 
 ## Decided
 
@@ -15,8 +16,32 @@ legal-gdpr-berlin.md §7 in the project research.*
 - **Built behind one interface** from the start, so the method can change (self-declared,
   selfie estimate, EU app, German eID) without touching the rest of the app.
 
+## Stronger check: deferred until before real users (D10, 12 Oct)
+
+Hendrik deferred this decision on 12 Oct. The fake-data test keeps the self-declared date of
+birth. The stronger check is chosen before real users join, and sign-up does not open to the
+public before it exists.
+
+Why it matters: the Commission's DSA Art. 28 guidelines (published 10 Oct 2025) reject
+self-declaration and expect verification, not estimation, for high-risk services. A micro
+enterprise is exempt from Art. 28, but regulators, the KJM and app stores will still compare
+against it once real users arrive.
+
+| Option | Pros | Cons |
+|---|---|---|
+| A. German eID age-only query for anyone the estimate puts under 25 | Strong and privacy-friendly: only "over 18" comes back | Needs a Berechtigungszertifikat and integration work; many people never activated their eID |
+| B. ID-document scan through an EU vendor | Strong and familiar | Creates an ID dataset at the vendor; cost per check |
+| C. Human video check | No vendor | Staff time; close to biometric processing; uncomfortable for users |
+
+**Recommendation (not decided):** A, the German eID age-only query, with B, an ID scan through an
+EU vendor, as the fallback for people without a working eID. The EU age app becomes the default
+once Germany offers it.
+
 ## Still open
 
-- Which stronger check to use near the line before the EU app exists (lawyer: what level of age
-  assurance the JMStV expects for a dating app without explicit content).
+- The stronger check itself (above), decided before real users.
+- What level of age assurance the JMStV expects for a dating app without explicit content
+  (lawyer).
+- Whether on-device facial age estimation counts as biometric categorisation under the AI Act
+  (Annex III 1(b)) or is excluded as ancillary (lawyer).
 - Which on-device age-estimation model to use.
