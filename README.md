@@ -8,7 +8,7 @@ allows distribution through app stores such as the Apple App Store: see
 
 ## Colleague portal
 
-A read-only dashboard (features, two-stage architecture, suggestions, design mockups), file browser and
+A read-only introduction and dashboard (what and why, how it works, two-stage architecture, decisions, open questions, next steps, design mockups), file browser and
 live chat feed. Stdlib-only Python, nothing to install.
 
 ### Public copy (no login, always current)
