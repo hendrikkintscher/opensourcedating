@@ -1,5 +1,9 @@
 # opensourcedating
 
+Where the project stands and what comes next: [the seven project phases](docs/phases.md)
+(planning now; bots, then testers with fake profiles, then real profiles, then Berlin, then
+beyond). The app spec is in [docs/spec](docs/spec/README.md).
+
 ## Licence
 
 AGPL-3.0-or-later, see [LICENSE](LICENSE), with one additional permission under section 7 that

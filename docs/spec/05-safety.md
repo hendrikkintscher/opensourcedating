@@ -35,7 +35,7 @@ The "photo verified" search filter uses **on-device liveness and face comparison
 - **App attestation on the result** (Play Integrity / App Attest), because the server can't see
   the check and a modified app could fake a yes. Profile photo changes trigger a new check, and
   users can report a wrong badge. The app says plainly what the badge does and doesn't prove.
-- **Before real users:** the DPO and the lawyer confirm the consent design and the AI Act
+- **Before real users (gate to phase 5):** the DPO and the lawyer confirm the consent design and the AI Act
   reading (1:1 verification is outside the high-risk biometric identification category, but
   Art. 50 transparency and the DPIA still apply).
 - The on-device model is open source, with a known false acceptance rate across skin tones and

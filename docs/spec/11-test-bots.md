@@ -5,7 +5,7 @@
 ## Decided
 
 - **Every bot account and everything it creates is marked as bot data**, from the first version,
-  so all bot data can be wiped in one go at the end of the test phase.
+  so all bot data can be wiped in one go at the end of the fake-data phases, before phase 5.
 - **Testers see a visible "test bot" badge** on bot profiles and messages.
 - **Bot photos are generated or licensed**, never photos of real people.
 - **Bots run on a separate machine, not the app server**, and use the same public HTTPS API as

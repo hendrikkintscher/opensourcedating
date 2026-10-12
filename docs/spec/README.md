@@ -5,6 +5,9 @@ before prototype code is written. The aim: find the decisions that would cause a
 we got them wrong now, and settle them first. Each topic gets its own file in this folder once
 Hendrik has decided it.*
 
+Phases: numbers like "phase 5" refer to the seven project phases in
+[docs/phases.md](../phases.md). "Before real users" always means the gate before phase 5.
+
 Status words: **decided** (Hendrik decided), **recommended** (research suggests it, not yet
 confirmed), **open** (needs a decision).
 
@@ -22,7 +25,7 @@ after the prototype is built.
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (backup moderator still to be named) | [05](05-safety.md) |
 | 6 | Location tiles and travel-time bands | Medium: decided design and defaults | decided | [06](06-location.md) |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
-| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided (stronger check deferred to before real users) | [08](08-age-check.md) |
+| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided (stronger check deferred to before phase 5) | [08](08-age-check.md) |
 | 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | decided (lawyer confirms ban-record period) | [09](09-deletion-and-retention.md) |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
@@ -53,11 +56,12 @@ after the prototype is built.
 - **Decided:** filtering is two-way: you only see people who are also looking for someone like
   you.
 - **Decided:** queer community joins only once gender, preference and safety features are mature,
-  which means the data model must already support them in phase 1.
+  which means the data model must already support them from the first deployed version
+  (phase 2); the community tests it in phase 4.
 - **Decided (12 Oct):** search groups are self-chosen and separate from gender labels;
   orientation is an optional display-only label, hidden by default, never a filter; "looking
   for" is stored as a list of intentions, one shown in the first version; no trans filter in
-  phase 1. See [02](02-profile-data-model.md).
+  the fake-data phases. See [02](02-profile-data-model.md).
 - **Decided (12 Oct):** a new profile is hidden until the person publishes it the first time; the
   publish step holds the privacy choices and the Art. 9 consent.
 - Open: gender as one value or several, and a free-text option.
@@ -127,9 +131,9 @@ after the prototype is built.
 ### 8. Age check
 - Recommended: date of birth plus on-device selfie age estimation, stronger check near the line,
   EU age-verification app once Germany offers it; store only the result, never images or IDs.
-- **Decided:** self-declared date of birth for the fake-data test; the stronger check before real
+- **Decided:** self-declared date of birth for the fake-data phases; the stronger check before real
   users join; only the result is stored. See [08](08-age-check.md).
-- **Deferred (12 Oct):** which stronger check, decided before real users. Recommended: German
+- **Deferred (12 Oct):** which stronger check, decided before real users (phase 5). Recommended: German
   eID age-only query, with an ID scan through an EU vendor as the fallback.
 
 ### 9. Deletion and retention
@@ -137,9 +141,9 @@ after the prototype is built.
   DPIA basis); re-login before deleting; deletion list replayed after restores; 30-day backups;
   photos crypto-shredded.
 - **Decided (12 Oct):** after a ban only the ban record is kept, 2 years pending the lawyer.
-  Export by request during the test, in the app before real users. Inactive accounts hidden at
+  Export by request during the test, in the app before real users (phase 5). Inactive accounts hidden at
   3 months, deleted at 12, with warnings.
-- **Decided (12 Oct):** no IP logging during the fake-data test; before real users, keyed IP
+- **Decided (12 Oct):** no IP logging during the fake-data phases; before real users (phase 5), keyed IP
   hashes (key rotated daily, kept 7 days) in every layer: reverse proxy, Kratos, relay, safety
   service. See [09](09-deletion-and-retention.md).
 

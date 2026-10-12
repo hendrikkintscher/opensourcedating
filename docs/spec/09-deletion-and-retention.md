@@ -33,8 +33,8 @@ one deletes older data at the next cleanup run. The privacy policy changes each 
 
 ## Export (decided)
 
-- **During the fake-data test:** by request, assembled by hand within a month.
-- **Before real users:** self-service in the app. Re-login first; download in the app only, with
+- **During the fake-data phases (2 to 4):** by request, assembled by hand within a month.
+- **Before real users (gate to phase 5):** self-service in the app. Re-login first; download in the app only, with
   a link valid for minutes. Never sent as an email attachment.
 - **Included:** profile, photos, settings, location tile, contact list and opening-message counts,
   blocks, reports you made, account and ban decisions about you with their reasons.
@@ -51,8 +51,8 @@ one deletes older data at the next cleanup run. The privacy policy changes each 
 
 ## IP addresses in logs (decided, D11)
 
-- **During the fake-data test: no IP logging.** Rate limits work in memory.
-- **Before real users: keyed hashes of IP addresses**, never raw addresses. The key is rotated
+- **During the fake-data phases (2 to 4): no IP logging.** Rate limits work in memory.
+- **Before real users (gate to phase 5): keyed hashes of IP addresses**, never raw addresses. The key is rotated
   daily and the hashes are kept 7 days. That is enough to spot sign-up farms and link abuse
   within a week, and the hashes can't be handed over as addresses. Hashed IPs are still personal
   data and appear in access requests.
