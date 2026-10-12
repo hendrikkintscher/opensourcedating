@@ -7,7 +7,7 @@ entered; nothing personal.
 
 A read-only site colleagues open via a public link (dashboard of features, two-stage
 architecture diagram, design mockups, file browser and a live feed of Claude Code chats).
-Stdlib-only Python, no installs. Details are in `README.md` ("Colleague portal").
+Stdlib-only Python, no installs. Details are in `portal/README.md`.
 
 **Published via Tailscale Funnel** (decided 2026-10-11, overriding the earlier
 tailnet-only design): only the host machine needs Tailscale; colleagues open a plain

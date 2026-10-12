@@ -1,18 +1,17 @@
 # 5. Safety and moderation
 
-*Decided by Hendrik, 11 Oct 2026. Background: safety-and-moderation.md, data-security.md §8 and
-§12.3, legal-gdpr-berlin.md §8 in the project research. Photo verification added 12 Oct 2026
-(design review decision D9); report reasons, response times and staffing added 12 Oct 2026
-(D16).*
+*Decided by Hendrik, 11 Oct 2026. Photo verification added 12 Oct 2026 (design review decision
+D9); report reasons, response times and staffing added 12 Oct 2026 (D16); dated badge, stale-photo
+report and meeting check-in added 12 Oct 2026 (topic 13).*
 
-## Already decided earlier
+## Decided: hide, block, report
 
 - **Hide** removes a person from your results (undoable). **Block** is silent, both ways and
   enforced by the server. **Report** always also blocks.
 - Reported users are told nothing when a report is filed; they are told, with reasons and a way
   to appeal, only when action is taken (DSA Art. 17 statement of reasons).
 
-## Decided now
+## Decided: the safety service
 
 - **A separate safety service from day one.** Bans, reports, moderation decisions, verification
   status and ban-evasion records live in their own service with its own database and API, apart
@@ -23,7 +22,7 @@
   that the relay stamps on delivery. When someone reports a conversation, their phone forwards the
   messages, and moderation can check they are genuine without the server ever reading chats.
 
-## Photo verification (decided 12 Oct)
+## Decided: photo verification (12 Oct, D9)
 
 The "photo verified" search filter uses **on-device liveness and face comparison**:
 
@@ -40,10 +39,10 @@ The "photo verified" search filter uses **on-device liveness and face comparison
   Art. 50 transparency and the DPIA still apply).
 - The on-device model is open source, with a known false acceptance rate across skin tones and
   genders, and is tested before launch.
-- **Dated and renewed yearly (topic 13):** the badge shows the month of the check and lapses
-  after twelve months until the check runs again.
+- **Dated and renewed yearly (topic 13):** the badge shows the month of the check ("verified
+  Mar 2026") and lapses after twelve months until the check runs again.
 
-## Ban evasion, kept clear of biometric data
+## Decided: ban evasion, kept clear of biometric data
 
 To stop banned people from coming back, the safety service keeps, for a fixed period:
 
@@ -58,7 +57,7 @@ the legal research flags as the riskiest item in the safety design. File hashes 
 to identify a person and are not face recognition. Ban records are kept for 2 years, pending the
 lawyer (see [09](09-deletion-and-retention.md)).
 
-## Reports and moderation (decided 12 Oct, D16)
+## Decided: reports and moderation (12 Oct, D16)
 
 **Report reasons.** The report screen offers seven reasons:
 
@@ -73,10 +72,11 @@ lawyer (see [09](09-deletion-and-retention.md)).
 Reason 2 has a milder sub-choice, **"Photos don't look like the person"** (topic 13): moderation
 asks for a re-verification or new photos; no ban for this alone.
 
-**"Did you meet?" check-in (topic 13).** After an accepted meeting time has passed, each
-person's app asks privately whether they met and felt safe. "I felt unsafe" opens the report flow
-with reason 5. Answers never reach the other person and feed no ranking; an aggregate count for
-the pilot needs its own consent.
+**"Did you meet?" check-in (topic 13).** After an accepted meeting time has passed (see
+[04](04-conversations.md)), each person's app asks privately: *Did you meet? Did you feel safe?*
+"I felt unsafe" opens the report flow with reason 5. Answers never reach the other person and
+feed no ranking (there is none). For the pilot only, and with its own consent, an aggregate count
+(met / not met) tells us whether the design works.
 
 **Response targets:**
 
@@ -88,6 +88,12 @@ the pilot needs its own consent.
 the escalation contacts at hand: the police, and jugendschutz.net or the BKA as the lawyer
 advises.
 
+## Recommended, not yet decided
+
+- A report attaches the reported messages from the reporter's phone (with franking, above).
+- A moderator web tool with a queue, evidence view, warn / suspend / ban and the statement of
+  reasons (DSA Art. 17).
+
 ## Still open
 
 - Who the backup moderator is.
@@ -95,3 +101,8 @@ advises.
 - Retention: ban records are kept 2 years pending the lawyer, see
   [09](09-deletion-and-retention.md); the legal basis for keeping them after consent is
   withdrawn still needs the lawyer.
+
+## Background
+
+Project research: safety and moderation (security/safety-and-moderation.md), security
+baseline, legal (legal-and-org/legal.md, the answers to the safety questions).

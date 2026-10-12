@@ -1,12 +1,11 @@
 # 9. Deletion, retention, export, inactive accounts and IP logging
 
-*Decided by Hendrik, 12 Oct 2026 (design review decisions D11 and D12). Background:
-deletion-retention-export.md and design-review-2026-10-12.md §6 in the project research.*
+*Decided by Hendrik, 12 Oct 2026 (design review decisions D11 and D12).*
 
 Every period below is a setting, not structure: a longer period applies from then on, a shorter
 one deletes older data at the next cleanup run. The privacy policy changes each time.
 
-## Deleting an account (decided)
+## Decided: deleting an account
 
 - **Instant deletion.** Profile, photos and undelivered messages leave the live system at once.
   Contacts see "account deleted" and the conversation closes; their copy of past messages stays
@@ -24,14 +23,14 @@ one deletes older data at the next cleanup run. The privacy policy changes each 
   key makes every copy unreadable at once, including the copies in backups, so the 30-day backup
   window doesn't apply to photos.
 
-## What is kept after deletion (decided)
+## Decided: what is kept after deletion
 
 - Nothing, unless the account was banned.
 - After a ban, only the **ban record** (keyed hashes of the email and photo files, as in
   [05](05-safety.md)) and the moderation decision, in the safety service only, for **2 years**.
   The lawyer still has to confirm the 2 years and the legal basis.
 
-## Export (decided)
+## Decided: export
 
 - **During the fake-data phases (2 to 4):** by request, assembled by hand within a month.
 - **Before real users (gate to phase 5):** self-service in the app. Re-login first; download in the app only, with
@@ -41,7 +40,7 @@ one deletes older data at the next cleanup run. The privacy policy changes each 
 - **Left out:** who reported you (Art. 15(4), protects reporters), other people's data, chat
   content (the server never has it).
 
-## Inactive accounts (decided)
+## Decided: inactive accounts
 
 - **Hidden from search after 3 months** without opening the app; one tap makes the profile
   visible again.
@@ -49,7 +48,7 @@ one deletes older data at the next cleanup run. The privacy policy changes each 
   resets both clocks.
 - Banned accounts follow the ban-record rule above, not this one.
 
-## IP addresses in logs (decided, D11)
+## Decided: IP addresses in logs (D11)
 
 - **During the fake-data phases (2 to 4): no IP logging.** Rate limits work in memory.
 - **Before real users (gate to phase 5): keyed hashes of IP addresses**, never raw addresses. The key is rotated
@@ -66,3 +65,8 @@ one deletes older data at the next cleanup run. The privacy policy changes each 
   (lawyer, DPIA).
 - The 2-year ban-record period (lawyer).
 - Deletion across servers in stage 2 (GDPR Art. 17(2)), see [12](12-stage-2-network.md).
+
+## Background
+
+Project research: the archived deletion-retention-export note (archive/) and design review §6;
+legal (legal-and-org/legal.md).

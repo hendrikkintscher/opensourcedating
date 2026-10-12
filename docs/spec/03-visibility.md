@@ -1,16 +1,16 @@
 # 3. Who sees what, and when
 
-*Decided by Hendrik, 12 Oct 2026, following the recommendations in the project research note
-"visibility-and-mutual-discovery". Exact age, two-way age with a margin and location precision
-were decided earlier the same day (design review decisions D5, D6, D8); they are repeated here so
-the steps read as one picture. Replaces the like/like-back stages in the data-scope research.*
+*Decided by Hendrik, 12 Oct 2026. Exact age, two-way age with a margin and location precision
+come from design review decisions D5, D6 and D8 (their rules live in [02](02-profile-data-model.md),
+[06](06-location.md) and [10](10-search.md)); they appear here only so the steps read as one
+picture. Replaces the like/like-back stages of the archived data-scope research note.*
 
-## Principle
+## Decided: the principle
 
 Details about a person only become more precise when **that person** takes an action: publishing
 their profile, writing, or answering. Nobody learns more about someone just by looking.
 
-## Six steps
+## Decided: six steps
 
 | Step | What happened | What the other person sees |
 |---|---|---|
@@ -25,13 +25,13 @@ their profile, writing, or answering. Nobody learns more about someone just by l
 how many messages someone receives (the inbox "full" notice is yes or no only), and counts of
 people by gender or orientation.
 
-## Visibility per field
+## Decided: visibility per field
 
 Each sensitive field has one of three settings: **nobody (used for search only)**, **people in a
 conversation with me**, **everyone who can see my profile**. The defaults are chosen in the
 publish step (see [02](02-profile-data-model.md)).
 
-## Decided 12 Oct
+## Decided: fit checklist, hiding and pausing
 
 - **Fit checklist on every full profile.** A short, factual list of why this person is in your
   results, for example "you're in each other's age range", "within your travel time", "both
@@ -41,12 +41,18 @@ publish step (see [02](02-profile-data-model.md)).
 - **"Only people I write to" mode.** You don't appear in anyone's search, but the people you
   write to see your full profile. Free for everyone. Your weekly allowance still applies.
 - **Pause.** Disappear from search at any time with one switch; existing conversations continue.
+  A "take a break" screen sits on top of it (topic 13): no guilt, no "you'll miss out".
 - **Conversation-only photos.** Any photo can be marked "conversation only". At least one photo
   must be visible in search unless the account is in "only people I write to" mode, so search
   doesn't fill with faceless profiles.
 - **No secret "both interested" signal.** A hidden "I'm interested" that is revealed only when
   both press it would bring back liking, which opening messages replaced. Not built. The private
   Save list is never compared with anyone else's.
+
+- **The full profile opens on the texts**, with the fit checklist; photos are one swipe up
+  (topic 13). Tried with the phase 3 testers; the preview stays as in the table above.
+- **No engagement hooks:** no streaks, no "X new people", no daily picks anywhere in the app
+  (topic 13).
 
 ## Later, not in the prototype
 
@@ -63,3 +69,7 @@ publish step (see [02](02-profile-data-model.md)).
   and that their age is within 5 years of your range (decided with D8).
 - The age and location symbols tell a searcher roughly where the other person's limits are.
 - The fit checklist shows only what the person already made visible, so it adds no leak.
+
+## Background
+
+Project research: visibility (product/visibility.md), frustrations (product/frustrations.md).

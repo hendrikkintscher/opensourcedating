@@ -57,7 +57,7 @@ runs end to end.
 - Found the e.V. with seven founders (D13), before any public announcement or grant press.
 - Funding applications (NLnet, Prototype Fund).
 - Build the prototype: server, safety service, sign-in with Kratos, relay, the app with the
-  libsignal native module ([app-framework](design/app-framework.md)).
+  libsignal native module ([spec 14](spec/14-app-framework.md)).
 - Write the test bots, including attack bots ([spec 11](spec/11-test-bots.md)).
 
 **Done when:** the prototype runs locally end to end (sign up, publish a profile, search, write
@@ -74,7 +74,7 @@ generated. Nothing real except the operators' own logins.
 - Deploy to the pilot server (osd-pilot) with the hardening already in place.
 - Load test with many bot accounts: search, opening messages, chat relay.
 - Attack bots: scraping, allowance abuse, spam, ban evasion, account takeover attempts. Rate
-  limits stay on for bots ([spec 10](spec/10-search-limits.md)).
+  limits stay on for bots ([spec 10](spec/10-search.md)).
 - Drills: restore from backup and replay the deletion list
   ([spec 09](spec/09-deletion-and-retention.md)), wipe all bot data in one go.
 - Monitoring and alerting.
@@ -96,7 +96,7 @@ data. Test bots stay in, badged.
 **Gate to enter**
 - The e.V. exists (D13 says before any public announcement; a public call for testers is one).
 - Tester terms that say "fake data only", a privacy notice and an Impressum.
-- The written DPIA threshold check for a fake-data test (research doc legal-entity-and-dpo).
+- The written DPIA threshold check for a fake-data test (project research: legal-and-org/legal.md).
 - Self-declared date of birth, 18+ ([spec 08](spec/08-age-check.md)).
 - No IP logging (D11); export by request (D12).
 - Hendrik plus one named backup moderate (D16).
@@ -155,7 +155,7 @@ growing, and enough people take part in each wave to make search useful.
 - Funding for running costs and moderation at city scale.
 - DSA duties for an open platform: statements of reasons, transparency reporting.
 - Inactive-account process running (hidden at 3 months, deleted at 12).
-- Recruitment by district and events for density (research doc cold-start-berlin); the
+- Recruitment by district and events for density (project research: product/cold-start-berlin.md); the
   waitlist screen for areas with few people.
 
 Stage 2 gets built in this phase.
@@ -182,16 +182,18 @@ stronger or different.
 |---|---|---|
 | [01 Accounts and identity](spec/01-accounts-and-identity.md) | 2 | 5: recovery waiting period and EU email provider live |
 | [02 Profile data model](spec/02-profile-data-model.md) | 2 (data model already complete) | 4: tested by the community; T4T answer |
-| 03 Visibility stages | 3 | |
+| [03 Visibility](spec/03-visibility.md) | 3 | |
 | [04 Conversations](spec/04-conversations.md) | 2 | 5 and 6: allowance numbers tuned with real use |
 | [05 Safety](spec/05-safety.md) | 2 (block, report, safety service) | 3: human moderators; 5: photo verification, policy, named lead |
 | [06 Location](spec/06-location.md) | 2 | 7: grids for other places |
-| 07 Photos | 2 (generated photos) | 3: real uploads checked; 5: abuse-image hash check |
+| [07 Photos](spec/07-photos.md) (open) | 2 (generated photos) | 3: real uploads checked; 5: abuse-image hash check |
 | [08 Age check](spec/08-age-check.md) | 3 (self-declared) | 5: stronger check |
 | [09 Deletion and retention](spec/09-deletion-and-retention.md) | 2 (bot wipe, restore drill) | 5: in-app export, IP hashes; 6: inactive accounts at scale |
-| [10 Search limits](spec/10-search-limits.md) | 2 (attack bots) | 5 and 6: limits tuned |
+| [10 Search and browsing](spec/10-search.md) | 2 (attack bots) | 5 and 6: limits tuned |
 | [11 Test bots](spec/11-test-bots.md) | 2 | 5: removed from production data |
 | [12 Stage 2](spec/12-stage-2-network.md) | 6 (built) | 7: running |
+| [13 Common frustrations](spec/13-frustrations.md) | 2 (message types, on-phone timers) | 3: full-profile layout tried with the testers |
+| [14 App framework](spec/14-app-framework.md) | 1 (prototype) | 3: testers show whether the native bridge holds up |
 
 Research docs in the project folder carry a "Relevant in" line at the top that uses these
 phase numbers.
