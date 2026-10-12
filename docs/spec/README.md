@@ -19,11 +19,11 @@ after the prototype is built.
 | 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | decided (relationship type open) | [02](02-profile-data-model.md) |
 | 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread (exact age and location in conversations decided 12 Oct) | |
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
-| 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (details open) | [05](05-safety.md) |
+| 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (backup moderator still to be named) | [05](05-safety.md) |
 | 6 | Location tiles and travel-time bands | Medium: decided design and defaults | decided | [06](06-location.md) |
 | 7 | Photos: upload pipeline, moderation, who sees which resolution | Medium | being worked out in a separate thread (photo and profile storage) | |
-| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided | [08](08-age-check.md) |
-| 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | being worked out in a separate thread (pros and cons) | |
+| 8 | Age check (18+) | Medium: must sit behind an interface so the EU age app can be added | decided (stronger check deferred to before real users) | [08](08-age-check.md) |
+| 9 | Deletion, retention, export, inactive accounts | Medium: has to be designed into every store, including backups | decided (lawyer confirms ban-record period) | [09](09-deletion-and-retention.md) |
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
 | 12 | Stage 2: one server program on sealed and plain levels | Low now, as long as 1, 2 and 5 are built ready for stage 2 | decided (details open) | [12](12-stage-2-network.md) |
@@ -42,6 +42,9 @@ after the prototype is built.
   cancel it. See [01](01-accounts-and-identity.md).
 - Recommended: session list and "log out everywhere"; re-authentication before deletion, export
   or email change.
+- **Decided (12 Oct):** login codes and notices go through an EU-based transactional email
+  provider with a DPA, not a US provider; minimal email content, no app name in the subject if
+  possible. The provider itself is not chosen yet (comparison in [01](01-accounts-and-identity.md)).
 
 ### 2. Profile data model
 - Fields from [profile-discovery.md](../design/profile-discovery.md): first name or nickname,
@@ -80,7 +83,11 @@ after the prototype is built.
   recipient's phone; spam is handled by allowance, rate limits and reports.
 - **Decided:** either person can end a conversation; no further messages or new opening message
   between the two, but no block. See [04](04-conversations.md).
-- Open: allowance numbers, and whether an unanswered message gives its slot back.
+- **Decided (12 Oct):** inbox cap of 15 unanswered opening messages, adjustable by the
+  recipient; senders get a "full" notice with no number. The allowance comes back when an
+  opening message expires unanswered after 30 days. 5 opening messages a week, 2 for accounts
+  under two weeks old or unverified; numbers tuned with pilot data. Future idea, not decided: an
+  allowance relative to the number of profiles that fit the sender's search.
 - Recommended: photos in chat off for the prototype; push payloads never carry content.
 
 ### 5. Safety
@@ -93,10 +100,15 @@ after the prototype is built.
   See [05](05-safety.md).
 - Ban evasion uses hashes of the photo files (like PDQ), hashed email and device signals, never
   face templates. Keeping biometric data of banned users without consent is the riskiest item
-  the legal research found (legal-gdpr-berlin.md §8); retention periods still need the lawyer.
+  the legal research found (legal-gdpr-berlin.md §8). Ban records are kept 2 years, pending the
+  lawyer (see [09](09-deletion-and-retention.md)).
 - Recommended: moderator web tool with queue, evidence view, warn/suspend/ban, statement of
   reasons (DSA Art. 17).
-- Open: report reasons list, response times, who moderates during the test.
+- **Decided (12 Oct):** seven report reasons (under 18; fake profile or scam; unwanted sexual
+  content; harassment or threats; something happened when we met; hate; other). Response
+  targets: CSAM and threats to life immediately, under 18 within a few hours, the rest within
+  24 hours. Hendrik plus one backup moderate the pilot, both with escalation contacts.
+- Open: who the backup moderator is.
 
 ### 6. Location
 - **Decided:** no GPS; user picks a home tile on a ~500 m Berlin grid, chooses the precision;
@@ -117,12 +129,19 @@ after the prototype is built.
   EU age-verification app once Germany offers it; store only the result, never images or IDs.
 - **Decided:** self-declared date of birth for the fake-data test; the stronger check before real
   users join; only the result is stored. See [08](08-age-check.md).
+- **Deferred (12 Oct):** which stronger check, decided before real users. Recommended: German
+  eID age-only query, with an ID scan through an EU vendor as the fallback.
 
 ### 9. Deletion and retention
-- Recommended: in-app deletion, immediate from live systems, backups expire after 30 days; ban
-  records (hashed email, photo hashes) kept for a defined period; IP logs 7 days; data export in
-  the app; inactive accounts deleted after 12 to 24 months with a warning.
-- Open: inactive period, ban-record period (lawyer).
+- **Decided (12 Oct):** instant deletion, with a hold on accounts under an open report (needs a
+  DPIA basis); re-login before deleting; deletion list replayed after restores; 30-day backups;
+  photos crypto-shredded.
+- **Decided (12 Oct):** after a ban only the ban record is kept, 2 years pending the lawyer.
+  Export by request during the test, in the app before real users. Inactive accounts hidden at
+  3 months, deleted at 12, with warnings.
+- **Decided (12 Oct):** no IP logging during the fake-data test; before real users, keyed IP
+  hashes (key rotated daily, kept 7 days) in every layer: reverse proxy, Kratos, relay, safety
+  service. See [09](09-deletion-and-retention.md).
 
 ### 10. Search
 - **Decided:** filters (travel time, age, search groups, "looking for", active recently, photo
@@ -154,6 +173,14 @@ after the prototype is built.
 - What stage 1 must already get right so stage 2 is not a rewrite: account IDs per topic 1,
   safety and admission in their own services (topic 5), and profile storage and search behind
   their own interfaces.
+
+## Outside the topic list
+
+- **Decided (12 Oct):** the e.V. is founded now, before any public announcement or grant press,
+  with seven founders. See [GOVERNANCE.md](../../GOVERNANCE.md).
+- **Decided (12 Oct):** a section 7 additional permission for app store distribution, in
+  [LICENSE-EXCEPTION](../../LICENSE-EXCEPTION). The lawyer is asked once about libsignal (AGPL)
+  on iOS.
 
 ## Wording
 
