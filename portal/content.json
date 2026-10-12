@@ -10,19 +10,21 @@
       "id": "identity",
       "title": "Sign-in without passwords",
       "status": "decided",
-      "summary": "Passkeys plus one-time email codes through Ory Kratos (open source). No passwords, no phone number, no custom auth code."
+      "summary": "Passkeys first, one-time email codes as the fallback, through Ory Kratos (open source). No passwords, no phone number, no custom auth code. Your account ID is a random code with no server name, bound to your phone's key. Recovering an account on a new phone waits 24 hours and tells the old phone, which can cancel it.",
+      "doc": "docs/spec/01-accounts-and-identity.md"
     },
     {
       "id": "profile",
       "title": "Profiles",
-      "status": "assumed",
-      "summary": "Photos, short bio, prompts and intent (dating, friends, long-term). Stored on the pilot server, which reviews profile photos before they are public. Every field is listed in the data-scope doc before it gets a column."
+      "status": "decided",
+      "summary": "Photos, profile texts, interest tags and what you're looking for (stored as a list, one shown at first). You choose your own search groups, separate from your gender label; orientation is an optional label, hidden by default and never a filter. A new profile stays hidden until you publish it, and the publish step shows the privacy choices and asks for consent. Still open: how relationship types are described.",
+      "doc": "docs/spec/02-profile-data-model.md"
     },
     {
       "id": "discovery",
       "title": "Discovery",
       "status": "decided",
-      "summary": "Search with filters and browse the results, OkCupid-style. No swiping, no card stack, no one-at-a-time decisions.",
+      "summary": "Search with filters and browse the results, OkCupid-style. No swiping, no card stack, no one-at-a-time decisions. Interest tags instead of free-text keywords; profile texts are searchable only for people who opt in. Previews show exact age, never the date of birth.",
       "doc": "docs/design/profile-discovery.md"
     },
     {
@@ -42,19 +44,21 @@
       "id": "safety",
       "title": "Safety and verification",
       "status": "decided",
-      "summary": "Hide, block (silent, both ways, enforced by the server) and report (which always also blocks). Reported users hear about a report only if action is taken, with reasons and a way to appeal."
+      "summary": "Hide, block (silent, both ways, enforced by the server) and report (which always also blocks). Reported users hear about a report only if action is taken, with reasons and a way to appeal. Optional photo verification runs on the phone; only a signed yes or no reaches the server.",
+      "doc": "docs/spec/05-safety.md"
     },
     {
       "id": "location",
       "title": "Coarse location",
       "status": "decided",
-      "summary": "No GPS. You pick your home tile on a Berlin map with a ~500 m grid and choose how precisely it is shown; changing it is rate-limited. Results show travel time, not distance."
+      "summary": "No GPS. You pick your home tile on a Berlin map and choose how precisely it is stored: about 1.5 km by default, or 500 m, or district. Changing it is rate-limited. Results show travel time, not distance. A finer location is only shared phone to phone in a conversation.",
+      "doc": "docs/spec/06-location.md"
     },
     {
       "id": "oss",
       "title": "Open source and portable",
       "status": "assumed",
-      "summary": "Public repo, open code, no patents. Anyone can run a server; once stage 2 arrives, vetted servers can join one network."
+      "summary": "Public repo, open code, no patents. In stage 2, anyone in the EU who signs the operator agreement can run a server that stores and relays encrypted data; servers that can read search data are run only by vetted operators."
     }
   ],
   "mockups": [
@@ -140,7 +144,7 @@
     }
   ],
   "architecture": {
-    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, more servers run by vetted operators can join, so no single party owns the network. The data model and the safety service are built so stage 2 doesn't need a rewrite.",
+    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, one server program runs on two levels: sealed servers run by vetted operators, and plain servers that anyone in the EU can run under a signed agreement. The data model and the safety service are built so stage 2 doesn't need a rewrite.",
     "stages": [
       {
         "id": "stage1",
@@ -150,9 +154,9 @@
       },
       {
         "id": "stage2",
-        "title": "Stage 2: a network of vetted servers (later)",
-        "status": "planned",
-        "summary": "Other cities or communities run their own server. Servers join through an allow-list and agree to a shared safety policy and a joint-controller agreement. No single server holds a full profile: profiles are split into encrypted pieces stored redundantly across servers, so some servers can fail without losing anything. Servers mainly broker contact between people; they pass encrypted chat to each other and share a blocklist, so a banned person can't just move to a laxer server."
+        "title": "Stage 2: one program on two levels (later)",
+        "status": "decided",
+        "summary": "Every server runs the same program. The sealed level runs inside hardware enclaves that phones check before trusting them; it holds the small search cards and runs admission, ban and photo checks. Only vetted operators run it, in professional data centres, under a signed agreement. The plain level only stores and relays encrypted data (profile items, photos, messages); anyone in the EU who signs the operator agreement can run it. Profiles are no longer split into pieces across servers, and accounts belong to no home server. A shared ban list keeps a banned person out everywhere."
       }
     ],
     "decisions": [
@@ -167,10 +171,10 @@
       {
         "topic": "Location",
         "stage": "1",
-        "choice": "Self-chosen home tile on a ~500 m grid, no GPS, changes rate-limited",
+        "choice": "Self-chosen home tile, stored at about 1.5 km by default (500 m or district selectable), no GPS, changes rate-limited",
         "status": "decided",
-        "why": "Coarse by default, chosen by the user, hard to triangulate.",
-        "alternatives": "GPS radius, district only"
+        "why": "The stored precision is all an attacker can ever learn, so the default is a neighbourhood, not a few streets. Finer location only goes phone to phone in a conversation.",
+        "alternatives": "GPS radius, 500 m default, district only"
       },
       {
         "topic": "Discovery",
@@ -183,10 +187,50 @@
       {
         "topic": "Sign-in",
         "stage": "1",
-        "choice": "Ory Kratos with passkeys + email codes",
+        "choice": "Ory Kratos with passkeys first, email codes as fallback; 24 h recovery wait with a cancel notice to the old phone",
         "status": "decided",
-        "why": "No passwords and no custom auth code to get wrong.",
+        "why": "No passwords and no custom auth code to get wrong. The waiting period stops someone with access to the email inbox from silently taking over an account.",
         "alternatives": "Phone number, own auth"
+      },
+      {
+        "topic": "Account ID",
+        "stage": "1+2",
+        "choice": "Random opaque 128-bit ID, no @server, not derived from a key, bound to the device key by a certificate",
+        "status": "decided",
+        "why": "Stable when a phone is lost, ties nobody to a server, and works with Kratos now and the stage 2 design later.",
+        "alternatives": "id@server, hash of a phone key"
+      },
+      {
+        "topic": "Keyword search",
+        "stage": "1+2",
+        "choice": "Interest tags (fixed list plus own short tags) and opt-in searchable profile texts: off by default, reciprocal, search words never logged; saved searches run on the phone",
+        "status": "decided",
+        "why": "Free text for everyone would need readable texts on the server and would find labels people chose to hide.",
+        "alternatives": "Free-text search over all profiles, no keyword search"
+      },
+      {
+        "topic": "Two-way limits",
+        "stage": "1",
+        "choice": "Age two-way with a 5-year margin; travel time one-way; a symbol on the tile when you're outside someone's range",
+        "status": "decided",
+        "why": "Cuts unwanted messages without hiding people over small differences. Accepted leak: symbols hint where the other person's limits are.",
+        "alternatives": "Age and travel time both two-way, only search groups two-way"
+      },
+      {
+        "topic": "Profile data model",
+        "stage": "1",
+        "choice": "Self-chosen search groups separate from gender labels; orientation optional, hidden, never a filter; intentions stored as a list; exact age shown, never the date of birth; profile hidden until first published",
+        "status": "decided",
+        "why": "Filters need as little Art. 9 data as possible, and nobody becomes visible before they have seen the privacy choices.",
+        "alternatives": "Gender as the filter, orientation as a filter, age bands"
+      },
+      {
+        "topic": "Photo verification",
+        "stage": "1",
+        "choice": "Optional on-device liveness and face comparison with its own consent; the server gets only a signed yes or no with app attestation",
+        "status": "decided",
+        "why": "Scales without staff and keeps biometric data on the phone. The DPO and lawyer confirm the consent design before real users.",
+        "alternatives": "Human check of a requested-pose photo, a vendor service"
       },
       {
         "topic": "Chat",
@@ -231,25 +275,27 @@
       {
         "topic": "Federation",
         "stage": "2",
-        "choice": "Allow-listed servers under a shared policy",
-        "status": "planned",
-        "why": "Open federation lets bad actors pick the laxest server; an allow-list keeps a common safety floor.",
-        "alternatives": "Open federation, staying on one server"
+        "choice": "One server program on two levels: sealed level run by vetted operators in data centres; plain level open to anyone in the EU who signs the operator agreement",
+        "status": "decided",
+        "why": "Enclaves can be broken by someone with physical access, and every operator processes Art. 9 data, so the servers that read data need vetted, contracted operators. Storing and relaying ciphertext can be open to more people under the same agreement.",
+        "alternatives": "Fully open servers, vetted servers only, server groups agreeing on state"
       },
       {
         "topic": "Profile storage",
         "stage": "2",
-        "choice": "Encrypted profile pieces spread redundantly across servers; no server holds a full profile; servers mainly broker contact",
+        "choice": "Profile content encrypted on the phone and stored on plain servers; only minimal search cards are readable, inside the sealed level",
         "status": "decided",
-        "why": "A breach or a rogue operator of one server can't read whole profiles, and profiles survive servers going offline.",
-        "alternatives": "Each server keeps its own users' full profiles"
+        "why": "Plain operators only ever hold ciphertext, and an enclave break exposes little. Splitting profiles into k-of-n pieces is dropped: content is already encrypted, so it added a lot of work for little privacy.",
+        "alternatives": "Encrypted pieces spread across servers (k-of-n), each server keeping its users' full profiles"
       }
     ],
     "open_questions": [
-      "Stage 2: how do people on different servers find each other without copying every profile to every server?",
-      "Stage 2: which data does search need, and where can it be read, if no server holds a full profile?",
+      "Stage 2: if the sealed level holds every profile's content key, an enclave break exposes full profiles. Accept that openly, or move to proxy re-encryption first?",
+      "Stage 2: where do sealed servers run (cloud confidential VMs or dedicated hardware)?",
+      "Does the open-source Kratos support passkeys in native apps? A one-day spike before building login.",
+      "Relationship type: what describes it beyond the intention (the 'intensity' question)?",
       "Stage 2: which protocol between servers (ActivityPub, Matrix-style, or our own API)?",
-      "Stage 2: how does deleting an account reach other servers reliably (GDPR Art. 17(2)), and what must the joint-controller agreement contain?",
+      "Stage 2: how does deleting an account reach other servers reliably (GDPR Art. 17(2)), and what must the operator agreement contain for each level?",
       "Who runs the server and pays for it before the e.V. exists?"
     ]
   },
