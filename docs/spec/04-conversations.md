@@ -25,6 +25,9 @@ decision D17).*
 - **Either person can end a conversation at any time.** The server then refuses all further
   messages between the two, and neither can send a new opening message to the other. Unlike a
   block, both can still appear in each other's search.
+- **Ending kindly (decided 12 Oct):** when ending, the person can send one optional fixed
+  message, for example "Thanks for chatting, I don't think we're right for each other. All the
+  best." Ending is as easy as disappearing, but clearer for the other person.
 
 ## Inbox cap and allowance (decided 12 Oct, D17)
 
@@ -40,6 +43,15 @@ decision D17).*
 - **Future idea, not decided:** the weekly allowance could later be set relative to the number
   of available profiles (for example, the profiles that fit the sender's search) instead of a
   fixed number.
+
+## Recipient's inbox (decided 12 Oct)
+
+- **Sorting is the recipient's choice:** newest, oldest, shortest travel time, or best fit. No
+  hidden ordering.
+- **Inbox filters:** the recipient can hide opening messages from, for example, unverified
+  accounts. Filtering happens on the recipient's phone, since opening messages are end-to-end
+  encrypted. Hidden messages still expire normally after 30 days.
+- **No pressure:** no read receipts, no "someone is waiting" notices, no reminders to answer.
 
 ## Rejected alternative
 

@@ -123,7 +123,8 @@
     "\"Who viewed my profile\" or \"online now\"",
     "Exact distances or GPS",
     "Paid visibility of any kind",
-    "Photos, links or read receipts in opening messages"
+    "Photos, links or read receipts in opening messages",
+    "A secret \"both interested\" signal"
   ],
   "mockups": [
     {
@@ -486,13 +487,16 @@
       {
         "n": 3,
         "title": "Who sees what, and when",
-        "status": "open",
+        "status": "decided",
         "points": [
-          "Decided: exact age in previews; the date of birth is never shown.",
-          "Decided: age limits are two-way with a 5-year margin, travel time is one-way, and a symbol shows when you are outside someone's range.",
-          "Decided: a finer location is shared only phone to phone inside a conversation.",
-          "Still open: the visibility steps, a fit checklist and conversation-only photos (see Open questions)."
-        ]
+          "Six steps: not findable, search preview, full profile, opening message, conversation, shared by choice. Details only get more precise when the person described acts.",
+          "Exact age in previews; the date of birth is never shown. Age is two-way with a 5-year margin, travel time one-way, with a symbol when you are outside someone's range.",
+          "A fit checklist on every profile shows why someone is in your results, using only fields they made visible.",
+          "\"Only people I write to\" mode and a pause switch, free for everyone; photos can be conversation-only.",
+          "A finer location is shared only phone to phone inside a conversation.",
+          "No secret \"both interested\" signal. Compatibility questions with a visible score: later."
+        ],
+        "doc": "docs/spec/03-visibility.md"
       },
       {
         "n": 4,
@@ -504,7 +508,8 @@
           "5 a week, 2 for new or unverified accounts; the allowance comes back when a message expires unanswered after 30 days.",
           "Inboxes hold at most 15 unanswered messages (adjustable); senders then see a \"full\" notice, never a number.",
           "Opening messages are end-to-end encrypted too; \"no links\" is enforced on the recipient's phone.",
-          "Either person can end a conversation; after that neither can write again, but it isn't a block."
+          "Either person can end a conversation; after that neither can write again, but it isn't a block.",
+          "Recipients sort and filter their own inbox; ending a conversation can send a short, kind fixed message."
         ]
       },
       {
@@ -635,24 +640,6 @@
           [
             "Describe relationship types beyond the intention with the draft dimensions (openness, length, intensity): openness two-way, length and intensity your own filter only?",
             "Draft proposal, not decided"
-          ]
-        ]
-      },
-      {
-        "topic": "Who sees what, and when (topic 3)",
-        "doc": "visibility-and-mutual-discovery.md",
-        "questions": [
-          [
-            "A fit checklist on profiles showing why someone is in your results?",
-            "Yes"
-          ],
-          [
-            "\"Conversation only\" photos and an \"only people I write to\" mode?",
-            "Yes"
-          ],
-          [
-            "Compatibility questions with a visible score?",
-            "Later or never"
           ]
         ]
       },

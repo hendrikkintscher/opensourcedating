@@ -46,6 +46,8 @@ One photo, first name or nickname, exact age (the date of birth is never shown),
 
 Opening a preview shows the whole profile: photos, several free-text sections (for example "About me", "What I'm into", "You should write to me if …"), interest tags, and the details the user chose to show. Long-form text is the centre of the profile, not the photos.
 
+A short **fit checklist** shows why this person is in your results ("you're in each other's age range", "within your travel time", "both looking for long-term") and any differences, using only fields they made visible. What each step reveals is in [spec topic 3](../spec/03-visibility.md).
+
 Actions on a full profile:
 
 - **Write**: send one opening message (see Messaging below).
@@ -79,6 +81,7 @@ A new profile is not visible to anyone until the person actively publishes it th
 - No "who viewed my profile" list (it creates pressure and leaks who's browsing).
 - No "online now" indicator and no exact distance.
 - No paid visibility of any kind.
+- No secret "both interested" signal (it would bring back liking).
 
 ## Privacy and safety in search
 
@@ -90,8 +93,8 @@ A new profile is not visible to anyone until the person actively publishes it th
 - Blocked and hidden people never appear, in either direction.
 - When too few people fit the filters (early pilot), the app shows how many people are on the waitlist nearby and upcoming events, not an empty page.
 
+Not being findable is always possible: **pause** hides you from search, and **"only people I write to"** mode keeps you out of search while the people you write to still see your profile.
+
 ## Open questions
 
 - Which free-text sections should the profile have?
-- How many opening messages per week, and per month for new accounts?
-- Should an unanswered message give the allowance back after 30 days?
