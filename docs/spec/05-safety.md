@@ -2,7 +2,8 @@
 
 *Decided by Hendrik, 11 Oct 2026. Background: safety-and-moderation.md, data-security.md §8 and
 §12.3, legal-gdpr-berlin.md §8 in the project research. Photo verification added 12 Oct 2026
-(design review decision D9).*
+(design review decision D9); report reasons, response times and staffing added 12 Oct 2026
+(D16).*
 
 ## Already decided earlier
 
@@ -52,11 +53,35 @@ To stop banned people from coming back, the safety service keeps, for a fixed pe
 It does **not** keep face templates or any face recognition data. Tying bans to a person's face
 would mean keeping biometric data (GDPR Art. 9) of banned users without their consent, which
 the legal research flags as the riskiest item in the safety design. File hashes are not designed
-to identify a person and are not face recognition. The retention period for all ban records
-still needs the lawyer.
+to identify a person and are not face recognition. Ban records are kept for 2 years, pending the
+lawyer (see [09](09-deletion-and-retention.md)).
+
+## Reports and moderation (decided 12 Oct, D16)
+
+**Report reasons.** The report screen offers seven reasons:
+
+1. Under 18
+2. Fake profile or scam
+3. Unwanted sexual content
+4. Harassment or threats
+5. Something happened when we met
+6. Hate
+7. Other
+
+**Response targets:**
+
+- CSAM and threats to life: immediately.
+- Under 18: within a few hours.
+- Everything else: within 24 hours.
+
+**Who moderates during the pilot:** Hendrik plus one named backup (not named yet). Both have
+the escalation contacts at hand: the police, and jugendschutz.net or the BKA as the lawyer
+advises.
 
 ## Still open
 
-- Report reasons list (safety-and-moderation.md §4 has a proposal), response times and who
-  moderates during the test.
-- Retention periods for reports, decisions and ban records (lawyer).
+- Who the backup moderator is.
+- Which escalation contacts apply to which case (lawyer).
+- Retention: ban records are kept 2 years pending the lawyer, see
+  [09](09-deletion-and-retention.md); the legal basis for keeping them after consent is
+  withdrawn still needs the lawyer.
