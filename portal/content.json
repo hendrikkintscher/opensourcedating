@@ -71,7 +71,7 @@
     },
     {
       "title": "Write your profile",
-      "text": "Long-form texts, interest tags and photos. You choose the search groups you appear in, separate from the gender label you show; orientation is an optional label, hidden by default and never a filter. Your profile stays hidden until you publish it, and publishing shows the privacy choices and asks for consent. How photos are checked, and how relationship types are described, is still being designed.",
+      "text": "Long-form texts, interest tags and photos. You pick any number of gender labels and choose exactly one search group (woman, man or non-binary); orientation is an optional label, hidden by default and never a filter. Your profile stays hidden until you publish it, and publishing shows the privacy choices and asks for consent. Openness (mono, open, poly) and relationship status are their own fields. Which relationship dimensions replace \"intensity\" is still being designed.",
       "status": "decided",
       "screen": "profile-me",
       "doc": "docs/spec/02-profile-data-model.md"
@@ -351,7 +351,7 @@
       {
         "topic": "Profile data model",
         "stage": "1+2",
-        "choice": "Self-chosen search groups separate from gender labels; orientation optional, hidden, never a filter; intentions stored as a list; exact age shown, never the date of birth; profile hidden until first published",
+        "choice": "Any number of gender labels plus exactly one search group (woman, man, non-binary); openness and relationship status as own one-way fields; orientation optional, hidden, never a filter; intentions stored as a list; exact age shown, never the date of birth; profile hidden until first published",
         "status": "decided",
         "why": "Filters need as little Art. 9 data as possible, and nobody becomes visible before they have seen the privacy choices. Relationship type is still open.",
         "alternatives": "Gender as the filter, orientation as a filter, age bands",
@@ -476,12 +476,12 @@
         "title": "Profile data model: gender, orientation and \"looking for\"",
         "status": "partly",
         "points": [
-          "You choose your own search groups, separate from the gender labels you show. Search groups are two-way.",
+          "You pick any number of gender labels and exactly one search group: woman, man or non-binary. Only search group and age are two-way; relationship types, openness (mono, open, poly) and relationship status are your own filters only.",
           "Orientation is an optional label, hidden by default and never a filter. No trans filter in the fake-data phases.",
           "\"Looking for\" is stored as a list of intentions; the first app shows one.",
           "Optional \"how soon do you like to meet\" field; narrative prompts instead of a blank \"About me\"; photos carry a self-declared age band or a \"taken in the app\" mark.",
           "A new profile stays hidden until you publish it; the publish step shows the privacy choices and asks for the Art. 9 consent.",
-          "Still open: how relationship types are described beyond the intention (the \"intensity\" question), and gender as one value or several."
+          "Still open: which dimensions replace \"intensity\" (draft only)."
         ],
         "doc": "docs/spec/02-profile-data-model.md"
       },
@@ -699,7 +699,6 @@
         "items": [
           "Does the open-source Kratos support passkeys in native apps? A one-day spike before building login.",
           "Which EU email provider sends login codes (Scaleway, Lettermint or Brevo).",
-          "Gender as one value or several, a free-text option, and which free-text sections the profile has.",
           "Rate limits on search requests.",
           "Which stronger age check before real users (phase 5): German eID age-only query, or an ID scan through an EU vendor."
         ]
