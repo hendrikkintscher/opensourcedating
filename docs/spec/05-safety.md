@@ -126,6 +126,14 @@ the ban or lifts the suspension within 24 hours. The person is told nothing whil
 therefore costs at most a day of silence; a day in which a reported attacker could reach
 another person is the greater harm. A suspension does not touch the inviter.
 
+**Earlier contacts are told after a confirmed ban for harm at a meeting (decided 12 Oct).**
+When a ban after a reason-5 report is confirmed, everyone who had an accepted meeting with that
+person in the last months gets one neutral notice: "Someone you met through the app was removed
+for breaking our safety rules. If something happened, you can tell us or find support here",
+with the report flow and the support contacts. No name of the reporter, no details of the
+report. The lawyer approves the wording and the look-back period before phase 5, since the
+notice points at a person on the strength of one confirmed report.
+
 **Meeting tools (decided 12 Oct).** An accepted meeting suggestion offers *Share my date* and
 a *check-in timer* to a friend; both run entirely on the phone and are described in
 [04](04-conversations.md#decided-the-conversation). Before a first meeting the app shows the
@@ -149,10 +157,10 @@ advises.
 
 ## Still open
 
-- Telling earlier contacts about a ban for offline harm (being decided).
 - Admission for phase 6, once sign-up opens to everyone.
 - Who the backup moderator is.
-- Which escalation contacts apply to which case (lawyer).
+- Which escalation contacts apply to which case; wording and look-back period of the notice to
+  earlier contacts; GDPR Art. 10 reading of background checks (lawyer).
 - Retention: ban records are kept 2 years pending the lawyer, see
   [09](09-deletion-and-retention.md); the legal basis for keeping them after consent is
   withdrawn still needs the lawyer.
