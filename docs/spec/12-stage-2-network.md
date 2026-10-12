@@ -1,54 +1,69 @@
-# 12. Stage 2: a network of servers
+# 12. Stage 2: one server program on two levels
 
-*Decided by Hendrik, 11 Oct 2026. Stage 1 (the Berlin pilot) stays one server.*
+*First decided by Hendrik, 11 Oct 2026. Rewritten 12 Oct 2026 after design review decision D2,
+which replaces the earlier sharded design. Stage 1 (the Berlin pilot) stays one server.*
 
-## Decided
+## Decided (12 Oct)
 
-- **A vetted network.** Only servers whose operators sign a shared safety policy can join, and
-  they share one ban list through the safety service (see [05](05-safety.md)). Rejected: an open
-  network like Mastodon (a banned person moves to the least strict server; profiles reach servers
-  nobody checked) and pure phone-to-phone (bans can't be enforced, IP addresses are exposed,
-  messages only arrive while both phones are on).
-- **No single server holds a full profile.** Profile information is encrypted, split into pieces
-  and stored redundantly across several servers, so that a defined share of servers can fail or
-  go offline without the profile being lost. One server's breach or operator alone can't read a
-  whole profile.
-- **Servers are primarily for brokering contact, not for storage:** helping people find each
-  other, passing on opening messages and encrypted chat, enforcing blocks and bans.
-- Account IDs already include the home server (see [01](01-accounts-and-identity.md)).
+- **The "3e" shape: one server program that runs on two levels.**
+  - **Sealed level:** the parts that have to read data (search cards, admission and ban checks,
+    photo checks) run inside hardware enclaves (confidential computing) that phones check by
+    remote attestation before trusting them. Sealed servers are run **only by vetted operators,
+    in professional data centres, under a signed operator agreement.**
+  - **Plain level:** stores and relays ciphertext only (encrypted profile items and photos,
+    opening messages, chat). It is **open to anyone in the EU who signs the operator agreement.**
+- **Why vetted operators for the sealed level:** published 2025 attacks on AMD SEV-SNP and Intel
+  TDX with cheap memory-bus hardware show that an operator with physical access to their own
+  machine can break an enclave. Enclaves protect against breaches, hosting staff and remote
+  attackers; vetting and the signed agreement cover the operator. Legally, everyone who runs a
+  server processes Art. 9 data (even ciphertext they can't read), so every operator has to be
+  bound as the e.V.'s processor or as a joint controller, and has to be in the EU.
+- **Shards and k-of-n are dropped.** Profiles are no longer split into redundant pieces across
+  servers. Content is already encrypted on the phone, so erasure coding and secret sharing added
+  a lot of engineering for little privacy. This replaces the 11 Oct decision that "no single
+  server holds a full profile" by splitting it into pieces.
+- **No home servers.** Account IDs carry no server name (see [01](01-accounts-and-identity.md));
+  a person is not tied to one server.
+- Still from 11 Oct: a shared ban list through the safety service (see [05](05-safety.md)), and
+  pure phone-to-phone stays rejected (bans can't be enforced, IP addresses are exposed, messages
+  only arrive while both phones are on).
 
-## To be worked out
+## Proposed details (from the storage work and the design review, not yet decided)
 
-- **What exactly search needs, and where it can be read.** Filtering (gender and "looking for",
-  age, travel time, relationship type, keywords) needs some data in readable form somewhere. If
-  no server holds a full profile, we have to decide which search fields exist, in what form
-  (coarse, hashed, encrypted), and on which servers. This decides what our servers actually do.
-  Ties in with the "who sees what, and when" topic and the photo and profile storage topic.
-- **Who holds the keys** to the profile pieces (the owner's phone, the servers together, or
-  both), and how a person viewing a profile gets to see it.
-- **Splitting method:** encryption plus redundancy coding (any k of n pieces rebuild the data)
-  or secret sharing (fewer than k pieces reveal nothing). The values of k and n.
-- How deletion reaches every piece, and the joint-controller agreement between operators.
+See sections 3d and 3e of photos-and-profile-storage.md and section 5.6 of the design review in
+the project research.
 
-## Proposal from the photo and profile storage work (not yet decided)
+- Search cards in the sealed level stay minimal (age, location tile, search groups, "looking
+  for", interest tags, visibility limits), so an enclave break exposes little. Search is
+  replicated across sealed servers.
+- Releases of the sealed program are logged in a public transparency log, signed with a release
+  key split across board members' hardware keys (3 of 5), and accepted by phones only after a
+  delay (7 days).
+- Per-chip attestation keys can be revoked once a compromise is known.
+- Plain operators join after automated checks (uptime, correct protocol) and must delete on the
+  e.V.'s instruction. A central revocation list removes operators who break the agreement.
 
-See section 3b of photos-and-profile-storage.md in the project research.
+## Still open
 
-- Photos, profile texts and conversation-only fields are encrypted with a fresh key per item,
-  split with erasure coding into n pieces (any k rebuild it), and the key is split the same way
-  with secret sharing. Start at k = 2 of n = 3, raise as operators join. Operators must be
-  independent (different legal entities and hosters, all in the EU).
-- Search still needs a **small readable search index** on the servers that run search: age,
-  location tile, gender, "looking for" and the "who can find me" limits. Searching over split
-  secrets exists in research but is far too slow and complex for this project. Which fields go
-  in that index is the open question above.
-- Every server holding pieces checks on its own whether a viewer may see a profile, and rate
-  limits are counted across the whole network, not per server.
-- The home server sees each photo briefly while checking it, then deletes it. "No server holds a
-  full profile" is true for everything stored, not for those minutes; we say so openly.
+- **Who holds profile content keys.** If the sealed level also holds every profile's content key
+  (to hand to permitted viewers), an enclave break exposes full profiles, not just search cards.
+  Either accept that openly in the threat model and DPIA, or move to proxy re-encryption before
+  stage 2.
+- Hosting for sealed servers: confidential VMs at the large clouds, or dedicated hardware
+  (whether Hetzner exposes SEV-SNP to customers is unconfirmed).
+- The protocol between servers, and how deletion reaches every server (GDPR Art. 17(2)).
+- The operator agreement: processor (Art. 28) or joint controller (Art. 26), for each level
+  (lawyer).
+- Anonymous allowance tokens: the review recommends leaving them out unless sealed sender and
+  the opening-message rules are designed together, because the mailbox has to know the sender
+  anyway. Stage 1 counts allowance per account.
 
 ## What stage 1 must do so this isn't a rewrite
 
-- Profile storage sits behind its own interface in the server code, so the single-server store
-  can later be replaced by distributed storage without touching search, chat or safety.
-- Search reads only the fields it needs through a separate interface, never the full profile.
+- Account IDs in the form decided in [01](01-accounts-and-identity.md), from the first migration.
+- Profile storage sits behind its own interface ("put item / get item / delete item", able to
+  hold ciphertext with a key per item), so the single-server store can later move to the plain
+  level without touching search, chat or safety.
+- Search reads only the search card fields through a separate interface, never the full profile.
+- Safety and admission run as their own services, so they can move to the sealed level.
+- A device signing key is registered at sign-up (see [01](01-accounts-and-identity.md)).
