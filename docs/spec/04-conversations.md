@@ -25,9 +25,11 @@ decision D17).*
 - **Either person can end a conversation at any time.** The server then refuses all further
   messages between the two, and neither can send a new opening message to the other. Unlike a
   block, both can still appear in each other's search.
-- **Ending kindly (decided 12 Oct):** when ending, the person can send one optional fixed
+- **Ending kindly (decided 12 Oct):** when ending, the person can send one fixed kind
   message, for example "Thanks for chatting, I don't think we're right for each other. All the
-  best." Ending is as easy as disappearing, but clearer for the other person.
+  best." Ending is as easy as disappearing, but clearer for the other person. **Later the same
+  day (topic 13):** sending one of three fixed lines (or a free text) is the default; "end
+  without a message" is a second tap.
 
 ## Inbox cap and allowance (decided 12 Oct, D17)
 
@@ -52,6 +54,24 @@ decision D17).*
   accounts. Filtering happens on the recipient's phone, since opening messages are end-to-end
   encrypted. Hidden messages still expire normally after 30 days.
 - **No pressure:** no read receipts, no "someone is waiting" notices, no reminders to answer.
+
+## From chat to meeting, and going silent (decided 12 Oct, topic 13)
+
+Details and reasons in [13](13-frustrations.md).
+
+- **"Suggest meeting" message.** A special end-to-end encrypted message type carrying what,
+  where and when; the other person answers yes, counter-suggests or says not yet. Accepted
+  suggestions are pinned at the top of the chat. The relay sees ciphertext only.
+- **Private nudge after a week** of writing on both sides with no meeting suggested, shown only
+  to the person themself, no notification, off in settings.
+- **Quiet conversations archive themselves** after 30 days without a message from either side,
+  with one neutral line, no notification; writing reopens the chat unless it was ended.
+- **"Waiting for your reply"** is a private view and sort in your own chat list; the other person
+  never sees it.
+- **Reply or end before writing to someone new:** with more than 8 conversations waiting on your
+  reply, the app asks you to answer or end some before a new opening message. A setting, on by
+  default, tuned in the pilot.
+- **Not built:** read receipts, "last active" in chats, ghosting scores.
 
 ## Rejected alternative
 

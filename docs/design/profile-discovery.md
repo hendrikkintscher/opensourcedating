@@ -50,7 +50,9 @@ A short **fit checklist** shows why this person is in your results ("you're in e
 
 Actions on a full profile:
 
-- **Write**: send one opening message (see Messaging below).
+- **Write**: send one opening message (see Messaging below). While writing, the person's prompts,
+  tags and fit checklist stay visible beside the text field, with one fixed tip: mention something
+  from their profile, short and specific.
 - **Save**: a private bookmark list. Nobody is told they were saved.
 - **Hide**: removes the person from your results. You can see and undo your hidden list at any time.
 - **Block**: hides both ways, server-enforced, silent.
@@ -77,6 +79,8 @@ A new profile is not visible to anyone until the person actively publishes it th
 ### 6. What we deliberately don't build
 
 - No swipe gestures, card stacks or one-at-a-time decisions.
+- No AI writing help of any kind: no AI openers, reply suggestions or profile-text generator
+  (see [spec 13](../spec/13-frustrations.md)).
 - No endless scrolling feed. Results are paginated, and the list ends.
 - No "who viewed my profile" list (it creates pressure and leaks who's browsing).
 - No "online now" indicator and no exact distance.

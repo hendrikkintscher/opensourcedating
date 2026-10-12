@@ -30,6 +30,7 @@ after the prototype is built.
 | 10 | Search filters, sort and anti-scraping limits | Low to medium | decided | [10](10-search-limits.md) |
 | 11 | Test bots and test data separation | Low, but needed from day one | decided | [11](11-test-bots.md) |
 | 12 | Stage 2: one server program on sealed and plain levels | Low now, as long as 1, 2 and 5 are built ready for stage 2 | decided (details open) | [12](12-stage-2-network.md) |
+| 13 | Common frustrations: from chat to meeting, going silent, current photos, AI-written chats | Low to medium: a message type, a few profile fields, on-phone timers | decided | [13](13-frustrations.md) |
 
 ## Inventory
 
@@ -186,6 +187,19 @@ after the prototype is built.
 - What stage 1 must already get right so stage 2 is not a rewrite: account IDs per topic 1,
   safety and admission in their own services (topic 5), and profile storage and search behind
   their own interfaces.
+
+### 13. Common frustrations
+- **Decided (12 Oct):** "Suggest meeting" message in the chat; an optional "how soon do you like
+  to meet" profile field; a private nudge after a week of writing; a private "did you meet, did
+  you feel safe" check-in that feeds safety only.
+- **Decided (12 Oct):** ending kindly is the one-tap default (three fixed lines or free text);
+  quiet chats archive themselves after 30 days; "waiting for your reply" is visible only to you;
+  reply or end before writing to someone new once more than 8 chats wait on you.
+- **Decided (12 Oct):** photo age bands, a dated verification badge renewed yearly, "taken in the
+  app" photos, narrative profile prompts, and a soft report sub-reason for stale photos.
+- **Decided (12 Oct):** the app never offers AI writing help; the other person's profile sits
+  beside the text field with one fixed tip; a community agreement at first publish asks people to
+  end chats with a tap and write their own messages. See [13](13-frustrations.md).
 
 ## Outside the topic list
 

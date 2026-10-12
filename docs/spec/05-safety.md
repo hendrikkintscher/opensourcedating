@@ -40,6 +40,8 @@ The "photo verified" search filter uses **on-device liveness and face comparison
   Art. 50 transparency and the DPIA still apply).
 - The on-device model is open source, with a known false acceptance rate across skin tones and
   genders, and is tested before launch.
+- **Dated and renewed yearly (topic 13):** the badge shows the month of the check and lapses
+  after twelve months until the check runs again.
 
 ## Ban evasion, kept clear of biometric data
 
@@ -67,6 +69,14 @@ lawyer (see [09](09-deletion-and-retention.md)).
 5. Something happened when we met
 6. Hate
 7. Other
+
+Reason 2 has a milder sub-choice, **"Photos don't look like the person"** (topic 13): moderation
+asks for a re-verification or new photos; no ban for this alone.
+
+**"Did you meet?" check-in (topic 13).** After an accepted meeting time has passed, each
+person's app asks privately whether they met and felt safe. "I felt unsafe" opens the report flow
+with reason 5. Answers never reach the other person and feed no ranking; an aggregate count for
+the pilot needs its own consent.
 
 **Response targets:**
 
