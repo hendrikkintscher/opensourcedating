@@ -321,28 +321,25 @@ function diagram(stage) {
     <circle r="5" fill="${P}"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s1chat"/></animateMotion></circle>
     </svg>`;
   } else {
-    // No home servers: every server holds search cards and mailboxes for the groups it is picked for, plus blind profile pieces.
-    const srv = (x, title, dash) => `${box(x, 14, 128, 96, title, 'search cards · mailboxes', V, dash)}
-      <text x="${x + 64}" y="68" text-anchor="middle" class="m s">profile pieces:</text>
-      <rect x="${x + 40}" y="76" width="18" height="18" rx="3" fill="${P}" fill-opacity=".55"/>
-      <rect x="${x + 70}" y="76" width="18" height="18" rx="3" fill="${V}" fill-opacity=".55"/>`;
-    svg = `<svg class="diagram" viewBox="0 0 440 330" role="img" aria-label="Stage 2: network of vetted servers">${defs}
-    ${srv(8, 'Server A')} ${srv(156, 'Server B')} ${srv(304, 'Server C')}
-    <path d="M136 52 L156 52 M284 52 L304 52" stroke="${V}" stroke-width="2.5"/>
-    <circle r="4" fill="${V}"><animateMotion dur="1.6s" repeatCount="indefinite" path="M136 52 L156 52"/></circle>
-    <circle r="4" fill="${V}"><animateMotion dur="1.6s" repeatCount="indefinite" path="M284 52 L304 52"/></circle>
-    <rect x="96" y="124" width="248" height="42" rx="10" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
-    <text x="220" y="141" text-anchor="middle" font-weight="600">Shared safety policy</text>
-    <text x="220" y="157" text-anchor="middle" class="m s">allow-list · one ban list · operator vote</text>
-    ${phone(24, 226, 'Alice')} ${phone(320, 226, 'Bob')}
-    <path d="M72 224 L72 114" stroke="${V}" fill="none" marker-end="url(#ar)"/>
-    <path d="M100 224 L210 114" stroke="${V}" stroke-dasharray="3 3" fill="none" marker-end="url(#ar)"/>
-    <path d="M368 224 L368 114" stroke="${V}" fill="none" marker-end="url(#ar)"/>
-    <path d="M340 224 L230 114" stroke="${V}" stroke-dasharray="3 3" fill="none" marker-end="url(#ar)"/>
-    <path id="s2chat" d="M120 252 C190 198 250 198 320 252" stroke="${P}" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
-    <text x="220" y="196" text-anchor="middle">end-to-end encrypted chat</text>
-    <text x="220" y="306" text-anchor="middle" class="m s">no home servers: each person's data sits with a group of servers;</text>
-    <text x="220" y="320" text-anchor="middle" class="m s">no server owns a person or holds a full profile (details open)</text>
+    // "3e" shape: one server program on two levels. Sealed (enclave) level run only by vetted operators;
+    // plain level stores and relays ciphertext and is open to anyone in the EU who signs. No shards, no home servers.
+    svg = `<svg class="diagram" viewBox="0 0 440 334" role="img" aria-label="Stage 2: one server program on a sealed level and a plain level">${defs}
+    ${box(70, 12, 300, 66, 'Sealed level: vetted operators', 'enclaves in data centres, attested')}
+    <text x="220" y="62" text-anchor="middle" class="m s">search cards · admission · bans</text>
+    ${box(20, 126, 158, 48, 'Plain server', 'ciphertext store · relay')}
+    ${box(262, 126, 158, 48, 'Plain server', 'anyone in the EU, signed', V, true)}
+    <path d="M99 126 L150 80 M341 126 L290 80" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+    <text x="220" y="106" text-anchor="middle" class="m s">search · checks</text>
+    <path d="M178 150 L262 150" stroke="${V}" stroke-width="2.5"/>
+    <text x="220" y="142" text-anchor="middle" class="m s">ciphertext</text>
+    <circle r="4" fill="${V}"><animateMotion dur="1.6s" repeatCount="indefinite" path="M178 150 L262 150"/></circle>
+    ${phone(24, 236, 'Alice')} ${phone(320, 236, 'Bob')}
+    <path d="M72 234 L72 178" stroke="${V}" fill="none" marker-end="url(#ar)"/>
+    <path d="M368 234 L368 178" stroke="${V}" fill="none" marker-end="url(#ar)"/>
+    <path id="s2chat" d="M120 262 C190 208 250 208 320 262" stroke="${P}" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+    <text x="220" y="206" text-anchor="middle">end-to-end encrypted chat across servers</text>
+    <text x="220" y="312" text-anchor="middle" class="m s">one program, two levels: no shards, no home servers;</text>
+    <text x="220" y="326" text-anchor="middle" class="m s">who holds profile content keys is still open</text>
     <circle r="5" fill="${P}"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s2chat"/></animateMotion></circle>
     </svg>`;
   }
@@ -362,7 +359,7 @@ const SCREENS = {
     ${[0, 1, 2].map(i => { const y = 64 + i * 86; return `
     <rect x="10" y="${y}" width="180" height="78" rx="12" fill="#f6f1f4"/>
     <circle cx="42" cy="${y + 39}" r="24" fill="#d6a9c0"/>
-    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">Sam, 27</text>
     <text x="76" y="${y + 44}" font-size="9" fill="#5b4b55">≤ 20 min · hiking, board games</text>
     <text x="76" y="${y + 58}" font-size="8" fill="#888">Active this week</text>`; }).join('')}
     ${bar(0)}`),
@@ -371,7 +368,7 @@ const SCREENS = {
     ${[0, 1, 2, 3].map(i => { const col = i % 2, row = (i / 2) | 0, x = 10 + col * 93, y = 64 + row * 118; return `
     <rect x="${x}" y="${y}" width="85" height="110" rx="12" fill="#f6f1f4"/>
     <circle cx="${x + 42}" cy="${y + 42}" r="30" fill="#d6a9c0"/>
-    <text x="${x + 42}" y="${y + 86}" text-anchor="middle" font-size="10" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="${x + 42}" y="${y + 86}" text-anchor="middle" font-size="10" font-weight="700" fill="#2a1a24">Sam, 27</text>
     <text x="${x + 42}" y="${y + 98}" text-anchor="middle" font-size="7" fill="#888">≤ 20 min</text>`; }).join('')}
     ${bar(0)}`),
   'search-empty': () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
@@ -419,7 +416,7 @@ const SCREENS = {
     ${[0, 1].map(i => { const y = 70 + i * 86; return `
     <rect x="10" y="${y}" width="180" height="78" rx="12" fill="#f6f1f4"/>
     <circle cx="42" cy="${y + 39}" r="24" fill="${i ? '#b8a9d6' : '#d6a9c0'}"/>
-    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">${['Mo, 28–33', 'Avery, 25–30'][i]}</text>
+    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">${['Mo, 30', 'Avery, 26'][i]}</text>
     <text x="76" y="${y + 44}" font-size="9" fill="#5b4b55">≤ 30 min · long-term</text>
     <rect x="76" y="${y + 52}" width="58" height="16" rx="8" fill="#eef0ff"/><text x="105" y="${y + 63}" text-anchor="middle" font-size="7" fill="#5b4bdb">Write</text>`; }).join('')}
     ${bar(1)}`),
@@ -454,7 +451,7 @@ const SCREENS = {
     <rect x="20" y="228" width="160" height="36" rx="10" fill="#eef0ff"/><text x="30" y="250" font-size="9" fill="#5b4bdb">🔑 ID: a3f9…c21e (this phone)</text>
     <rect x="20" y="274" width="160" height="30" rx="10" fill="#f6f1f4"/><text x="30" y="293" font-size="9" fill="#555">Export my data</text>${bar(3)}`),
   'profile-full': () => frame(`<circle cx="100" cy="60" r="30" fill="#b8a9d6"/>
-    <text x="100" y="106" text-anchor="middle" font-size="13" font-weight="700">Sam, 25–30</text>
+    <text x="100" y="106" text-anchor="middle" font-size="13" font-weight="700">Sam, 27</text>
     <text x="100" y="119" text-anchor="middle" font-size="8" fill="#888">≤ 20 min · long-term</text>
     <rect x="16" y="130" width="168" height="36" rx="10" fill="#f6f1f4"/><text x="24" y="144" font-size="8" fill="#5b4b55" font-weight="700">About me</text><text x="24" y="157" font-size="8" fill="#555">Climbs, cooks badly, reads a lot.</text>
     <rect x="16" y="172" width="168" height="36" rx="10" fill="#f6f1f4"/><text x="24" y="186" font-size="8" fill="#5b4b55" font-weight="700">What I'm into</text><text x="24" y="199" font-size="8" fill="#555">Hiking, board games, bad puns.</text>
@@ -467,7 +464,7 @@ const SCREENS = {
   'profile-preview': () => frame(`<rect x="10" y="140" width="180" height="90" rx="14" fill="#f6f1f4"/>
     <circle cx="52" cy="185" r="28" fill="#d6a9c0"/>
     <rect x="94" y="164" width="40" height="12" rx="6" fill="#fbe3ee"/><text x="100" y="173" font-size="7" fill="#d6336c" font-weight="700">TEST BOT</text>
-    <text x="94" y="195" font-size="11" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="94" y="195" font-size="11" font-weight="700" fill="#2a1a24">Sam, 27</text>
     <text x="94" y="209" font-size="8" fill="#5b4b55">≤ 20 min · long-term</text>
     <text x="20" y="250" font-size="8" fill="#888">"Climbs, cooks badly, reads a lot…"</text>${bar(0)}`)
 };

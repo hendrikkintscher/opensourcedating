@@ -8,7 +8,7 @@
     "note": "Decided means Hendrik decided it. Planned means agreed as a later step but not designed yet. Guess means a working assumption or a recommendation still waiting for a decision. Open means nobody has decided yet."
   },
   "intro": {
-    "what": "A free, open-source dating app for Android and iOS. It starts as a pilot in Berlin on one server run by a small non-profit, and later grows into a network of vetted servers run by different operators, so no single company owns the people who use it.",
+    "what": "A free, open-source dating app for Android and iOS. It starts as a pilot in Berlin on one server run by a small non-profit, and later grows into a network: one server program run by many operators, where only vetted operators run the servers that can read search data. No single company owns the people who use it.",
     "why": [
       {
         "title": "Dating apps are built to keep you swiping",
@@ -50,11 +50,11 @@
       },
       {
         "title": "Safety built in from day one",
-        "text": "Hide, block and report (reporting always blocks), a separate safety service, verifiable reports and an 18+ check that stores only the result."
+        "text": "Hide, block and report (reporting always blocks), a separate safety service, verifiable reports, optional photo verification on the phone and an 18+ check that stores only the result."
       },
       {
         "title": "Open source, run by a non-profit",
-        "text": "Public repo, no patents. A Berlin non-profit association runs the pilot server before real users join."
+        "text": "Public repo, no patents. A Berlin non-profit association (e.V.), being founded now, runs the pilot server."
       },
       {
         "title": "Test data until it's reviewed",
@@ -65,32 +65,33 @@
   "journey": [
     {
       "title": "Sign up without a password",
-      "text": "A passkey or a one-time email code (Ory Kratos). No password and no phone number. You confirm you are 18 or older. Your account gets a random ID; your email is never shown or used as a key.",
+      "text": "A passkey first, a one-time email code as the fallback (Ory Kratos). No password and no phone number. You confirm you are 18 or older. Your account gets a random ID with no server name in it, bound to your phone's key; your email is never shown or used as a key. Recovering the account on a new phone waits 24 hours and tells the old phone, which can cancel it.",
       "status": "decided",
       "doc": "docs/spec/01-accounts-and-identity.md"
     },
     {
       "title": "Write your profile",
-      "text": "Long-form texts come first, photos second. Every photo is checked before anyone sees it. How gender, orientation and \"looking for\" are entered is being designed, with care for the queer community.",
-      "status": "assumed",
-      "screen": "profile-me"
+      "text": "Long-form texts, interest tags and photos. You choose the search groups you appear in, separate from the gender label you show; orientation is an optional label, hidden by default and never a filter. Your profile stays hidden until you publish it, and publishing shows the privacy choices and asks for consent. How photos are checked, and how relationship types are described, is still being designed.",
+      "status": "decided",
+      "screen": "profile-me",
+      "doc": "docs/spec/02-profile-data-model.md"
     },
     {
       "title": "Pick your home area",
-      "text": "Tap your area on a Berlin map with a 500 m grid and choose how precisely it is stored. Only that area is kept, never a history. You can move it at most once a day and four times a month, so nobody can use it to pin you down.",
+      "text": "Tap your area on a Berlin map and choose how precisely it is stored: about 1.5 km by default, or 500 m, or your district. Only that area is kept, never a history. You can move it at most once a day and four times a month, so nobody can use it to pin you down. A finer location is only ever shared phone to phone inside a conversation.",
       "status": "decided",
       "doc": "docs/spec/06-location.md"
     },
     {
       "title": "Search and browse",
-      "text": "Set filters (travel time, age, gender and \"looking for\", relationship type, recently active) and browse 20 results a page. Gender is two-way: you only see people who are also looking for someone like you.",
+      "text": "Set filters (travel time, age, search groups and \"looking for\", relationship type, recently active, photo verified, interest tags) and browse 20 results a page. Search groups are two-way: you only see people who are also looking for someone like you. Age is two-way with a 5-year margin, and a symbol shows when you are outside someone's range. Results show the exact age, never the date of birth. Profile texts are searchable only for people who opt in.",
       "status": "decided",
       "screen": "search-list",
       "doc": "docs/design/profile-discovery.md"
     },
     {
       "title": "Write one opening message",
-      "text": "Text only, no links. You get 5 a week (fewer for new accounts), so you choose carefully. Unanswered messages disappear after 30 days, with no read receipts.",
+      "text": "Text only, no links. You get 5 a week (2 for new or unverified accounts), so you choose carefully. Unanswered messages disappear after 30 days, with no read receipts, and the allowance comes back. An inbox holds at most 15 unanswered messages; after that senders see a \"full\" notice, never a number.",
       "status": "decided",
       "screen": "msg-write",
       "doc": "docs/spec/04-conversations.md"
@@ -104,10 +105,16 @@
     },
     {
       "title": "Stay safe",
-      "text": "Hide someone from your results, block them (silent, both ways) or report them (which always blocks too). Moderators can verify reported messages without the server ever reading chats.",
+      "text": "Hide someone from your results, block them (silent, both ways) or report them (which always blocks too), choosing from seven reasons. Child sexual abuse material and threats to life are handled immediately, the rest within 24 hours. Moderators can verify reported messages without the server ever reading chats.",
       "status": "decided",
       "screen": "chat-safety",
       "doc": "docs/spec/05-safety.md"
+    },
+    {
+      "title": "Leave whenever you want",
+      "text": "Deleting your account takes effect at once, after you sign in again; backups expire after 30 days and photos are crypto-shredded. Inactive profiles are hidden after 3 months and deleted after 12, with warnings. Export your data by request during the test, in the app before real users.",
+      "status": "decided",
+      "doc": "docs/spec/09-deletion-and-retention.md"
     }
   ],
   "not_building": [
@@ -201,7 +208,7 @@
     }
   ],
   "architecture": {
-    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, servers run by vetted operators form one decentralised network: no server owns a person, and no server holds a full profile. Stage 1 is built so stage 2 needs no rewrite.",
+    "summary": "Two stages. The Berlin pilot runs on one server operated by an accountable legal entity, because search, blocking, bans and moderation need someone who can enforce rules and act as the GDPR controller. Later, one server program runs on two levels: sealed servers run only by vetted operators, and plain servers that anyone in the EU can run under a signed agreement. Stage 1 is built so stage 2 needs no rewrite.",
     "stages": [
       {
         "id": "stage1",
@@ -211,16 +218,16 @@
       },
       {
         "id": "stage2",
-        "title": "Stage 2: a network of vetted servers (later)",
-        "status": "decided",
-        "summary": "Other cities or communities run servers that join through an allow-list and a shared safety policy. There are no home servers: nobody belongs to one server. Each person's data (search card, message mailbox, counters) is held by a small group of servers the network picks, and photos and profile texts are encrypted and split into pieces across servers, so no server holds a full profile and some can go offline without losing anything. Servers mainly broker contact: answering searches, passing on messages, and sharing one ban list. How exactly this works is still open."
+        "title": "Stage 2: one program on two levels (later)",
+        "status": "partly",
+        "summary": "Every server runs the same program. The sealed level runs inside hardware enclaves that phones check before trusting them; it holds the small search cards and runs admission, ban and photo checks. Only vetted operators run it, in professional data centres, under a signed agreement. The plain level only stores and relays encrypted data (profile items, photos, messages); anyone in the EU who signs the operator agreement can run it. No shards, no home servers: profiles are not split across servers and accounts belong to no server. A shared ban list keeps a banned person out everywhere. Who holds profile content keys is still open."
       }
     ],
     "groundwork": [
-      "Account IDs that don't depend on any one server (the exact format is being reconsidered, see Open questions).",
-      "Safety data (bans, reports, verification) lives in its own service with an API, ready to be shared.",
-      "Profile and photo storage sit behind one interface, so sharded storage can replace it later.",
-      "Search reads only the fields it needs through its own interface, never the full profile.",
+      "Account IDs that don't depend on any one server: a random 128-bit code with no server name, bound to the phone's key by a certificate.",
+      "Safety data (bans, reports, verification) and admission run as their own services with an API, so they can move to the sealed level.",
+      "Profile and photo storage sit behind one interface (put, get, delete an item, able to hold ciphertext), so it can move to the plain level later.",
+      "Search reads only the search card fields through its own interface, never the full profile.",
       "Every chat message carries a franking tag, so reports stay verifiable across servers."
     ],
     "decisions": [
@@ -244,19 +251,19 @@
       {
         "topic": "Sign-in",
         "stage": "1",
-        "choice": "Ory Kratos with passkeys + email codes",
+        "choice": "Ory Kratos with passkeys first, email codes as fallback; 24 h recovery wait with a cancel notice to the old phone",
         "status": "decided",
-        "why": "No passwords and no custom auth code to get wrong. How sign-in works without home servers in stage 2 is open.",
+        "why": "No passwords and no custom auth code to get wrong. The waiting period stops someone with access to the email inbox from silently taking over an account.",
         "alternatives": "Phone number, own auth",
         "doc": "docs/spec/01-accounts-and-identity.md"
       },
       {
         "topic": "Account IDs",
         "stage": "1+2",
-        "choice": "Reopened: random ID plus server name (id@server) ties people to a home server. Proposal: an ID made from a key created on the phone. One phone per account and no chat backup stay decided.",
-        "status": "open",
-        "why": "The network should have no home servers, and changing IDs later touches every table.",
-        "alternatives": "id@server (decided on 11 Oct, now reopened)",
+        "choice": "Random opaque 128-bit ID, no @server, not derived from a key, bound to the device key by a certificate. One phone per account and no chat backup.",
+        "status": "decided",
+        "why": "Stable when a phone is lost, ties nobody to a server, and works with Kratos now and the stage 2 design later.",
+        "alternatives": "id@server, an ID made from a phone key",
         "doc": "docs/spec/01-accounts-and-identity.md"
       },
       {
@@ -287,12 +294,30 @@
         "doc": "docs/spec/05-safety.md"
       },
       {
+        "topic": "Photo verification",
+        "stage": "1",
+        "choice": "Optional on-device liveness and face comparison with its own consent; the server gets only a signed yes or no with app attestation",
+        "status": "decided",
+        "why": "Scales without staff and keeps biometric data on the phone. The DPO and lawyer confirm the consent design before real users.",
+        "alternatives": "Human check of a requested-pose photo, a vendor service",
+        "doc": "docs/spec/05-safety.md"
+      },
+      {
+        "topic": "Moderation",
+        "stage": "1",
+        "choice": "Seven report reasons; CSAM and threats to life immediately, under-18 within a few hours, the rest within 24 h; Hendrik plus one backup, both with escalation contacts",
+        "status": "decided",
+        "why": "Clear targets for the worst cases and no single point of failure during the pilot. The backup is not named yet.",
+        "alternatives": "Volunteer moderators, no fixed targets",
+        "doc": "docs/spec/05-safety.md"
+      },
+      {
         "topic": "Location",
         "stage": "1+2",
-        "choice": "Self-chosen home area on a ~500 m grid, stored only at the chosen precision, changes rate-limited",
+        "choice": "Self-chosen home area, stored at about 1.5 km by default (500 m or district selectable), no GPS, changes rate-limited",
         "status": "decided",
-        "why": "Coarse by default, chosen by the user, hard to triangulate.",
-        "alternatives": "GPS radius, district only",
+        "why": "The stored precision is all an attacker can ever learn, so the default is a neighbourhood, not a few streets. Finer location only goes phone to phone in a conversation.",
+        "alternatives": "GPS radius, 500 m default, district only",
         "doc": "docs/spec/06-location.md"
       },
       {
@@ -305,13 +330,76 @@
         "doc": "docs/design/profile-discovery.md"
       },
       {
+        "topic": "Keyword search",
+        "stage": "1+2",
+        "choice": "Interest tags (fixed list plus own short tags) and opt-in searchable profile texts: off by default, reciprocal, search words never logged; saved searches run on the phone",
+        "status": "decided",
+        "why": "Free text for everyone would need readable texts on the server and would find labels people chose to hide.",
+        "alternatives": "Free-text search over all profiles, no keyword search",
+        "doc": "docs/spec/10-search-limits.md"
+      },
+      {
+        "topic": "Two-way limits",
+        "stage": "1",
+        "choice": "Search groups two-way; age two-way with a 5-year margin; travel time one-way; a symbol on the tile when you're outside someone's range",
+        "status": "decided",
+        "why": "Cuts unwanted messages without hiding people over small differences. Accepted leak: symbols hint where the other person's limits are.",
+        "alternatives": "Age and travel time both two-way, only search groups two-way",
+        "doc": "docs/spec/10-search-limits.md"
+      },
+      {
+        "topic": "Profile data model",
+        "stage": "1+2",
+        "choice": "Self-chosen search groups separate from gender labels; orientation optional, hidden, never a filter; intentions stored as a list; exact age shown, never the date of birth; profile hidden until first published",
+        "status": "decided",
+        "why": "Filters need as little Art. 9 data as possible, and nobody becomes visible before they have seen the privacy choices. Relationship type is still open.",
+        "alternatives": "Gender as the filter, orientation as a filter, age bands",
+        "doc": "docs/spec/02-profile-data-model.md"
+      },
+      {
+        "topic": "Opening-message limits",
+        "stage": "1",
+        "choice": "5 opening messages a week (2 for accounts under two weeks old or unverified); allowance returned when a message expires unanswered after 30 days; inbox cap of 15 unanswered messages, adjustable, with a \"full\" notice and no number",
+        "status": "decided",
+        "why": "Limits mass messaging and overloaded inboxes without a hidden ranking; numbers are tuned with pilot data. An allowance relative to how many profiles fit your search is a future idea, not decided.",
+        "alternatives": "No inbox cap, allowance never returned",
+        "doc": "docs/spec/04-conversations.md"
+      },
+      {
         "topic": "Age check",
         "stage": "1+2",
-        "choice": "Self-declared for the fake-data test; on-phone selfie estimate plus stronger check near 18 before real users; only the result stored",
-        "status": "decided",
-        "why": "No ID scans or face data on the server; the method can change behind one interface.",
-        "alternatives": "ID upload, no check",
+        "choice": "Self-declared date of birth for the fake-data test; only the result is ever stored. The stronger check is chosen before real users (recommended: German eID age-only query, ID scan through an EU vendor as the fallback)",
+        "status": "planned",
+        "why": "No ID scans or face data on the server. The DSA guidelines expect verification for high-risk services; the choice is deferred until real users are near and can change behind one interface.",
+        "alternatives": "Selfie estimate only, human video check, ID upload",
         "doc": "docs/spec/08-age-check.md"
+      },
+      {
+        "topic": "Deletion and retention",
+        "stage": "1",
+        "choice": "Instant deletion with a hold under open reports; 30-day backups with a replayed deletion list; photos crypto-shredded; only a ban record kept after a ban, 2 years; inactive accounts hidden at 3 months, deleted at 12",
+        "status": "decided",
+        "why": "Smallest data set that still keeps bans effective. The lawyer confirms the 2-year period and the basis for the open-report hold.",
+        "alternatives": "Delayed deletion with undo, keeping reports against non-banned accounts",
+        "doc": "docs/spec/09-deletion-and-retention.md"
+      },
+      {
+        "topic": "IP logging",
+        "stage": "1",
+        "choice": "None during the fake-data test; before real users, keyed IP hashes (key rotated daily, kept 7 days) in the reverse proxy, Kratos, relay and safety service",
+        "status": "decided",
+        "why": "Spots sign-up farms within a week without storing addresses that reveal where people are.",
+        "alternatives": "Raw IPs for 7 days, no logging at all",
+        "doc": "docs/spec/09-deletion-and-retention.md"
+      },
+      {
+        "topic": "Transactional email",
+        "stage": "1",
+        "choice": "An EU-based transactional email provider with a DPA, minimal content, no app name in the subject if possible; provider not chosen yet (Scaleway, Lettermint or Brevo compared)",
+        "status": "decided",
+        "why": "An email alone can reveal that someone uses a dating app, so it should say as little as possible and stay with an EU processor.",
+        "alternatives": "A US email service, own mail server",
+        "doc": "docs/spec/01-accounts-and-identity.md"
       },
       {
         "topic": "Hosting",
@@ -324,36 +412,45 @@
       {
         "topic": "Operator",
         "stage": "1",
-        "choice": "Berlin e.V. (non-profit association), founded before real users join",
-        "status": "assumed",
-        "why": "Someone has to be the GDPR controller and DSA hosting provider.",
-        "alternatives": "gGmbH, UG"
+        "choice": "Berlin e.V. (non-profit association), founded now with seven founders, before any public announcement or grant press",
+        "status": "decided",
+        "why": "Someone has to be the GDPR controller and DSA hosting provider, and the project is already public, so liability should move off one person early.",
+        "alternatives": "Found it only before real users, gGmbH, UG"
+      },
+      {
+        "topic": "Licence",
+        "stage": "1+2",
+        "choice": "AGPL-3.0-or-later with a section 7 additional permission for app store distribution (LICENSE-EXCEPTION)",
+        "status": "decided",
+        "why": "App store terms conflict with the AGPL; adding the permission is easy now while the copyright holders are few. The lawyer is asked once about libsignal on iOS.",
+        "alternatives": "No exception, relicensing store builds"
       },
       {
         "topic": "Network",
         "stage": "2",
-        "choice": "Decentralised network of vetted servers: no home servers, an allow-list, one shared safety policy and ban list",
+        "choice": "One server program on two levels: sealed level run by vetted operators in data centres; plain level open to anyone in the EU who signs the operator agreement. No home servers, one shared ban list",
         "status": "decided",
-        "why": "No server owns a person; in an open network a banned person would move to the laxest server.",
-        "alternatives": "Open federation like Mastodon, pure phone-to-phone",
+        "why": "Enclaves can be broken by someone with physical access, and every operator processes Art. 9 data, so the servers that read data need vetted, contracted operators. Storing and relaying ciphertext can be open to more people under the same agreement.",
+        "alternatives": "Fully open servers, vetted servers only, groups of servers agreeing on each person's data",
         "doc": "docs/spec/12-stage-2-network.md"
       },
       {
         "topic": "Profile storage",
         "stage": "2",
-        "choice": "Encrypted profile pieces spread redundantly across servers; no server holds a full profile",
+        "choice": "Profile content encrypted on the phone and stored on plain servers; only minimal search cards are readable, inside the sealed level",
         "status": "decided",
-        "why": "A breach or a rogue operator of one server can't read whole profiles, and profiles survive servers going offline.",
-        "alternatives": "Each server keeps its own users' full profiles",
+        "why": "Plain operators only ever hold ciphertext, and an enclave break exposes little. Splitting profiles into k-of-n pieces is dropped: content is already encrypted, so it added a lot of work for little privacy.",
+        "alternatives": "Encrypted pieces spread across servers (k-of-n), each server keeping its users' full profiles",
         "doc": "docs/spec/12-stage-2-network.md"
       },
       {
-        "topic": "Who holds each person's data",
+        "topic": "Profile content keys",
         "stage": "2",
-        "choice": "Proposal: a small group of servers picked by the network from the account ID, acting only when most of the group agrees",
+        "choice": "Open: if the sealed level holds every profile's content key, an enclave break exposes full profiles. Accept that openly in the threat model and DPIA, or move to proxy re-encryption before stage 2",
         "status": "open",
-        "why": "No single server owns a person, and any one server can fail. Costs: much more engineering, slower search, and Ory Kratos would not fit stage 2.",
-        "alternatives": "Home servers (rejected by Hendrik)"
+        "why": "Decides how much an enclave break can expose.",
+        "alternatives": "Sealed level holds the keys, proxy re-encryption",
+        "doc": "docs/spec/12-stage-2-network.md"
       }
     ]
   },
@@ -363,30 +460,38 @@
       {
         "n": 1,
         "title": "Accounts and identity",
-        "status": "partly",
+        "status": "decided",
         "doc": "docs/spec/01-accounts-and-identity.md",
         "points": [
-          "Passkeys or email codes, no passwords, no phone number.",
-          "Reopened: the account ID format. id@server ties a person to a home server; the proposal is an ID made from a key created on the phone. Email is never a key either way.",
-          "One phone per account in the pilot, no chat backup. A lost phone gets the account back, but not old chats."
+          "Passkeys first, email codes as the fallback; no passwords, no phone number.",
+          "The account ID is a random 128-bit code with no server name, bound to the phone's key by a certificate. Email is never a key.",
+          "Recovery on a new phone waits 24 hours and tells the old phone, which can cancel it.",
+          "One phone per account in the pilot, no chat backup. A lost phone gets the account back, but not old chats.",
+          "Login codes go through an EU email provider with a DPA and as little content as possible; the provider is not chosen yet."
         ]
       },
       {
         "n": 2,
-        "title": "Gender, orientation and \"looking for\"",
-        "status": "open",
+        "title": "Profile data model: gender, orientation and \"looking for\"",
+        "status": "partly",
         "points": [
-          "Decided: gender filtering is two-way.",
-          "Decided: the data model supports the queer community from the first version, even though that community joins later.",
-          "A proposal is waiting for Hendrik (see Open questions)."
-        ]
+          "You choose your own search groups, separate from the gender labels you show. Search groups are two-way.",
+          "Orientation is an optional label, hidden by default and never a filter. No trans filter in phase 1.",
+          "\"Looking for\" is stored as a list of intentions; the first app shows one.",
+          "A new profile stays hidden until you publish it; the publish step shows the privacy choices and asks for the Art. 9 consent.",
+          "Still open: how relationship types are described beyond the intention (the \"intensity\" question), and gender as one value or several."
+        ],
+        "doc": "docs/spec/02-profile-data-model.md"
       },
       {
         "n": 3,
         "title": "Who sees what, and when",
         "status": "open",
         "points": [
-          "A proposal is waiting for Hendrik: two-way \"who can find me\" limits, a fit checklist, an inbox cap and five visibility steps (see Open questions)."
+          "Decided: exact age in previews; the date of birth is never shown.",
+          "Decided: age limits are two-way with a 5-year margin, travel time is one-way, and a symbol shows when you are outside someone's range.",
+          "Decided: a finer location is shared only phone to phone inside a conversation.",
+          "Still open: the visibility steps, a fit checklist and conversation-only photos (see Open questions)."
         ]
       },
       {
@@ -395,7 +500,9 @@
         "status": "decided",
         "doc": "docs/spec/04-conversations.md",
         "points": [
-          "One text-only opening message per person, 5 a week to start; a reply starts the conversation.",
+          "One text-only opening message per person; a reply starts the conversation.",
+          "5 a week, 2 for new or unverified accounts; the allowance comes back when a message expires unanswered after 30 days.",
+          "Inboxes hold at most 15 unanswered messages (adjustable); senders then see a \"full\" notice, never a number.",
           "Opening messages are end-to-end encrypted too; \"no links\" is enforced on the recipient's phone.",
           "Either person can end a conversation; after that neither can write again, but it isn't a block."
         ]
@@ -403,23 +510,25 @@
       {
         "n": 5,
         "title": "Safety and moderation",
-        "status": "partly",
+        "status": "decided",
         "doc": "docs/spec/05-safety.md",
         "points": [
           "Hide, block (silent, both ways) and report (always blocks). Reported people hear only when action is taken, with reasons and appeal.",
-          "Separate safety service from day one; verifiable reports through message franking.",
-          "Ban evasion via hashed email, photo-file hashes and device signals, never face recognition."
+          "Seven report reasons. CSAM and threats to life handled immediately, under-18 within a few hours, the rest within 24 hours.",
+          "Hendrik plus one backup moderate the pilot, both with escalation contacts; the backup is not named yet.",
+          "Optional photo verification runs on the phone; only a signed yes or no reaches the server.",
+          "Separate safety service from day one; verifiable reports through message franking. Ban evasion via hashed email, photo-file hashes and device signals, never face recognition."
         ]
       },
       {
         "n": 6,
         "title": "Location",
-        "status": "partly",
+        "status": "decided",
         "doc": "docs/spec/06-location.md",
         "points": [
-          "No GPS; a self-chosen home area, stored only at the precision the user picked.",
+          "No GPS; a self-chosen home area, stored only at the precision the user picked: about 1.5 km by default, or 500 m, or district.",
           "Home area changes at most once a day and four times in 30 days.",
-          "Travel-time bands by public transport, never distances."
+          "Travel-time bands by public transport, never distances. A finer location only goes phone to phone in a conversation."
         ]
       },
       {
@@ -427,27 +536,32 @@
         "title": "Photos and profile storage",
         "status": "open",
         "points": [
-          "A proposal is waiting for Hendrik: photos checked before they go public, each encrypted with its own key, and a conversation-only tier (see Open questions)."
+          "Decided: photo verification runs on the phone (topic 5), and stage 2 keeps profile content encrypted on plain servers, with no pieces split across servers (topic 12).",
+          "Still open: how photos are checked before they go public, and a conversation-only tier (see Open questions)."
         ]
       },
       {
         "n": 8,
         "title": "Age check (18+)",
-        "status": "decided",
+        "status": "partly",
         "doc": "docs/spec/08-age-check.md",
         "points": [
           "Self-declared date of birth for the fake-data test.",
-          "Before real users: on-phone selfie estimate, stronger check near 18, the EU age app once available.",
+          "Which stronger check is deferred until before real users. Recommended: German eID age-only query, ID scan through an EU vendor as the fallback; the EU age app once available.",
           "Only the result is stored, never a selfie or an ID."
         ]
       },
       {
         "n": 9,
         "title": "Deletion, retention and export",
-        "status": "open",
+        "status": "decided",
         "points": [
-          "Pros and cons are written up and waiting for Hendrik (see Open questions)."
-        ]
+          "Deletion takes effect at once (after signing in again), held only while a report is open; 30-day backups, photos crypto-shredded.",
+          "After a ban only the ban record is kept, 2 years pending the lawyer.",
+          "Export by request during the test, in the app before real users. Inactive accounts hidden at 3 months, deleted at 12, with warnings.",
+          "No IP logging in the fake-data test; before real users only keyed IP hashes, kept 7 days."
+        ],
+        "doc": "docs/spec/09-deletion-and-retention.md"
       },
       {
         "n": 10,
@@ -456,8 +570,9 @@
         "doc": "docs/spec/10-search-limits.md",
         "points": [
           "20 results a page, and the list ends.",
-          "50 full-profile views a day for new accounts, 200 after two weeks, to slow down scrapers.",
-          "\"Hide\" lasts until you undo it."
+          "Interest tags instead of free-text keywords; profile texts searchable only for people who opt in (off by default, reciprocal). Search words are never logged.",
+          "Saved searches and alerts run on the phone.",
+          "50 full-profile views a day for new accounts, 200 after two weeks, to slow down scrapers. \"Hide\" lasts until you undo it."
         ]
       },
       {
@@ -473,13 +588,14 @@
       },
       {
         "n": 12,
-        "title": "Stage 2: network of servers",
+        "title": "Stage 2: one server program on two levels",
         "status": "partly",
         "doc": "docs/spec/12-stage-2-network.md",
         "points": [
-          "A decentralised network of vetted servers with one shared ban list. No home servers.",
-          "No server holds a full profile: encrypted pieces spread redundantly across servers.",
-          "Who holds each person's data, how sign-in works, and what search can read are still open."
+          "The sealed level runs in enclaves that phones check; it holds search cards and runs admission, ban and photo checks. Only vetted operators run it, in data centres, under a signed agreement.",
+          "The plain level stores and relays encrypted data; anyone in the EU who signs the operator agreement can run it.",
+          "No shards and no home servers. One shared ban list.",
+          "Still open: who holds profile content keys, where sealed servers run, the protocol between servers and deletion across servers."
         ]
       }
     ],
@@ -495,64 +611,30 @@
       {
         "title": "Open and unpatented",
         "text": "Public repository from the start, no patents."
+      },
+      {
+        "title": "Non-profit founded now",
+        "text": "The Berlin e.V. is founded now with seven founders, before any public announcement or grant press, so liability moves off one person early."
+      },
+      {
+        "title": "App store licence exception",
+        "text": "AGPL-3.0-or-later with a section 7 additional permission for app store distribution (LICENSE-EXCEPTION). The lawyer is asked once about libsignal on iOS."
+      },
+      {
+        "title": "Sign off every commit (DCO)",
+        "text": "Every commit carries a Developer Certificate of Origin sign-off, enforced by a CI check on pull requests (see CONTRIBUTING.md)."
       }
     ]
   },
   "open": {
     "awaiting": [
       {
-        "topic": "No home servers: a truly decentralised network (topics 1 and 12)",
-        "doc": "photos-and-profile-storage.md",
-        "questions": [
-          [
-            "Account ID made from a key created on the phone, with no server name in it?",
-            "Yes, from day one"
-          ],
-          [
-            "Each person's search card, mailbox and counters held by a small group of servers picked from their ID?",
-            "Yes"
-          ],
-          [
-            "Sign-in with the phone's key; Ory Kratos only for email codes on the stage 1 server?",
-            "Yes, with an external security review"
-          ],
-          [
-            "Assume honest but fallible operators, with joint signatures only for admitting accounts, access passes and key hand-over?",
-            "Yes"
-          ],
-          [
-            "Servers admitted to or removed from the network by a vote of the operators?",
-            "Yes"
-          ],
-          [
-            "Accept the costs: much more engineering, slower search, harder recovery and operations?",
-            "Your call"
-          ]
-        ]
-      },
-      {
-        "topic": "Gender, orientation and \"looking for\" (topic 2)",
+        "topic": "Relationship type (topic 2)",
         "doc": "identity-and-intentions-model.md",
         "questions": [
           [
-            "Separate the gender labels you show from the search groups you appear in?",
-            "Yes"
-          ],
-          [
-            "Orientation as an optional label, hidden by default and never a filter?",
-            "Yes"
-          ],
-          [
-            "Gender and relationship openness two-way; length and intensity your own filter only?",
-            "Yes"
-          ],
-          [
-            "\"Looking for\" stored as a list of intentions, a single one in the first app?",
-            "Yes"
-          ],
-          [
-            "No trans filter in phase 1; discuss T4T with the community before phase 2?",
-            "Yes"
+            "Describe relationship types beyond the intention with the draft dimensions (openness, length, intensity): openness two-way, length and intensity your own filter only?",
+            "Draft proposal, not decided"
           ]
         ]
       },
@@ -561,23 +643,7 @@
         "doc": "visibility-and-mutual-discovery.md",
         "questions": [
           [
-            "Two-way \"who can find me\" limits for age range and travel time?",
-            "Yes"
-          ],
-          [
             "A fit checklist on profiles showing why someone is in your results?",
-            "Yes"
-          ],
-          [
-            "Inbox cap with a notice to senders, starting at 15, adjustable by the recipient?",
-            "Yes"
-          ],
-          [
-            "Allowance given back when an opening message expires unanswered?",
-            "Yes"
-          ],
-          [
-            "Exact age in search, date of birth hidden?",
             "Yes"
           ],
           [
@@ -591,7 +657,7 @@
         ]
       },
       {
-        "topic": "Photos and profile storage (topic 7 and stage 2)",
+        "topic": "Photos (topic 7)",
         "doc": "photos-and-profile-storage.md",
         "questions": [
           [
@@ -599,42 +665,8 @@
             "Yes"
           ],
           [
-            "Shards across servers from stage 2 only, with stage 1 storage behind an interface?",
-            "Yes, start at 2 of 3"
-          ],
-          [
-            "Free-text keyword search: interest tags from a fixed list, drop it, or keep free text?",
-            "Interest tags"
-          ],
-          [
             "Volunteer photo checking for low-risk questions?",
             "After the pilot"
-          ]
-        ]
-      },
-      {
-        "topic": "Deletion, retention and export (topic 9)",
-        "doc": "deletion-retention-export.md",
-        "questions": [
-          [
-            "Delete accounts instantly, but hold open reports until a moderator closes them?",
-            "Yes, 30-day backups"
-          ],
-          [
-            "Keep only ban records after deletion?",
-            "Yes, 2 years pending the lawyer"
-          ],
-          [
-            "Data export by email request in the test, in the app before real users?",
-            "Yes"
-          ],
-          [
-            "Hide inactive accounts after 3 months, delete after 12?",
-            "Yes"
-          ],
-          [
-            "IP addresses: none logged by default, 24 hours only during an attack?",
-            "Yes, revisit before real users"
           ]
         ]
       }
@@ -643,34 +675,36 @@
       {
         "area": "Stage 2 network",
         "items": [
-          "How groups of servers agree on counters and signatures (replication method).",
+          "Who holds profile content keys: accept that an enclave break exposes full profiles, or move to proxy re-encryption first.",
+          "Where sealed servers run: confidential VMs at a large cloud, or dedicated hardware.",
           "Which fields the readable search card holds.",
-          "Who holds the keys to profile pieces, and how a viewer gets access.",
-          "Splitting method and the values of k and n.",
           "Which protocol servers use to talk to each other.",
-          "How deletion reaches every piece, and what the joint-controller agreement contains."
+          "How deletion reaches every server (GDPR Art. 17(2)), and whether the operator agreement makes each level a processor or a joint controller (lawyer)."
         ]
       },
       {
         "area": "Safety",
         "items": [
-          "The list of report reasons, response times, and who moderates during the test.",
-          "Retention periods for reports, decisions and ban records (lawyer)."
+          "Name the backup moderator for the pilot.",
+          "Lawyer confirms the 2-year ban-record period and the basis for holding accounts under open reports.",
+          "DPO and lawyer confirm the consent design for photo verification before real users."
         ]
       },
       {
         "area": "Product details",
         "items": [
-          "Which location precisions are offered and which is the default.",
-          "Allowance numbers for new accounts.",
+          "Does the open-source Kratos support passkeys in native apps? A one-day spike before building login.",
+          "Which EU email provider sends login codes (Scaleway, Lettermint or Brevo).",
+          "Gender as one value or several, a free-text option, and which free-text sections the profile has.",
           "Rate limits on search requests.",
-          "Which stronger age check to use near 18 before the EU app exists (lawyer)."
+          "Which stronger age check before real users: German eID age-only query, or an ID scan through an EU vendor."
         ]
       },
       {
         "area": "Organisation",
         "items": [
-          "Who runs and pays for the server before the e.V. exists."
+          "Who runs and pays for the server before the e.V. exists.",
+          "Lawyer: libsignal (AGPL) on iOS under the app store licence exception."
         ]
       }
     ]
@@ -689,7 +723,8 @@
       "title": "Spec review",
       "state": "now",
       "items": [
-        "8 of 12 topics decided; 5 proposals waiting for a decision (see Open questions).",
+        "10 of 12 topics decided; 3 proposals waiting for a decision (see Open questions).",
+        "Founding the Berlin e.V. with seven founders, before any public announcement.",
         "Funding applications: NLnet (deadline 3 Nov 2026) and the Prototype Fund (30 Nov 2026)."
       ]
     },
@@ -707,8 +742,8 @@
       "state": "later",
       "items": [
         "Human security review of the server, relay and sign-in.",
-        "Found the Berlin e.V. as operator; data protection impact assessment and an external data protection officer.",
-        "Stronger age check, in-app data export, lawyer on retention periods."
+        "The e.V. takes over as operator; data protection impact assessment and an external data protection officer.",
+        "Stronger age check, in-app data export, keyed IP hashes, lawyer on retention periods."
       ]
     },
     {
@@ -723,7 +758,7 @@
       "title": "Stage 2: network of servers",
       "state": "later",
       "items": [
-        "Other cities or communities run vetted servers in one decentralised network; profiles split across them."
+        "One server program on two levels: sealed servers run by vetted operators, plain servers anyone in the EU can run under a signed agreement."
       ]
     }
   ],
@@ -742,12 +777,6 @@
         "area": "Funding",
         "doc": "research/funding.md",
         "summary": "For example the libsignal module for React Native/Expo or the encrypted chat relay. Deadline 3 Nov 2026, noon CET."
-      },
-      {
-        "title": "Found a Berlin e.V. before phase 2",
-        "area": "Legal",
-        "doc": "research/legal-entity-and-dpo.md",
-        "summary": "No entity needed for the fake-data test; the e.V. becomes the operator before real users join, with an asset lock in its statutes."
       },
       {
         "title": "Write down why phase 1 needs no DPO",

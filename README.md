@@ -1,5 +1,11 @@
 # opensourcedating
 
+## Licence
+
+AGPL-3.0-or-later, see [LICENSE](LICENSE), with one additional permission under section 7 that
+allows distribution through app stores such as the Apple App Store: see
+[LICENSE-EXCEPTION](LICENSE-EXCEPTION). Third-party libraries keep their own licences.
+
 ## Colleague portal
 
 A read-only introduction and dashboard (what and why, how it works, two-stage architecture, decisions, open questions, next steps, design mockups), file browser and

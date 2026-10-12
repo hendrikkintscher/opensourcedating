@@ -1,0 +1,52 @@
+opensourcedating: additional permission for app store distribution
+
+This file adds one additional permission to the GNU Affero General Public
+License, version 3 or later (AGPL-3.0-or-later), under which this project is
+licensed. The licence text itself is in LICENSE and is unchanged.
+
+SPDX-License-Identifier: AGPL-3.0-or-later (with the additional permission below)
+
+----------------------------------------------------------------------------
+Additional permission under GNU AGPL version 3 section 7: app store distribution
+----------------------------------------------------------------------------
+
+Provided that you are otherwise in compliance with the GNU AGPL version 3
+for each covered work you convey (including, without limitation, making the
+Corresponding Source available in compliance with section 6 of the GNU AGPL
+version 3, through a channel that is not subject to any such store's terms),
+the copyright holders of this Program grant you the additional permission to
+convey the Program, or any covered work based on it, in object code form
+through an application store or distribution platform (for example the Apple
+App Store or Google Play), even if the terms of that store or platform
+impose further restrictions on recipients, such as usage rules, device
+limits, or the technical signing and copy protection measures the store
+applies, that would otherwise be prohibited by section 10 of the GNU AGPL
+version 3.
+
+This permission covers only the restrictions imposed by the store or platform
+itself. It does not allow you to impose any further restrictions of your own,
+and it does not change the source code obligations of the GNU AGPL, including
+section 13 (remote network interaction).
+
+As section 7 of the GNU AGPL allows, when you convey a copy of a covered work
+you may remove this additional permission from that copy, or from any part of
+it. If you modify the Program, you may extend this permission to your version,
+but you are not obliged to do so.
+
+----------------------------------------------------------------------------
+Notes (not part of the permission)
+----------------------------------------------------------------------------
+
+- Added on 12 Oct 2026 by the project's copyright holders, while there are
+  only a few of them. Every later contribution is made under AGPL-3.0-or-later
+  together with this permission (see CONTRIBUTING.md).
+- The structure follows the App Store permission Open Whisper Systems added
+  to Signal's GPLv3 code ("Provided that you are otherwise in compliance with
+  the GPLv3 ..."). Unlike Signal's version, this one does not relicense the
+  store builds under another licence; it only waives the conflict with the
+  store's terms.
+- This permission applies only to code whose copyright holders granted it.
+  It does not cover third-party libraries under their own licences, in
+  particular libsignal (AGPL-3.0, owned by Signal Messenger LLC), which we
+  cannot add an exception to. A lawyer will be asked once whether shipping
+  libsignal in the iOS app is acceptable.

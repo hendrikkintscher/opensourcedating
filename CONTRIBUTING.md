@@ -4,7 +4,7 @@ Thanks for helping. A few rules keep this project free and legally clean.
 
 ## Licence
 
-All code in this repository is licensed under the **GNU Affero General Public License v3.0 or later** (AGPL-3.0-or-later), see [LICENSE](LICENSE). By contributing you agree that your contribution is released under the same licence. There is no contributor licence agreement: you keep the copyright in your contribution, and nobody (including the maintainers) can relicense the project under closed terms.
+All code in this repository is licensed under the **GNU Affero General Public License v3.0 or later** (AGPL-3.0-or-later), see [LICENSE](LICENSE), with the app store permission in [LICENSE-EXCEPTION](LICENSE-EXCEPTION). By contributing you agree that your contribution is released under the same licence, including that permission. There is no contributor licence agreement: you keep the copyright in your contribution, and nobody (including the maintainers) can relicense the project under closed terms.
 
 ## Sign off every commit (DCO)
 
@@ -15,6 +15,10 @@ git commit -s -m "Describe the change"
 ```
 
 This adds `Signed-off-by: Your Name <you@example.org>` to the commit message. Pull requests with unsigned commits can't be merged.
+
+The `DCO sign-off` check on every pull request enforces this; it ignores merge commits. To fix a missed sign-off on your own branch, run `git rebase --signoff main` and force-push. Commits made before 12 Oct 2026 are not signed off; they are all the owner's own work.
+
+Commits made by an AI assistant on the owner's behalf carry the owner's sign-off, which the owner authorised for commits they ask for.
 
 ## Your own work only
 
