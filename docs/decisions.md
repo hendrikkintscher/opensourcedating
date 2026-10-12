@@ -45,6 +45,7 @@ named phase gate).
 | Chats are never scanned, not even on the phone; every new conversation shows one fixed safety tip instead | 12 Oct 2026 | [05](spec/05-safety.md) |
 | **D9** Photo verification: optional on-device liveness and face comparison, only a signed yes or no leaves the phone | 12 Oct 2026 | [05](spec/05-safety.md) |
 | **D16** Seven report reasons, response targets, Hendrik plus one named backup moderate | 12 Oct 2026 | [05](spec/05-safety.md) |
+| Invite tree with inviter accountability and moderator approval in phases 3 to 5; no ID or eID; no background checks or Führungszeugnis | 12 Oct 2026 | [05](spec/05-safety.md) |
 | No GPS: home tile on a ~500 m Berlin grid, travel-time bands, only the chosen precision stored, tile changes rate-limited | 11 Oct 2026 | [06](spec/06-location.md) |
 | **D6** Precision levels 500 m, about 1.5 km (default) and district; finer location only phone to phone | 12 Oct 2026 | [06](spec/06-location.md) |
 | Photos: pipeline and moderation not decided yet | open | [07](spec/07-photos.md) |

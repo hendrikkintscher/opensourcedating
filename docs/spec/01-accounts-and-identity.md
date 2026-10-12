@@ -55,6 +55,13 @@ say the data stays in the EU (check each sub-processor list before signing). Bre
 platform with open and click tracking that would need turning off. For the fake-data phases (2 to 4) the free
 tiers are enough.
 
+## Decided: sign-up by invitation in phases 3 to 5 (12 Oct)
+
+Accounts in phases 3 to 5 are created from an invitation by an existing member and approved by
+a moderator; the invite tree and inviter accountability are specified in
+[05](05-safety.md#decided-who-gets-in-phases-3-to-5-12-oct). The admission service issues the
+invitation codes and records the tree.
+
 ## Recommended, follows from this
 
 - Sessions are listed in settings, with "log out everywhere".

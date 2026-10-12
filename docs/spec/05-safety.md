@@ -52,6 +52,36 @@ The "photo verified" search filter uses **on-device liveness and face comparison
 - **Dated and renewed yearly (topic 13):** the badge shows the month of the check ("verified
   Mar 2026") and lapses after twelve months until the check runs again.
 
+## Decided: who gets in, phases 3 to 5 (12 Oct)
+
+*Background: dangerous-people.md in the project research. Decided after looking at how open
+projects (Mastodon, Lobste.rs, Tildes, Matrix, Bluesky) handle dangerous people: by admission
+through people and open, transparent moderation, not by identity vendors.*
+
+- **Invite tree.** In phases 3 to 5 every account is created from an invitation by an existing
+  member. The safety service records who invited whom. Moderators can see the tree; users
+  cannot, and it is never public (on a dating app that would out people).
+- **Inviter accountability.** When an invited person is banned, the inviter's invite rights are
+  paused for a period; repeated bans among someone's invitees end their invite rights. A
+  suspension alone does not touch the inviter.
+- **Moderator approval.** A new sign-up is approved by a moderator before the profile becomes
+  findable, with a short "who invited you and why do you want to join" field, as Mastodon's
+  approval mode does.
+- **No ID, no eID, no face data** is needed for admission in these phases. The optional
+  "photo verified" badge (D9) stays as it is.
+- **Later, optional:** a "verified real person" badge through public infrastructure only (the
+  German eID or the EU digital identity wallet), never through a commercial ID-scan vendor,
+  together with a "only verified people can write to me" setting. Not designed yet.
+- **Limit.** The tree does not stop a first offence by a well-liked person, and it stops
+  working once sign-up opens to all of Berlin (phase 6). Admission for phase 6 is decided
+  before that phase, when the EU wallet may be available.
+
+**Not doing, and why:** background checks and sex-offender registries (US practice, no such
+registry in Germany, and no legal basis for a dating app to process criminal-record data under
+GDPR Art. 10, lawyer to confirm); asking users for a Führungszeugnis (same legal problem, easy
+to fake, excludes people, misses the great majority of offenders who were never convicted, and
+gives false comfort); sharing bans with other companies (accusation data, defamation risk).
+
 ## Decided: ban evasion, kept clear of biometric data
 
 To stop banned people from coming back, the safety service keeps, for a fixed period:
@@ -106,6 +136,11 @@ advises.
 
 ## Still open
 
+- Whether one credible "something happened when we met" report suspends the account before
+  review (being decided).
+- Meeting tools (share my date, check-in timer to a friend), telling earlier contacts about a
+  ban for offline harm (being decided).
+- Admission for phase 6, once sign-up opens to everyone.
 - Who the backup moderator is.
 - Which escalation contacts apply to which case (lawyer).
 - Retention: ban records are kept 2 years pending the lawyer, see
@@ -114,5 +149,6 @@ advises.
 
 ## Background
 
-Project research: safety and moderation (security/safety-and-moderation.md), security
-baseline, legal (legal-and-org/legal.md, the answers to the safety questions).
+Project research: safety and moderation (security/safety-and-moderation.md), dangerous people
+(security/dangerous-people.md), security baseline, legal (legal-and-org/legal.md, the answers
+to the safety questions).
