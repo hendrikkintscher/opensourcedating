@@ -20,7 +20,7 @@ after the prototype is built.
 |---|---|---|---|---|
 | 1 | Accounts and identity (account IDs, devices, recovery) | Very high: every table, every chat key and every block points at an account ID | decided | [01](01-accounts-and-identity.md) |
 | 2 | Profile data model: gender, orientation, "looking for", relationship type | Very high: drives the two-way filter, Art. 9 encryption and the queer-community phase | decided (relationship type open) | [02](02-profile-data-model.md) |
-| 3 | Visibility stages: what others see before and after a conversation starts | High: data-scope.md still describes the old like/like-back stages | being worked out in a separate thread (exact age and location in conversations decided 12 Oct) | |
+| 3 | Visibility stages: what others see before and after a conversation starts | High: replaces the old like/like-back stages in data-scope.md | decided | [03](03-visibility.md) |
 | 4 | Conversations: opening message, answer, ending a conversation, chat relay | High: shapes the relay protocol and libsignal sessions | decided | [04](04-conversations.md) |
 | 5 | Safety: block, report with evidence, moderation tool, ban evasion | High: safety data must live in its own service to be shareable in stage 2 | decided (backup moderator still to be named) | [05](05-safety.md) |
 | 6 | Location tiles and travel-time bands | Medium: decided design and defaults | decided | [06](06-location.md) |
@@ -71,9 +71,15 @@ after the prototype is built.
 - Open: which free-text sections the profile has; health fields stay out of v1.
 
 ### 3. Visibility stages
-- data-scope.md defines stages S0 to S5 around liking and liking back. Those steps no longer
-  exist (replaced by opening messages), so the stages need redefining, for example: account,
-  in search, opening message sent, conversation started, shared by choice.
+- **Decided (12 Oct):** six steps replace the old like/like-back stages: not findable, search
+  preview, full profile, opening message, conversation, shared by choice. Details get more
+  precise only when the person described takes an action. See [03](03-visibility.md).
+- **Decided (12 Oct):** a fit checklist on every full profile shows why someone is in your
+  results, using only fields they made visible.
+- **Decided (12 Oct):** "only people I write to" mode and a pause switch, free for everyone;
+  any photo can be conversation-only, but one stays visible in search unless in that mode.
+- **Decided (12 Oct):** no secret "both interested" signal. Compatibility questions with a
+  visible score are a later idea (phase 5 at the earliest).
 - **Decided (12 Oct):** exact age in previews; the date of birth is never shown.
 - **Decided (12 Oct):** once a conversation has started, a finer location is shared only phone
   to phone inside the encrypted chat; the server never holds more than the search precision.
@@ -92,6 +98,9 @@ after the prototype is built.
   opening message expires unanswered after 30 days. 5 opening messages a week, 2 for accounts
   under two weeks old or unverified; numbers tuned with pilot data. Future idea, not decided: an
   allowance relative to the number of profiles that fit the sender's search.
+- **Decided (12 Oct):** the recipient chooses how their inbox is sorted and can filter it (for
+  example, hide opening messages from unverified accounts); ending a conversation can send an
+  optional short, kind fixed message.
 - Recommended: photos in chat off for the prototype; push payloads never carry content.
 
 ### 5. Safety
