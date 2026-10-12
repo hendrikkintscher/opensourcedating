@@ -93,3 +93,5 @@ no cookie gives 401; `/?k=wrong` gives 403; `/?k=<token>` gives 302 plus cookie;
 
 ## Git
 - Work on a feature branch, commit small logical changes, and don't push or open PRs unless asked.
+- Every commit needs a DCO sign-off (CI check `DCO sign-off`). Hendrik decided on 12 Oct 2026 that Claude signs off commits he asks for in his name: end the message with
+  `Signed-off-by: Hendrik Kintscher <51195619+hendrikkintscher@users.noreply.github.com>` (or use `git commit -s` with that identity). Use his GitHub noreply address, never a personal email.

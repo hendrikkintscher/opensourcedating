@@ -16,6 +16,10 @@ git commit -s -m "Describe the change"
 
 This adds `Signed-off-by: Your Name <you@example.org>` to the commit message. Pull requests with unsigned commits can't be merged.
 
+The `DCO sign-off` check on every pull request enforces this; it ignores merge commits. To fix a missed sign-off on your own branch, run `git rebase --signoff main` and force-push. Commits made before 12 Oct 2026 are not signed off; they are all the owner's own work.
+
+Commits made by an AI assistant on the owner's behalf carry the owner's sign-off, which the owner authorised for commits they ask for.
+
 ## Your own work only
 
 - Contribute only work you have the right to give. If your employment contract gives your employer rights to code you write, get their permission first.
