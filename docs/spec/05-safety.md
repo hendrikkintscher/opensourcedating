@@ -126,6 +126,12 @@ the ban or lifts the suspension within 24 hours. The person is told nothing whil
 therefore costs at most a day of silence; a day in which a reported attacker could reach
 another person is the greater harm. A suspension does not touch the inviter.
 
+*Against misuse (decided 12 Oct):* the immediate effect needs an **accepted meeting
+suggestion** between the reporter and the reported person (the "Did you meet?" check-in links
+it automatically). A reason-5 report without one goes to the queue like any other reason, with
+the 24-hour target. So nobody can silence a person they never arranged to meet, and a meeting
+arranged off the app is reported the normal way.
+
 **Earlier contacts are told after a confirmed ban for harm at a meeting (decided 12 Oct).**
 When a ban after a reason-5 report is confirmed, everyone who had an accepted meeting with that
 person in the last months gets one neutral notice: "Someone you met through the app was removed
