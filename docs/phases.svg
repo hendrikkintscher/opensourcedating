@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 630" role="img" aria-labelledby="ph-t ph-d" class="phases-svg">
+<title id="ph-t">The seven project phases</title>
+<desc id="ph-d">A staircase of seven phases, from planning (now) to cities beyond Berlin. Each step is wider in who can use the app. Gates between steps list what must be true first. Below: phases 2 to 6 run on one server (stage 1), stage 2 is built in phase 6 and runs from phase 7. Profile data goes from none, to generated bot data, to fake profiles in phases 3 and 4, then a wipe, then real profiles from phase 5.</desc>
+<style>
+.bg{fill:#ffffff}.ink{fill:#1f1a24}.muted{fill:#6b6372}.ln{stroke:#ddd5e0}
+.d-none{fill:#d9d3dc}.d-bot{fill:#6f63e6}.d-fake{fill:#f2a93b}.d-real{fill:#d6336c}
+.s1{fill:#2f7d74}.s2{fill:#275fa8}.s2b{fill:#275fa8;fill-opacity:.28}
+.on-none,.on-fake{fill:#1f1a24}.on-bot,.on-real,.on-s{fill:#ffffff}
+.gate{fill:#ffffff;stroke:#6b6372;stroke-width:1.5}.gate.big{fill:#d6336c;stroke:#d6336c}
+.here{fill:#1f1a24}.wipe{stroke:#1f1a24;stroke-width:2;stroke-dasharray:3 3}
+text{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.num{font-size:11px;letter-spacing:.12em;font-weight:700}.ttl{font-size:15px;font-weight:700}
+.sub{font-size:12px}.stp{font-size:12px;font-weight:600}.gl{font-size:11px}.glb{font-size:11px;font-weight:700}
+.lane{font-size:10.5px;letter-spacing:.14em;font-weight:700}.bar{font-size:12px;font-weight:600}
+</style>
+<rect class="bg" width="1120" height="630"/>
+<text class="num ink" x="44" y="34">PHASE 1</text>
+<text class="ttl ink" x="44" y="56">Plan and build</text>
+<text class="sub muted" x="44" y="74">now</text>
+<text class="num muted" x="192" y="34">PHASE 2</text>
+<text class="ttl ink" x="192" y="56">Server and bots</text>
+<text class="sub muted" x="192" y="74">no people yet</text>
+<text class="num muted" x="340" y="34">PHASE 3</text>
+<text class="ttl ink" x="340" y="56">Tech testers</text>
+<text class="sub muted" x="340" y="74">code review too</text>
+<text class="num muted" x="488" y="34">PHASE 4</text>
+<text class="ttl ink" x="488" y="56">Community test</text>
+<text class="sub muted" x="488" y="74">queer scene first</text>
+<text class="num muted" x="636" y="34">PHASE 5</text>
+<text class="ttl ink" x="636" y="56">Real profiles</text>
+<text class="sub muted" x="636" y="74">selected users</text>
+<text class="num muted" x="784" y="34">PHASE 6</text>
+<text class="ttl ink" x="784" y="56">Berlin, open to all</text>
+<text class="sub muted" x="784" y="74">city-wide</text>
+<text class="num muted" x="932" y="34">PHASE 7</text>
+<text class="ttl ink" x="932" y="56">Beyond Berlin</text>
+<text class="sub muted" x="932" y="74">other cities</text>
+<rect class="d-none" x="44" y="324" width="140" height="36" rx="6"/>
+<text class="stp on-none" x="54" y="346">team</text>
+<rect class="d-bot" x="192" y="298" width="140" height="62" rx="6"/>
+<text class="stp on-bot" x="202" y="320">test bots</text>
+<rect class="d-fake" x="340" y="268" width="140" height="92" rx="6"/>
+<text class="stp on-fake" x="350" y="290">invited testers</text>
+<rect class="d-fake" x="488" y="240" width="140" height="120" rx="6"/>
+<text class="stp on-fake" x="498" y="262">one community</text>
+<rect class="d-real" x="636" y="198" width="140" height="162" rx="6"/>
+<text class="stp on-real" x="646" y="220">invite-only waves</text>
+<rect class="d-real" x="784" y="154" width="140" height="206" rx="6"/>
+<text class="stp on-real" x="794" y="176">anyone in Berlin</text>
+<rect class="d-real" x="932" y="110" width="140" height="250" rx="6"/>
+<text class="stp on-real" x="942" y="132">more cities</text>
+<g><path class="here" d="M114.0 316 l-7 -10 h14 z"/><text class="glb ink" x="114.0" y="298" text-anchor="middle">You are here</text></g>
+<line class="ln" x1="40" x2="1076" y1="360.5" y2="360.5" stroke-width="1"/>
+<text class="lane muted" x="44" y="396">GATES</text>
+<rect class="gate" x="182" y="372" width="12" height="12" transform="rotate(45 188 378)"/>
+<text class="gl muted" x="188" y="404" text-anchor="middle">prototype runs</text>
+<text class="gl muted" x="188" y="418" text-anchor="middle">end to end</text>
+<rect class="gate" x="330" y="372" width="12" height="12" transform="rotate(45 336 378)"/>
+<text class="gl muted" x="336" y="404" text-anchor="middle">e.V. founded,</text>
+<text class="gl muted" x="336" y="418" text-anchor="middle">tester terms</text>
+<rect class="gate" x="478" y="372" width="12" height="12" transform="rotate(45 484 378)"/>
+<text class="gl muted" x="484" y="404" text-anchor="middle">queer-safe features,</text>
+<text class="gl muted" x="484" y="418" text-anchor="middle">community asked</text>
+<rect class="gate big" x="626" y="372" width="12" height="12" transform="rotate(45 632 378)"/>
+<text class="glb ink" x="632" y="404" text-anchor="middle">Before real users:</text>
+<text class="gl muted" x="632" y="418" text-anchor="middle">DPIA, DPO, security</text>
+<text class="gl muted" x="632" y="432" text-anchor="middle">review, age check</text>
+<rect class="gate" x="774" y="372" width="12" height="12" transform="rotate(45 780 378)"/>
+<text class="gl muted" x="780" y="404" text-anchor="middle">store listing,</text>
+<text class="gl muted" x="780" y="418" text-anchor="middle">funding, DSA duties</text>
+<rect class="gate" x="922" y="372" width="12" height="12" transform="rotate(45 928 378)"/>
+<text class="gl muted" x="928" y="404" text-anchor="middle">local grids, operators,</text>
+<text class="gl muted" x="928" y="418" text-anchor="middle">moderators</text>
+<text class="lane muted" x="44" y="460">SERVERS</text>
+<text class="sub muted" x="44" y="488">none public</text>
+<rect class="s1" x="192" y="470" width="732" height="28" rx="5"/>
+<text class="bar on-s" x="202" y="489">Stage 1: one server, run by the Berlin e.V.</text>
+<rect class="s2b" x="784" y="504" width="144" height="28" rx="5"/>
+<rect class="s2" x="928" y="504" width="144" height="28" rx="5"/>
+<text class="sub ink" x="794" y="523">stage 2 built</text>
+<text class="bar on-s" x="938" y="523">Stage 2: network</text>
+<text class="lane muted" x="44" y="552">PROFILE DATA</text>
+<rect class="d-none" x="44" y="560" width="140" height="28" rx="5"/>
+<text class="bar on-none" x="54" y="579">none</text>
+<rect class="d-bot" x="192" y="560" width="140" height="28" rx="5"/>
+<text class="bar on-bot" x="202" y="579">bot data only</text>
+<rect class="d-fake" x="340" y="560" width="288" height="28" rx="5"/>
+<text class="bar on-fake" x="350" y="579">fake profiles</text>
+<rect class="d-real" x="636" y="560" width="436" height="28" rx="5"/>
+<text class="bar on-real" x="646" y="579">real profiles, treated as Art. 9 data</text>
+<line class="wipe" x1="632" x2="632" y1="546" y2="600"/>
+<text class="gl ink" x="632" y="612" text-anchor="middle">fake data wiped</text>
+</svg>
