@@ -4,7 +4,9 @@
 
 The project is currently maintained by Hendrik Kintscher ([@hendrikkintscher](https://github.com/hendrikkintscher)).
 
-The plan is to found a registered non-profit association (eingetragener Verein, e.V.) in Berlin before the service is opened to real users. The association will then operate the service and own the project's assets.
+The project is founding a registered non-profit association (eingetragener Verein, e.V.) in Berlin now (decided 12 Oct 2026). The seven founding members needed for an e.V. are being gathered, and the association is to be founded before any public announcement or grant press, not only before real users join. It will operate the service, be its GDPR controller and own the project's assets. Until then the maintainer is personally the controller and liable.
+
+Grant applications that are due before the association exists (for example the Prototype Fund, which funds individuals) go in under the maintainer's name.
 
 ## The project is not for sale
 
