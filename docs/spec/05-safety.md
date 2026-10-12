@@ -158,6 +158,15 @@ fixed safety tips (public place, tell a friend, own transport).
 - Under 18: within a few hours.
 - Everything else: within 24 hours.
 
+**Four eyes, recusal and the other side (decided 12 Oct).** A confirmed ban and the notice
+to earlier contacts need both moderators. A moderator who personally knows either person steps
+aside, and the log says so (with two moderators, the other one then decides alone). An appeal
+goes to the moderator who did not decide. Before confirming a ban after a meeting report, the
+moderator may ask the reported person for their own franked copy of the conversation, without
+saying who reported them; the suspension stays in force meanwhile. The appeal always allows the
+reported person to submit their copy. Every decision is logged; the public moderation report
+shows counts only, never people.
+
 **Who moderates during the pilot:** Hendrik plus one named backup (not named yet). Both have
 the escalation contacts at hand: the police, and jugendschutz.net or the BKA as the lawyer
 advises.
