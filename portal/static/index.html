@@ -222,24 +222,23 @@ function diagram(stage) {
     <circle r="5" fill="#d6336c"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s1chat"/></animateMotion></circle>
     </svg>`;
   } else {
-    svg = `<svg class="diagram" viewBox="0 0 440 300" role="img" aria-label="Stage 2: network of vetted servers">${defs}
-    ${server(15, 20, 175, 'Berlin server', ['own users + search', 'own moderation'])}
-    ${server(250, 20, 175, 'Another city / group', ['own users + search', 'own moderation'], true)}
-    <rect x="135" y="122" width="170" height="44" rx="10" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
-    <text x="220" y="140" text-anchor="middle" font-weight="600">Shared policy</text>
-    <text x="220" y="157" text-anchor="middle" class="m">allow-list · shared blocklist</text>
-    <path id="s2fed" d="M190 60 L250 60" stroke="#5b4bdb" stroke-width="2.5" fill="none"/>
-    <text x="220" y="52" text-anchor="middle" class="m">⇄</text>
-    <path d="M102 100 L150 122" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
-    <path d="M338 100 L290 122" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+    svg = `<svg class="diagram" viewBox="0 0 440 300" role="img" aria-label="Stage 2: one server program on sealed and plain levels">${defs}
+    ${server(70, 12, 300, 'Sealed level: vetted operators', ['enclaves in data centres, attested', 'search cards · admission · bans'])}
+    ${server(15, 112, 175, 'Plain server', ['ciphertext store · relay'])}
+    ${server(250, 112, 175, 'Plain server', ['anyone in the EU, signed'], true)}
+    <path d="M102 112 L150 82" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+    <path d="M338 112 L290 82" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
+    <text x="220" y="100" text-anchor="middle" class="m">search · checks</text>
+    <path id="s2fed" d="M190 138 L250 138" stroke="#5b4bdb" stroke-width="2.5" fill="none"/>
+    <text x="220" y="130" text-anchor="middle" class="m">⇄</text>
     ${phone(54, 220, 'Alice')} ${phone(290, 220, 'Bob')}
-    <path d="M102 218 L102 102" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
-    <path d="M338 218 L338 102" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
+    <path d="M102 218 L102 166" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
+    <path d="M338 218 L338 166" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
     <path id="s2chat" d="M150 247 C200 200 240 200 288 247" stroke="#d6336c" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
     <text x="220" y="197" text-anchor="middle">E2EE chat across servers</text>
-    <text x="220" y="292" text-anchor="middle" class="m">how people find each other across servers is still open</text>
+    <text x="220" y="292" text-anchor="middle" class="m">one program, two levels · no shards, no home server</text>
     <circle r="5" fill="#d6336c"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s2chat"/></animateMotion></circle>
-    <circle r="4" fill="#5b4bdb"><animateMotion dur="1.6s" repeatCount="indefinite" path="M190 60 L250 60"/></circle>
+    <circle r="4" fill="#5b4bdb"><animateMotion dur="1.6s" repeatCount="indefinite" path="M190 138 L250 138"/></circle>
     </svg>`;
   }
   const d = el('div'); d.innerHTML = svg; return d.firstChild;
@@ -258,7 +257,7 @@ const SCREENS = {
     ${[0, 1, 2].map(i => { const y = 64 + i * 86; return `
     <rect x="10" y="${y}" width="180" height="78" rx="12" fill="#f6f1f4"/>
     <circle cx="42" cy="${y + 39}" r="24" fill="#d6a9c0"/>
-    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">Sam, 27</text>
     <text x="76" y="${y + 44}" font-size="9" fill="#5b4b55">≤ 20 min · hiking, board games</text>
     <text x="76" y="${y + 58}" font-size="8" fill="#888">Active this week</text>`; }).join('')}
     ${bar(0)}`),
@@ -267,7 +266,7 @@ const SCREENS = {
     ${[0, 1, 2, 3].map(i => { const col = i % 2, row = (i / 2) | 0, x = 10 + col * 93, y = 64 + row * 118; return `
     <rect x="${x}" y="${y}" width="85" height="110" rx="12" fill="#f6f1f4"/>
     <circle cx="${x + 42}" cy="${y + 42}" r="30" fill="#d6a9c0"/>
-    <text x="${x + 42}" y="${y + 86}" text-anchor="middle" font-size="10" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="${x + 42}" y="${y + 86}" text-anchor="middle" font-size="10" font-weight="700" fill="#2a1a24">Sam, 27</text>
     <text x="${x + 42}" y="${y + 98}" text-anchor="middle" font-size="7" fill="#888">≤ 20 min</text>`; }).join('')}
     ${bar(0)}`),
   'search-empty': () => frame(`<rect x="10" y="26" width="180" height="26" rx="13" fill="#f6f1f4"/>
@@ -315,7 +314,7 @@ const SCREENS = {
     ${[0, 1].map(i => { const y = 70 + i * 86; return `
     <rect x="10" y="${y}" width="180" height="78" rx="12" fill="#f6f1f4"/>
     <circle cx="42" cy="${y + 39}" r="24" fill="${i ? '#b8a9d6' : '#d6a9c0'}"/>
-    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">${['Mo, 28–33', 'Avery, 25–30'][i]}</text>
+    <text x="76" y="${y + 30}" font-size="12" font-weight="700" fill="#2a1a24">${['Mo, 30', 'Avery, 26'][i]}</text>
     <text x="76" y="${y + 44}" font-size="9" fill="#5b4b55">≤ 30 min · long-term</text>
     <rect x="76" y="${y + 52}" width="58" height="16" rx="8" fill="#eef0ff"/><text x="105" y="${y + 63}" text-anchor="middle" font-size="7" fill="#5b4bdb">Write</text>`; }).join('')}
     ${bar(1)}`),
@@ -350,7 +349,7 @@ const SCREENS = {
     <rect x="20" y="228" width="160" height="36" rx="10" fill="#eef0ff"/><text x="30" y="250" font-size="9" fill="#5b4bdb">🔑 ID: a3f9…c21e (this device)</text>
     <rect x="20" y="274" width="160" height="30" rx="10" fill="#f6f1f4"/><text x="30" y="293" font-size="9" fill="#555">Export my data</text>${bar(3)}`),
   'profile-full': () => frame(`<circle cx="100" cy="60" r="30" fill="#b8a9d6"/>
-    <text x="100" y="106" text-anchor="middle" font-size="13" font-weight="700">Sam, 25–30</text>
+    <text x="100" y="106" text-anchor="middle" font-size="13" font-weight="700">Sam, 27</text>
     <text x="100" y="119" text-anchor="middle" font-size="8" fill="#888">≤ 20 min · long-term</text>
     <rect x="16" y="130" width="168" height="36" rx="10" fill="#f6f1f4"/><text x="24" y="144" font-size="8" fill="#5b4b55" font-weight="700">About me</text><text x="24" y="157" font-size="8" fill="#555">Climbs, cooks badly, reads a lot.</text>
     <rect x="16" y="172" width="168" height="36" rx="10" fill="#f6f1f4"/><text x="24" y="186" font-size="8" fill="#5b4b55" font-weight="700">What I'm into</text><text x="24" y="199" font-size="8" fill="#555">Hiking, board games, bad puns.</text>
@@ -363,7 +362,7 @@ const SCREENS = {
   'profile-preview': () => frame(`<rect x="10" y="140" width="180" height="90" rx="14" fill="#f6f1f4"/>
     <circle cx="52" cy="185" r="28" fill="#d6a9c0"/>
     <rect x="94" y="164" width="40" height="12" rx="6" fill="#fbe3ee"/><text x="100" y="173" font-size="7" fill="#d6336c" font-weight="700">TEST BOT</text>
-    <text x="94" y="195" font-size="11" font-weight="700" fill="#2a1a24">Sam, 25–30</text>
+    <text x="94" y="195" font-size="11" font-weight="700" fill="#2a1a24">Sam, 27</text>
     <text x="94" y="209" font-size="8" fill="#5b4b55">≤ 20 min · long-term</text>
     <text x="20" y="250" font-size="8" fill="#888">"Climbs, cooks badly, reads a lot…"</text>${bar(0)}`)
 };
