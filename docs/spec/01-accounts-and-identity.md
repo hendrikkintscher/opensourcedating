@@ -1,7 +1,7 @@
 # 1. Accounts and identity
 
 *Decided by Hendrik, 11 Oct 2026. Account ID and recovery updated 12 Oct 2026 (design review
-decisions D1 and D3).*
+decisions D1 and D3); email provider rules added 12 Oct 2026 (D14).*
 
 ## Decisions
 
@@ -30,6 +30,30 @@ decisions D1 and D3).*
   only after 24 hours. During that time the old phone gets a notice with a way to cancel the
   recovery ("this wasn't me"). This stops someone who can read the email inbox (for example an
   ex-partner) from silently taking over the account and its chats.
+
+## Email for login codes and notices (decided 12 Oct, D14)
+
+An email alone can reveal that someone uses a dating app, so:
+
+- **An EU-based transactional email provider with a data processing agreement (GDPR Art. 28).**
+  Not a US provider.
+- **Minimal content:** "your code is ...", and no app name in the subject line if possible. No
+  profile data, names or message text in any email.
+- Kratos sends email over plain SMTP, so the provider can be changed without touching code.
+
+**Which provider is not decided.** A short comparison (12 Oct 2026, from the providers' own pages
+and directory listings; check prices and the DPA before signing):
+
+| Provider | Company and data location | DPA | Rough price | Open-source friendliness |
+|---|---|---|---|---|
+| Scaleway Transactional Email | French cloud provider; Scaleway says TEM data is hosted and processed only in the EU, with no non-EU sub-processors in the TEM stack | Yes, part of Scaleway's standard DPA | Pay as you go: 300 emails a month included, then about 0.25 EUR per 1,000 | SMTP and REST API; supported by common open-source mail libraries (for example Anymail) |
+| Lettermint | Dutch company, EU infrastructure, built for transactional email only | Yes, an Art. 28 DPA for every customer by default | Free for 300 emails a month; about 10 to 15 EUR a month for 10,000 | SMTP and official SDKs; the service itself is not open source |
+| Brevo (formerly Sendinblue) | French company; databases on OVH in France and Germany and Google Cloud in Belgium | Yes, downloadable in the account settings | Free tier for small volumes; paid plans from roughly 9 to 25 EUR a month (sources differ) | SMTP and API; a marketing platform first, so tracking has to be switched off |
+
+**Recommendation (not decided):** Scaleway or Lettermint, because both are transactional-only and
+say the data stays in the EU (check each sub-processor list before signing). Brevo works too, but is a marketing
+platform with open and click tracking that would need turning off. For the fake-data test the free
+tiers are enough.
 
 ## Follows from this
 
