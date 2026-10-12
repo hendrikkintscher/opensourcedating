@@ -479,6 +479,7 @@
           "You choose your own search groups, separate from the gender labels you show. Search groups are two-way.",
           "Orientation is an optional label, hidden by default and never a filter. No trans filter in the fake-data phases.",
           "\"Looking for\" is stored as a list of intentions; the first app shows one.",
+          "Optional \"how soon do you like to meet\" field; narrative prompts instead of a blank \"About me\"; photos carry a self-declared age band or a \"taken in the app\" mark.",
           "A new profile stays hidden until you publish it; the publish step shows the privacy choices and asks for the Art. 9 consent.",
           "Still open: how relationship types are described beyond the intention (the \"intensity\" question), and gender as one value or several."
         ],
@@ -509,7 +510,8 @@
           "Inboxes hold at most 15 unanswered messages (adjustable); senders then see a \"full\" notice, never a number.",
           "Opening messages are end-to-end encrypted too; \"no links\" is enforced on the recipient's phone.",
           "Either person can end a conversation; after that neither can write again, but it isn't a block.",
-          "Recipients sort and filter their own inbox; ending a conversation can send a short, kind fixed message."
+          "Recipients sort and filter their own inbox; ending a conversation sends a short, kind fixed message by default.",
+          "A \"Suggest meeting\" message (what, where, when) with yes, counter or not yet; a private nudge after a week of writing; quiet chats archive themselves after 30 days; \"waiting for your reply\" is visible only to you."
         ]
       },
       {
@@ -522,6 +524,7 @@
           "Seven report reasons. CSAM and threats to life handled immediately, under-18 within a few hours, the rest within 24 hours.",
           "Hendrik plus one backup moderate the pilot, both with escalation contacts; the backup is not named yet.",
           "Optional photo verification runs on the phone; only a signed yes or no reaches the server.",
+          "The verified badge shows its month and is renewed yearly; a soft report sub-reason for stale photos; a private \"did you meet, did you feel safe\" check-in that feeds safety only.",
           "Separate safety service from day one; verifiable reports through message franking. Ban evasion via hashed email, photo-file hashes and device signals, never face recognition."
         ]
       },
@@ -601,6 +604,20 @@
           "The plain level stores and relays encrypted data; anyone in the EU who signs the operator agreement can run it.",
           "No shards and no home servers. One shared ban list.",
           "Still open: who holds profile content keys, where sealed servers run, the protocol between servers and deletion across servers."
+        ]
+      },
+      {
+        "n": 13,
+        "title": "Common frustrations: ghosting, chats that go nowhere, stale photos, AI chats",
+        "status": "decided",
+        "doc": "docs/spec/13-frustrations.md",
+        "points": [
+          "Research: in Germany ghosting or no reply is the top frustration (54%, forsa for KKH 2025); for 54% a contact rarely becomes a real meeting (Bitkom 2025); 19% have used AI-written chat texts.",
+          "From chat to meeting: a \"Suggest meeting\" button in the chat, a \"how soon do you like to meet\" profile field, a private nudge after a week, a private safety check-in after a meeting.",
+          "Going silent: ending kindly is the one-tap default; quiet chats archive themselves after 30 days; only you see which chats wait on you; reply or end before writing to someone new once more than 8 wait.",
+          "Current photos and specific profiles: photo age bands, a dated verification badge renewed yearly, in-app camera photos, narrative prompts.",
+          "AI-written chats: the app never offers AI writing help; the other person's profile sits beside the text field with one tip; a community agreement asks people to write their own messages.",
+          "Every nudge is shown only to the person it concerns, never as a push notification, and can be switched off."
         ]
       }
     ],

@@ -21,6 +21,20 @@ project research. Search filters are in [10](10-search-limits.md) and
 - **Exact age in previews; the date of birth is never shown.** Age filters reveal the exact age
   by stepping anyway, so age bands would only look private.
 
+## Added 12 Oct (topic 13: common frustrations)
+
+- **"How soon do you like to meet?"** Optional field with four values: after a few messages,
+  after a week or two of writing, after a call first, no rush. One-way (your own filter only),
+  shown on the full profile and in the fit checklist.
+- **Narrative prompts.** The profile texts are prompts that invite specifics instead of a blank
+  "About me"; the wording of the prompts is a later detail.
+- **Photo age bands and "taken in the app".** Each photo carries a self-declared band (from the
+  last year / 1 to 2 years / older), read from the capture date on the phone and confirmed by the
+  person; metadata is stripped before upload and the server stores only the band. Photos taken
+  with the in-app camera carry a "taken in the app, <month>" mark.
+- **Community agreement** shown at first publish, including: end a conversation with a tap
+  instead of disappearing; write your own messages. See [13](13-frustrations.md).
+
 ## Deliberate first publishing
 
 - **A new profile is hidden until the person actively publishes it the first time.**
