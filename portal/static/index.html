@@ -3,40 +3,70 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenSourceDating Portal</title>
+<title>Open-Source Dating Portal</title>
 <style>
 :root{--bg:#faf8f6;--card:#fff;--ink:#1d1a1f;--mute:#6c6670;--line:#e8e3e6;--accent:#d6336c;--accent2:#5b4bdb;
---guess-bg:#fff4d6;--guess-ink:#7a5600;--plan-bg:#e7e4ff;--plan-ink:#3d2fb0;--ok-bg:#dff5e6;--ok-ink:#17653a;--code:#f3eff1}
+--guess-bg:#fff4d6;--guess-ink:#7a5600;--plan-bg:#e7e4ff;--plan-ink:#3d2fb0;--ok-bg:#dff5e6;--ok-ink:#17653a;--open-bg:#fde4e4;--open-ink:#9b1c1c;--code:#f3eff1;
+--hero:linear-gradient(135deg,#fbe3ee 0%,#eef0ff 100%)}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#151317;--card:#1e1b21;--ink:#f1edf2;--mute:#a49dab;--line:#2f2a33;
---accent:#f06595;--accent2:#8e84ff;--guess-bg:#3b3010;--guess-ink:#ffd873;--plan-bg:#272150;--plan-ink:#b9b2ff;--ok-bg:#12351f;--ok-ink:#7fdca1;--code:#26222a}}
+--accent:#f06595;--accent2:#8e84ff;--guess-bg:#3b3010;--guess-ink:#ffd873;--plan-bg:#272150;--plan-ink:#b9b2ff;--ok-bg:#12351f;--ok-ink:#7fdca1;--open-bg:#3d1717;--open-ink:#ffa8a8;--code:#26222a;
+--hero:linear-gradient(135deg,#2c1724 0%,#1d1b38 100%)}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
 header{padding:20px 16px 0;max-width:1100px;margin:0 auto}
-h1{margin:0;font-size:22px} .tag{color:var(--mute);margin:4px 0 14px}
+h1{margin:0;font-size:22px} h1 small{font-size:12px;font-weight:400;color:var(--mute);margin-left:8px}
+.tag{color:var(--mute);margin:4px 0 14px}
 nav{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);max-width:1100px;margin:0 auto;padding:0 16px}
 nav button{background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);padding:10px 12px;font:inherit;cursor:pointer;white-space:nowrap}
 nav button[aria-selected=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
 main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
 section{display:none} section.on{display:block}
+.lead{font-size:17px;max-width:760px}
+.hero{background:var(--hero);border-radius:16px;padding:22px 20px;margin-bottom:8px}
+.hero h2{margin:0 0 8px;font-size:24px;line-height:1.25}
+.hero p{margin:0 0 14px;max-width:760px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
 .card h3{margin:0 0 6px;font-size:15px} .card p{margin:0;color:var(--mute)}
-.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-bottom:8px}
+.card ul{margin:6px 0 0;padding-left:18px;color:var(--mute)} .card li{margin:3px 0}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-bottom:8px;white-space:nowrap}
 .assumed{background:var(--guess-bg);color:var(--guess-ink)} .decided{background:var(--ok-bg);color:var(--ok-ink)} .planned{background:var(--plan-bg);color:var(--plan-ink)}
+.open{background:var(--open-bg);color:var(--open-ink)} .partly{background:var(--ok-bg);color:var(--ok-ink)}
 .stages{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(420px,1fr))} @media(max-width:520px){.stages{grid-template-columns:1fr}}
-.stage .diagram{margin-top:10px} .tagline{font-size:12px;color:var(--mute)} .btn{display:inline-block;background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:600}
-.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-bottom:20px}
-.stat b{display:block;font-size:26px} .stat span{color:var(--mute);font-size:13px}
+.stage .diagram{margin-top:10px} .tagline{font-size:12px;color:var(--mute)}
+.btn{display:inline-block;background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:600;border:0;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.doc{background:none;border:0;padding:0;margin-top:8px;font:inherit;font-size:12px;color:var(--accent2);cursor:pointer;text-align:left}
+.doc:hover{text-decoration:underline} .doc.plain{color:var(--mute);cursor:default;text-decoration:none}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:18px 0 4px}
+.stat b{display:block;font-size:24px;line-height:1.2} .stat span{color:var(--mute);font-size:13px}
 .banner{background:var(--guess-bg);color:var(--guess-ink);padding:10px 14px;border-radius:10px;margin-bottom:18px;font-size:14px}
-h2{font-size:17px;margin:26px 0 10px}
+h2{font-size:18px;margin:30px 0 10px} h2:first-child{margin-top:0}
+.sub{color:var(--mute);margin:-4px 0 12px;max-width:760px}
 table{width:100%;border-collapse:collapse;font-size:14px} td,th{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
 th{color:var(--mute);font-weight:600}
 .scroll{overflow-x:auto}
+.steps{display:flex;flex-direction:column;gap:14px;counter-reset:s}
+.step{display:grid;grid-template-columns:44px 1fr 150px;gap:14px;align-items:start}
+.step:not(:has(svg)){grid-template-columns:44px 1fr}
+.step .num{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.step svg{width:150px;height:auto;border-radius:20px;box-shadow:0 3px 12px rgba(0,0,0,.14)}
+@media(max-width:620px){.step{grid-template-columns:36px 1fr}.step .shot{grid-column:2}.step svg{width:140px}}
+.nope{columns:2 260px;margin:0;padding-left:20px;color:var(--mute)}
+.qs{margin:0;padding:0;list-style:none} .qs li{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.qs li:first-child{border-top:0} .qs .rec{flex:none;font-size:12px;color:var(--guess-ink);background:var(--guess-bg);padding:2px 8px;border-radius:99px;white-space:nowrap}
+@media(max-width:520px){.qs li{flex-direction:column;gap:4px}}
+.road{display:flex;flex-direction:column;gap:0;border-left:3px solid var(--line);margin-left:8px;padding-left:20px}
+.road .card{position:relative;margin-bottom:12px}
+.road .card::before{content:"";position:absolute;left:-31px;top:18px;width:16px;height:16px;border-radius:50%;background:var(--line);border:3px solid var(--bg)}
+.road .done::before{background:var(--ok-ink)} .road .now::before{background:var(--accent)}
+.road .now{border-color:var(--accent)}
 .phones{display:flex;gap:18px;flex-wrap:wrap}
 .phone{width:200px} .phone svg{width:100%;height:auto;display:block;border-radius:26px;box-shadow:0 4px 18px rgba(0,0,0,.15)}
 .phone figcaption{text-align:center;margin-top:8px;font-weight:600}
 .diagram{width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}
-.diagram text{fill:var(--ink);font:12px system-ui,sans-serif} .diagram .m{fill:var(--mute)}
+.diagram text{fill:var(--ink);font:12px system-ui,sans-serif} .diagram .m{fill:var(--mute)} .diagram .s{font-size:10px}
 .files{display:grid;gap:12px;grid-template-columns:260px 1fr}
 @media(max-width:700px){.files{grid-template-columns:1fr}}
 .tree{max-height:70vh;overflow:auto} .tree div{padding:4px 6px;cursor:pointer;border-radius:6px;word-break:break-all}
@@ -52,14 +82,17 @@ ul.q{margin:0;padding-left:20px;color:var(--mute)}
 </head>
 <body>
 <header>
-  <h1 id="name">OpenSourceDating</h1>
+  <h1><span id="name">opensourcedating</span><small id="namenote"></small></h1>
   <div class="tag" id="tagline"></div>
 </header>
 <nav role="tablist" id="tabs"></nav>
 <main>
   <section id="t-overview"></section>
+  <section id="t-how"></section>
   <section id="t-arch"></section>
-  <section id="t-suggestions"></section>
+  <section id="t-decisions"></section>
+  <section id="t-open"></section>
+  <section id="t-next"></section>
   <section id="t-mockups"></section>
   <section id="t-files"></section>
   <section id="t-feed"></section>
@@ -84,9 +117,17 @@ const api = async p => {
   if (!(q in map)) throw new Error(404);
   return map[q];
 };
-const badge = s => el('span', {className: 'badge ' + s, textContent: {decided: 'Decided', planned: 'Planned'}[s] || 'Guess'});
+const LABEL = {decided: 'Decided', planned: 'Planned', open: 'Open', partly: 'Decided, details open'};
+const badge = s => el('span', {className: 'badge ' + s, textContent: LABEL[s] || 'Guess'});
+// Repo docs open in the Files tab; research notes live outside the repo, so they are named only.
+const docLink = p => p.startsWith('docs/')
+  ? el('button', {className: 'doc', textContent: '📄 ' + p.split('/').pop(), onclick: () => openDoc(p)})
+  : el('span', {className: 'doc plain', textContent: 'Project research: ' + p.split('/').pop()});
+const card = (...kids) => el('div', {className: 'card'}, ...kids);
+const goBtn = (tab, label, ghost) => el('button', {className: 'btn' + (ghost ? ' ghost' : ''), textContent: label, onclick: () => { show(tab); scrollTo(0, 0); }});
 
-const TABS = [['overview','Overview'],['arch','Architecture'],['suggestions','Suggestions'],['mockups','Mockups'],['files','Files'],['feed','Live chat']]
+const TABS = [['overview','Overview'],['how','How it works'],['arch','Architecture'],['decisions','Decisions'],['open','Open questions'],
+  ['next','Next steps'],['mockups','Mockups'],['files','Files'],['feed','Live chat']]
   .filter(([t]) => !(STATIC && t === 'feed'));
 const loaded = {};
 function show(id) {
@@ -100,49 +141,101 @@ function show(id) {
 TABS.forEach(([id, label]) => $('#tabs').append(el('button', {textContent: label, role: 'tab', onclick: () => show(id)}, )));
 [...$('#tabs').children].forEach((b, i) => b.dataset.tab = TABS[i][0]);
 
+let readDoc;  // set by the Files tab once it renders
+function openDoc(path) { show('files'); readDoc(path); scrollTo(0, 0); }
+
 let DATA;
 const RENDER = {
   async overview() {
-    const s = $('#t-overview'), r = DATA.repo;
-    s.append(el('div', {className: 'banner', textContent: DATA.project.note}));
+    const s = $('#t-overview'), p = DATA.project, i = DATA.intro, r = DATA.repo, t = DATA.topics.items;
+    s.append(el('div', {className: 'hero'},
+      el('h2', {textContent: 'A dating app where you read and write, instead of swiping.'}),
+      el('p', {className: 'lead', textContent: i.what}),
+      el('div', {className: 'btns'}, goBtn('how', 'How it works'), goBtn('arch', 'Architecture', true), goBtn('next', 'Where we are going', true))));
+    const n = st => t.filter(x => x.status === st).length;
     s.append(el('div', {className: 'stats'},
-      [['Stage', DATA.project.stage], ['Features', DATA.features.length], ['Commits', r.commits_total],
-       ['Files', r.files], ['Branch', r.branch], ...(r.built ? [['Updated', new Date(r.built).toLocaleDateString()]] : [])].map(([k, v]) =>
-        el('div', {className: 'card stat'}, el('b', {textContent: v}), el('span', {textContent: k})))));
-    s.append(el('h2', {textContent: 'Major features'}));
-    s.append(el('div', {className: 'grid'}, DATA.features.map(f =>
-      el('div', {className: 'card'}, badge(f.status), el('h3', {textContent: f.title}), el('p', {textContent: f.summary}),
-        ...(f.doc ? [el('p', {style: 'font-size:12px;color:var(--mute);margin-top:6px', textContent: '📄 ' + f.doc})] : [])))));
-    s.append(el('h2', {textContent: 'Recent commits'}));
-    s.append(el('div', {className: 'card scroll'}, el('table', {}, r.recent_commits.map(c =>
-      el('tr', {}, el('td', {textContent: c.hash}), el('td', {textContent: c.subject}),
-        el('td', {textContent: c.author}), el('td', {textContent: c.when}))))));
+      [[p.stage, p.stage_detail], [`${n('decided') + n('partly')} of ${t.length}`, 'spec topics decided'],
+       [DATA.open.awaiting.length, 'proposals waiting for a decision'], [r.commits_total, 'commits'],
+       ...(r.built ? [[new Date(r.built).toLocaleDateString(), 'last update']] : [])].map(([k, v]) =>
+        el('div', {className: 'card stat'}, el('b', {textContent: k}), el('span', {textContent: v})))));
+    s.append(el('h2', {textContent: 'Why build another dating app?'}));
+    s.append(el('div', {className: 'grid'}, i.why.map(w => card(el('h3', {textContent: w.title}), el('p', {textContent: w.text})))));
+    s.append(el('h2', {textContent: 'What makes it different'}));
+    s.append(el('div', {className: 'grid'}, i.principles.map(w => card(el('h3', {textContent: w.title}), el('p', {textContent: w.text})))));
+    s.append(el('h2', {textContent: 'Latest changes'}));
+    s.append(el('div', {className: 'card scroll'}, el('table', {}, r.recent_commits.slice(0, 8).map(c =>
+      el('tr', {}, el('td', {textContent: c.subject}), el('td', {className: 'tagline', textContent: c.when}))))));
+  },
+
+  async how() {
+    const s = $('#t-how');
+    s.append(el('p', {className: 'lead', textContent: 'What using the app will look like, step by step. Screens are rough mockups, not final designs.'}));
+    s.append(el('div', {className: 'steps'}, DATA.journey.map((j, n) => {
+      const shot = el('div', {className: 'shot'});
+      if (j.screen && SCREENS[j.screen]) shot.innerHTML = SCREENS[j.screen]();  // static markup defined in this file only
+      return el('div', {className: 'card step'}, el('div', {className: 'num', textContent: n + 1}),
+        el('div', {}, badge(j.status), el('h3', {textContent: j.title}), el('p', {textContent: j.text}), ...(j.doc ? [docLink(j.doc)] : [])),
+        ...(j.screen ? [shot] : []));
+    })));
+    s.append(el('h2', {textContent: 'What we deliberately don\'t build'}));
+    s.append(card(el('ul', {className: 'nope'}, DATA.not_building.map(x => el('li', {textContent: x})))));
   },
 
   async arch() {
     const s = $('#t-arch'), a = DATA.architecture;
-    s.append(el('p', {textContent: a.summary}));
+    s.append(el('p', {className: 'lead', textContent: a.summary}));
     s.append(el('div', {className: 'stages'}, a.stages.map(st =>
       el('div', {className: 'card stage'}, badge(st.status), el('h3', {textContent: st.title}),
         el('p', {textContent: st.summary}), diagram(st.id)))));
+    s.append(el('h2', {textContent: 'Built into stage 1 so stage 2 is not a rewrite'}));
+    s.append(card(el('ul', {className: 'q'}, a.groundwork.map(g => el('li', {textContent: g})))));
     s.append(el('h2', {textContent: 'Technology decisions'}));
     s.append(el('div', {className: 'card scroll'}, el('table', {},
       el('tr', {}, ['Topic','Stage','Choice','Status','Why','Alternatives'].map(h => el('th', {textContent: h}))),
       a.decisions.map(d => el('tr', {}, el('td', {textContent: d.topic}), el('td', {textContent: d.stage}),
-        el('td', {textContent: d.choice}), el('td', {}, badge(d.status)), el('td', {textContent: d.why}),
+        el('td', {}, d.choice, ...(d.doc ? [el('br'), docLink(d.doc)] : [])), el('td', {}, badge(d.status)), el('td', {textContent: d.why}),
         el('td', {textContent: d.alternatives}))))));
-    s.append(el('h2', {textContent: 'Open questions'}));
-    s.append(el('ul', {className: 'q'}, a.open_questions.map(q => el('li', {textContent: q}))));
   },
 
-  async suggestions() {
-    const s = $('#t-suggestions'), g = DATA.suggestions;
-    s.append(el('p', {textContent: g.intro}));
-    s.append(el('p', {}, el('a', {className: 'btn', href: g.issue_url, target: '_blank', rel: 'noopener', textContent: 'Make a suggestion on GitHub'})));
+  async decisions() {
+    const s = $('#t-decisions'), t = DATA.topics;
+    s.append(el('div', {className: 'banner', textContent: DATA.project.note}));
+    s.append(el('h2', {textContent: 'Spec review, topic by topic'}));
+    s.append(el('p', {className: 'sub', textContent: t.intro}));
+    s.append(el('div', {className: 'grid'}, t.items.map(x =>
+      card(badge(x.status), el('h3', {textContent: x.n + '. ' + x.title}),
+        el('ul', {}, x.points.map(pt => el('li', {textContent: pt}))), ...(x.doc ? [docLink(x.doc)] : [])))));
+    s.append(el('h2', {textContent: 'Project decisions'}));
+    s.append(el('div', {className: 'grid'}, t.other.map(x => card(badge('decided'), el('h3', {textContent: x.title}), el('p', {textContent: x.text})))));
+    s.append(el('p', {className: 'sub', style: 'margin-top:16px'}, 'Technology choices are on the ', goBtn('arch', 'Architecture', true), ' tab.'));
+  },
+
+  async open() {
+    const s = $('#t-open'), o = DATA.open;
+    s.append(el('h2', {textContent: 'Proposals waiting for Hendrik\'s decision'}));
+    s.append(el('p', {className: 'sub', textContent: 'The research for these is done and a recommendation is written up. Nothing here is decided yet; the yellow tag is the recommendation.'}));
+    s.append(el('div', {className: 'stages'}, o.awaiting.map(g =>
+      card(badge('open'), el('h3', {textContent: g.topic}),
+        el('ul', {className: 'qs'}, g.questions.map(([q, rec]) => el('li', {}, el('span', {textContent: q}), el('span', {className: 'rec', textContent: rec})))),
+        docLink(g.doc)))));
+    s.append(el('h2', {textContent: 'Still to work out'}));
+    s.append(el('div', {className: 'grid'}, o.to_work_out.map(g =>
+      card(el('h3', {textContent: g.area}), el('ul', {}, g.items.map(q => el('li', {textContent: q})))))));
+  },
+
+  async next() {
+    const s = $('#t-next'), g = DATA.suggestions;
+    s.append(el('h2', {textContent: 'Roadmap'}));
+    const STATE = {done: ['decided', 'Done'], now: ['open', 'Now'], next: ['planned', 'Next'], later: ['assumed', 'Later']};
+    s.append(el('div', {className: 'road'}, DATA.roadmap.map(r =>
+      el('div', {className: 'card ' + r.state}, el('span', {className: 'badge ' + STATE[r.state][0], textContent: STATE[r.state][1]}),
+        el('h3', {textContent: r.title}), el('ul', {}, r.items.map(x => el('li', {textContent: x})))))));
+    s.append(el('h2', {textContent: 'Recommendations still to decide'}));
+    s.append(el('p', {className: 'sub', textContent: g.intro}));
     s.append(el('div', {className: 'grid'}, g.items.map(i =>
-      el('div', {className: 'card'}, el('span', {className: 'badge assumed', textContent: i.area}),
-        el('h3', {textContent: i.title}), el('p', {textContent: i.summary}),
-        el('p', {className: 'tagline', style: 'margin-top:6px', textContent: 'From the project research: ' + i.doc.split('/').pop()})))));
+      card(el('span', {className: 'badge assumed', textContent: i.area}),
+        el('h3', {textContent: i.title}), el('p', {textContent: i.summary}), docLink(i.doc)))));
+    s.append(el('p', {style: 'margin-top:16px'}, el('a', {className: 'btn', href: g.issue_url, target: '_blank', rel: 'noopener', textContent: 'Make a suggestion on GitHub'})));
   },
 
   async mockups() {
@@ -178,6 +271,7 @@ const RENDER = {
       view.replaceChildren(el('div', {className: 'crumbs', textContent: path}),
         el('pre', {textContent: f.binary ? '(binary file)' : f.text + (f.truncated ? '\n\n… truncated' : '')}));
     }
+    readDoc = path => { open(path.split('/').slice(0, -1).join('/')); read(path).catch(() => view.textContent = 'Could not open ' + path); };
     view.textContent = 'Select a file.';
     open('');
   },
@@ -201,45 +295,55 @@ const RENDER = {
 
 /* ---- Architecture diagrams, one per stage (static markup; follows DATA.architecture) ---- */
 function diagram(stage) {
-  const defs = `<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d6336c"/></marker></defs>`;
-  const phone = (x, y, name) => `<rect x="${x}" y="${y}" width="96" height="54" rx="12" fill="#d6336c" fill-opacity=".12" stroke="#d6336c"/>
+  const P = '#d6336c', V = '#5b4bdb';
+  const defs = `<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="${V}"/></marker></defs>`;
+  const phone = (x, y, name, sub = 'app · keys') => `<rect x="${x}" y="${y}" width="96" height="54" rx="12" fill="${P}" fill-opacity=".12" stroke="${P}"/>
     <text x="${x + 48}" y="${y + 23}" text-anchor="middle" font-weight="600">${name}</text>
-    <text x="${x + 48}" y="${y + 40}" text-anchor="middle" class="m">app · keys</text>`;
-  const server = (x, y, w, title, lines, dash) => `<rect x="${x}" y="${y}" width="${w}" height="${36 + lines.length * 16}" rx="14" fill="#5b4bdb" fill-opacity=".08" stroke="#5b4bdb"${dash ? ' stroke-dasharray="5 4"' : ''}/>
-    <text x="${x + w / 2}" y="${y + 22}" text-anchor="middle" font-weight="600">${title}</text>
-    ${lines.map((l, i) => `<text x="${x + w / 2}" y="${y + 40 + i * 16}" text-anchor="middle" class="m">${l}</text>`).join('')}`;
+    <text x="${x + 48}" y="${y + 40}" text-anchor="middle" class="m s">${sub}</text>`;
+  const box = (x, y, w, h, title, sub, color = V, dash) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${color}" fill-opacity=".08" stroke="${color}"${dash ? ' stroke-dasharray="5 4"' : ''}/>
+    <text x="${x + w / 2}" y="${y + 19}" text-anchor="middle" font-weight="600">${title}</text>
+    ${sub ? `<text x="${x + w / 2}" y="${y + 34}" text-anchor="middle" class="m s">${sub}</text>` : ''}`;
   let svg;
   if (stage === 'stage1') {
-    svg = `<svg class="diagram" viewBox="0 0 440 300" role="img" aria-label="Stage 1: one server">${defs}
-    ${server(110, 20, 220, 'Pilot server (Berlin e.V.)', ['profiles · search by home tile', 'blocks · bans · moderation', 'chat relay: deletes on delivery'])}
-    ${phone(20, 220, 'Alice')} ${phone(324, 220, 'Bob')}
-    <path d="M80 218 L160 106" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
-    <path d="M360 218 L280 106" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
-    <text x="110" y="168" text-anchor="end" class="m">search, profile</text>
-    <path id="s1chat" d="M118 247 C200 180 240 180 322 247" stroke="#d6336c" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
-    <text x="220" y="182" text-anchor="middle">E2EE chat (libsignal)</text>
-    <text x="220" y="285" text-anchor="middle" class="m">the server only ever sees ciphertext of chats</text>
-    <circle r="5" fill="#d6336c"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s1chat"/></animateMotion></circle>
+    svg = `<svg class="diagram" viewBox="0 0 440 320" role="img" aria-label="Stage 1: one server">${defs}
+    <rect x="30" y="12" width="380" height="160" rx="14" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
+    <text x="220" y="31" text-anchor="middle" font-weight="600">Pilot server in Germany (run by a Berlin e.V.)</text>
+    ${box(44, 44, 170, 48, 'Sign-in', 'passkeys · email codes')}
+    ${box(226, 44, 170, 48, 'Profiles &amp; search', 'home areas, never GPS')}
+    ${box(44, 104, 170, 48, 'Chat relay', 'ciphertext, deleted on delivery')}
+    ${box(226, 104, 170, 48, 'Safety service', 'bans · reports · own database', P)}
+    ${phone(30, 246, 'Alice')} ${phone(314, 246, 'Bob')}
+    <path d="M78 244 L110 176" stroke="${V}" fill="none" marker-end="url(#ar)"/>
+    <path d="M362 244 L330 176" stroke="${V}" fill="none" marker-end="url(#ar)"/>
+    <path id="s1chat" d="M126 272 C190 214 250 214 314 272" stroke="${P}" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+    <text x="220" y="208" text-anchor="middle">end-to-end encrypted chat</text>
+    <text x="220" y="312" text-anchor="middle" class="m s">the relay only ever sees ciphertext, and only until delivery</text>
+    <circle r="5" fill="${P}"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s1chat"/></animateMotion></circle>
     </svg>`;
   } else {
-    svg = `<svg class="diagram" viewBox="0 0 440 300" role="img" aria-label="Stage 2: network of vetted servers">${defs}
-    ${server(15, 20, 175, 'Berlin server', ['own users + search', 'own moderation'])}
-    ${server(250, 20, 175, 'Another city / group', ['own users + search', 'own moderation'], true)}
-    <rect x="135" y="122" width="170" height="44" rx="10" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
-    <text x="220" y="140" text-anchor="middle" font-weight="600">Shared policy</text>
-    <text x="220" y="157" text-anchor="middle" class="m">allow-list · shared blocklist</text>
-    <path id="s2fed" d="M190 60 L250 60" stroke="#5b4bdb" stroke-width="2.5" fill="none"/>
-    <text x="220" y="52" text-anchor="middle" class="m">⇄</text>
-    <path d="M102 100 L150 122" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
-    <path d="M338 100 L290 122" stroke="var(--mute)" stroke-dasharray="3 3" fill="none"/>
-    ${phone(54, 220, 'Alice')} ${phone(290, 220, 'Bob')}
-    <path d="M102 218 L102 102" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
-    <path d="M338 218 L338 102" stroke="#5b4bdb" fill="none" marker-end="url(#ar)"/>
-    <path id="s2chat" d="M150 247 C200 200 240 200 288 247" stroke="#d6336c" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
-    <text x="220" y="197" text-anchor="middle">E2EE chat across servers</text>
-    <text x="220" y="292" text-anchor="middle" class="m">how people find each other across servers is still open</text>
-    <circle r="5" fill="#d6336c"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s2chat"/></animateMotion></circle>
-    <circle r="4" fill="#5b4bdb"><animateMotion dur="1.6s" repeatCount="indefinite" path="M190 60 L250 60"/></circle>
+    // No home servers: every server holds search cards and mailboxes for the groups it is picked for, plus blind profile pieces.
+    const srv = (x, title, dash) => `${box(x, 14, 128, 96, title, 'search cards · mailboxes', V, dash)}
+      <text x="${x + 64}" y="68" text-anchor="middle" class="m s">profile pieces:</text>
+      <rect x="${x + 40}" y="76" width="18" height="18" rx="3" fill="${P}" fill-opacity=".55"/>
+      <rect x="${x + 70}" y="76" width="18" height="18" rx="3" fill="${V}" fill-opacity=".55"/>`;
+    svg = `<svg class="diagram" viewBox="0 0 440 330" role="img" aria-label="Stage 2: network of vetted servers">${defs}
+    ${srv(8, 'Server A')} ${srv(156, 'Server B')} ${srv(304, 'Server C')}
+    <path d="M136 52 L156 52 M284 52 L304 52" stroke="${V}" stroke-width="2.5"/>
+    <circle r="4" fill="${V}"><animateMotion dur="1.6s" repeatCount="indefinite" path="M136 52 L156 52"/></circle>
+    <circle r="4" fill="${V}"><animateMotion dur="1.6s" repeatCount="indefinite" path="M284 52 L304 52"/></circle>
+    <rect x="96" y="124" width="248" height="42" rx="10" fill="none" stroke="var(--mute)" stroke-dasharray="3 3"/>
+    <text x="220" y="141" text-anchor="middle" font-weight="600">Shared safety policy</text>
+    <text x="220" y="157" text-anchor="middle" class="m s">allow-list · one ban list · operator vote</text>
+    ${phone(24, 226, 'Alice')} ${phone(320, 226, 'Bob')}
+    <path d="M72 224 L72 114" stroke="${V}" fill="none" marker-end="url(#ar)"/>
+    <path d="M100 224 L210 114" stroke="${V}" stroke-dasharray="3 3" fill="none" marker-end="url(#ar)"/>
+    <path d="M368 224 L368 114" stroke="${V}" fill="none" marker-end="url(#ar)"/>
+    <path d="M340 224 L230 114" stroke="${V}" stroke-dasharray="3 3" fill="none" marker-end="url(#ar)"/>
+    <path id="s2chat" d="M120 252 C190 198 250 198 320 252" stroke="${P}" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+    <text x="220" y="196" text-anchor="middle">end-to-end encrypted chat</text>
+    <text x="220" y="306" text-anchor="middle" class="m s">no home servers: each person's data sits with a group of servers;</text>
+    <text x="220" y="320" text-anchor="middle" class="m s">no server owns a person or holds a full profile (details open)</text>
+    <circle r="5" fill="${P}"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#s2chat"/></animateMotion></circle>
     </svg>`;
   }
   const d = el('div'); d.innerHTML = svg; return d.firstChild;
@@ -320,13 +424,13 @@ const SCREENS = {
     <rect x="76" y="${y + 52}" width="58" height="16" rx="8" fill="#eef0ff"/><text x="105" y="${y + 63}" text-anchor="middle" font-size="7" fill="#5b4bdb">Write</text>`; }).join('')}
     ${bar(1)}`),
 
-  // -- Chat: only opens after a mutual like for the pilot; the locked
-  // state and visible safety controls aren't designed yet.
+  // -- Chat: opens once the recipient replies to an opening message; the
+  // visible safety controls aren't designed yet.
   'chat-open': () => frame(`<rect y="22" width="200" height="30" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam  🔒</text>
     <rect x="14" y="70" width="120" height="30" rx="12" fill="#eee"/><text x="22" y="89" font-size="10">Hi! Love your hike pics</text>
     <rect x="66" y="112" width="120" height="30" rx="12" fill="#d6336c"/><text x="74" y="131" font-size="10" fill="#fff">Thanks! Coffee Sat?</text>
     <rect x="14" y="154" width="90" height="30" rx="12" fill="#eee"/><text x="22" y="173" font-size="10">Sounds great</text>
-    <text x="100" y="330" text-anchor="middle" font-size="8" fill="#888">End-to-end encrypted · direct connection</text>
+    <text x="100" y="330" text-anchor="middle" font-size="8" fill="#888">End-to-end encrypted</text>
     <rect x="14" y="300" width="172" height="26" rx="13" fill="#f6f1f4"/>${bar(2)}`),
   'chat-locked': () => frame(`<rect y="22" width="200" height="30" fill="#f6f1f4"/><text x="14" y="42" font-size="12" font-weight="700">Sam</text>
     <circle cx="100" cy="140" r="30" fill="#eee"/><text x="100" y="149" text-anchor="middle" font-size="22">✉️</text>
@@ -347,7 +451,7 @@ const SCREENS = {
   'profile-me': () => frame(`<circle cx="100" cy="80" r="40" fill="#d6a9c0"/>
     <text x="100" y="146" text-anchor="middle" font-size="15" font-weight="700">Alex, 31</text>
     <rect x="20" y="164" width="160" height="50" rx="10" fill="#f6f1f4"/><text x="30" y="184" font-size="9" fill="#555">Bio: climber, bad at cooking,</text><text x="30" y="198" font-size="9" fill="#555">great at pasta anyway.</text>
-    <rect x="20" y="228" width="160" height="36" rx="10" fill="#eef0ff"/><text x="30" y="250" font-size="9" fill="#5b4bdb">🔑 ID: a3f9…c21e (this device)</text>
+    <rect x="20" y="228" width="160" height="36" rx="10" fill="#eef0ff"/><text x="30" y="250" font-size="9" fill="#5b4bdb">🔑 ID: a3f9…c21e (this phone)</text>
     <rect x="20" y="274" width="160" height="30" rx="10" fill="#f6f1f4"/><text x="30" y="293" font-size="9" fill="#555">Export my data</text>${bar(3)}`),
   'profile-full': () => frame(`<circle cx="100" cy="60" r="30" fill="#b8a9d6"/>
     <text x="100" y="106" text-anchor="middle" font-size="13" font-weight="700">Sam, 25–30</text>
@@ -371,7 +475,8 @@ const SCREENS = {
 (async () => {
   try { DATA = await api('/api/overview'); }
   catch { document.body.textContent = STATIC ? 'Could not load the dashboard data.' : 'Not signed in. Open the shared link.'; return; }
-  $('#name').textContent = DATA.project.name; $('#tagline').textContent = DATA.project.tagline;
+  $('#name').textContent = DATA.project.name; $('#namenote').textContent = DATA.project.name_note || '';
+  $('#tagline').textContent = DATA.project.tagline;
   const h = location.hash.slice(1), cur = TABS.find(([t]) => $("#t-" + t).classList.contains("on"));
   show(cur ? cur[0] : TABS.some(t => t[0] === h) ? h : "overview");
 })();

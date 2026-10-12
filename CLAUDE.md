@@ -62,9 +62,15 @@ to `main`, done. It only ever contains git-tracked files; never make it read the
 - All dashboard content lives in `portal/content.json`. When the owner decides something
   (for example the transport library), change that item's `status` from `"assumed"` to `"decided"`
   and update `choice`/`why`. No restart needed; the page reloads it.
-- Add new features to `features`, new technology choices to `architecture.decisions` (with their `stage`), new open
-  questions to `architecture.open_questions`, research recommendations still awaiting a decision
-  to `suggestions.items`. Statuses: `decided`, `planned` (agreed for later, not designed), `assumed` (shown as Guess).
+- The page is written for co-workers new to the project: Overview (what and why, `intro`), How it works
+  (`journey`, `not_building`), Architecture (`architecture.stages`, `groundwork`, `decisions` with their
+  `stage`), Decisions (`topics`: one entry per docs/spec topic, status `decided`, `partly` or `open`, plus
+  `topics.other`), Open questions (`open.awaiting`: proposals with their recommendation, waiting for Hendrik;
+  `open.to_work_out`), Next steps (`roadmap`, `suggestions.items`).
+- When Hendrik decides a spec topic, move it out of `open.awaiting`, set its `topics.items` status and
+  points, link its spec file in `doc`, and update the roadmap counts. Statuses elsewhere: `decided`,
+  `planned` (agreed for later, not designed), `assumed` (shown as Guess).
+- No brand name has been chosen; keep "opensourcedating" labelled as a working title.
 - If a decision changes the architecture, update the SVG in `portal/static/index.html`
   (function `diagram(stage)`, one picture per entry in `architecture.stages`) so the pictures match the table. Mockups are the `SCREENS` object there.
 - Mockups and diagrams are guesses until marked decided; keep that honest.
